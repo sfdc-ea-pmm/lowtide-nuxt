@@ -1,0 +1,8 @@
+{
+  "login": "/auth/login",
+  "sfdc": "/auth/sfdc",
+  "oauth": "/auth/oauth",
+  "callback": "/auth/callback",
+  "session": "/auth/session",
+  "revoke": "/auth/revoke"
+}

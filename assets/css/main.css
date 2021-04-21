@@ -1,0 +1,10 @@
+.-z-index{
+    z-index: -1;
+}
+.loader {
+    border: 3.5px solid #f3f3f3;
+    border-top: 3.5px solid #3b82f6;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+}
