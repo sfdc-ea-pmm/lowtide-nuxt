@@ -5,7 +5,7 @@
         </div>
         <div>
             <ul class="divide-y divide-gray-200">
-                <li class="py-4" v-for="(v, i) in this.notifications" v-bind:key="i">
+                <li class="py-4" v-for="(v, i) in this.dashboardNotifications" v-bind:key="i">
                     <div class="flex space-x-3">
                         <svg v-if="v.type==='success'" xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 self-center text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -27,7 +27,7 @@
                 </li>
             </ul>
             <div class="py-4 text-sm border-t border-gray-200">
-                <Modal v-bind:notifications="this.notifications" />
+                <Modal v-bind:notifications="this.notifications" v-bind:scroll="true" />
             </div>
         </div>
     </div>
@@ -41,7 +41,9 @@ export default {
         }
     },
     computed: {
-
+        dashboardNotifications(){
+            return this.notifications.filter((v, i) => i < 6 );
+        }
     },
 
     data() {

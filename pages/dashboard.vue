@@ -91,12 +91,17 @@ export default {
             notifications: [
                 {title: 'Timeshift', time: '13:05:12', message: 'Your job has finished successfully.', type: 'success'},
                 {title: 'Deploy', time: '13:21:51', message: 'Your job has started.', type: 'info'},
-                {title: 'Deploy', time: '13:26:44', message: 'Your job has finished but an error has occurred.', type: 'error'}
+                {title: 'Deploy', time: '13:26:44', message: 'Your job has finished but an error has occurred.', type: 'error'},
+                {title: 'Timeshift', time: '13:35:51', message: 'Your job has started.', type: 'info'},
+                {title: 'Session', time: '13:36:39', message: 'Your session will expire soon.', type: 'info'},
+                {title: 'Timeshit', time: '13:46:22', message: 'Your job has finished successfully.', type: 'success'},
+                {title: 'Einstein Data Discovery', time: '13:52:49', message: 'Your job has started.', type: 'info'},
+                {title: 'Einstein Data Discovery', time: '13:53:09', message: 'Your job has finished but an error has occurred.', type: 'error'},
             ],
             options: [
-                {title: 'Einstein Discovery Data'},
-                {title: 'Deploy'},
-                {title: 'Timeshift'}
+                {title: 'Einstein Discovery Data', value: 'Einstein Discovery Data'},
+                {title: 'Deploy', value: 'Deploy'},
+                {title: 'Timeshift', value: 'Timeshift'}
             ],
             steps: [
                 {title: 'Select dataset parameters', description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry', type: 'current'},

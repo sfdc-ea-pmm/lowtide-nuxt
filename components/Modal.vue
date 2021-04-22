@@ -2,7 +2,7 @@
     <div>
         <a @click.prevent="modalOpen()" href="#" class="text-blue-600 font-semibold hover:text-blue-900">View all activity <span aria-hidden="true">&rarr;</span></a>
 
-        <div :class="(modalShow ? 'modal-open ' : 'modal-close -z-index ') + 'modal fixed z-10 inset-0 overflow-y-auto'" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+        <div :class="(modalShow ? 'modal-open ' : 'modal-close -z-index ') + 'modal fixed z-10 inset-0'" aria-labelledby="modal-title" role="dialog" aria-modal="true">
             <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
 
                 <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
@@ -11,19 +11,19 @@
 
                 <div class="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6">
                     <div>
-                        <div class="space-y-4">
+                        <div class="space-y-5">
                             <div class="text-left">
                                 <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">
                                     Notifications
                                 </h3>
                             </div>
                             <div class="flex flex-wrap justify-between space-x-2">
-                                <Select v-bind:options="this.options" v-bind:label="'Select a field'" v-bind:mutation="'setNotificationFieldFilter'" class="flex-grow flex-shrink-0 select-basis" />
-                                <input type="text" class="flex-grow flex-shrink shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block border-gray-300 rounded-md text-sm" placeholder="Filter value">
+                                <Select v-bind:options="this.options" v-bind:label="'Type'" v-bind:mutation="'setNotificationFieldFilter'" class="flex-grow flex-shrink-0 select-basis" />
+                                <input v-model="filterValue" type="text" class="flex-grow flex-shrink shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block border-gray-300 rounded-md text-sm" placeholder="Filter value">
                             </div>
-                            <div class="">
+                            <div :class="(scroll ? 'modal-scroll' : '')">
                                 <ul class="divide-y divide-gray-200">
-                                    <li v-for="(v, i) in this.notifications" v-bind:key="i" class="relative bg-white py-5 px-4 hover:bg-gray-50 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600">
+                                    <li v-for="(v, i) in this.filteredNotifications" v-bind:key="i" class="relative bg-white py-5 px-4 hover:bg-gray-50 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600">
                                         <div class="flex justify-between space-x-3">
                                             <div class="min-w-0 flex-1">
                                                 <a href="#" class="block focus:outline-none">
@@ -60,20 +60,30 @@ export default {
     props: {
         notifications: {
             type: Array
+        },
+        scroll: {
+            type: Boolean
         }
     },
     computed: {
-
+        notificationFieldFilter(){
+            return this.$store.state.notificationFieldFilter;
+        },
+        filteredNotifications(){
+            const filtered = this.notifications.filter((v, i) => v[this.notificationFieldFilter].toLowerCase().includes(this.filterValue.toLowerCase()));
+            return filtered;
+        }
     },
 
     data() {
         return {
+            filterValue: '',
             modalShow: false,
             options: [
-                {title: 'Type'},
-                {title: 'Title'},
-                {title: 'Time'},
-                {title: 'Message'}
+                {title: 'Type', value: 'type'},
+                {title: 'Title', value: 'title'},
+                {title: 'Time', value: 'time'},
+                {title: 'Message', value: 'message'}
             ],
         }
     },
@@ -85,7 +95,7 @@ export default {
             this.modalShow = false;
         }
     },
-    created() {
+    mounted() {
         
     },
 }
@@ -103,5 +113,9 @@ export default {
     }
     .select-basis{
         flex-basis: 75px;
+    }
+    .modal-scroll{
+        height: 500px;
+        overflow-y: auto;
     }
 </style>

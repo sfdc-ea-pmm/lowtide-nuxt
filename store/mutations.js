@@ -1,8 +1,8 @@
 export default {
-    setAction(state, { action }) {
+    setAction(state, action) {
         state.action = action;
     },
-    setNotificationFieldFilter(state, { field }) {
+    setNotificationFieldFilter(state, field) {
         state.notificationFieldFilter = field;
     },
 }

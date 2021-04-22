@@ -16,7 +16,7 @@
             </button>
 
             <ul :class="(open ? '' : 'select-menu-transition ')+'select-menu absolute mt-1 w-full bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm'" tabindex="-1" role="listbox" aria-labelledby="listbox-label" aria-activedescendant="listbox-option-3">
-                <li v-for="(v, i) in this.options" v-bind:key="i" @click="changeSelected(v.title)" class="cursor-pointer hover:text-white hover:bg-blue-600 text-gray-900 cursor-default select-none relative py-2 pl-3 pr-9" id="listbox-option-0" role="option">
+                <li v-for="(v, i) in this.options" v-bind:key="i" @click="changeSelected(v.title, v.value)" class="cursor-pointer hover:text-white hover:bg-blue-600 text-gray-900 cursor-default select-none relative py-2 pl-3 pr-9" id="listbox-option-0" role="option">
                     <span :class="(selected===v.title ? 'font-bold ' : 'font-normal ') + 'block truncate'">
                         {{v.title}}
                     </span>
@@ -58,10 +58,10 @@ export default {
                 this.open = false;
             }
         },
-        changeSelected(action) {
-            this.selected = action;
+        changeSelected(label, value) {
+            this.selected = label;
             this.open = false;
-            this.$store.commit(`${this.mutation}` , {action: action});
+            this.$store.commit(`${this.mutation}` , value);
         },
     },
     created() {
