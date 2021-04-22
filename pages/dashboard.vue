@@ -25,7 +25,7 @@
                                         </div>
                                     </div>
                                     <div class="flex flex-col sm:flex-row xl:flex-col">
-                                        <Select v-bind:options="this.options" />
+                                        <Select v-bind:options="this.options" v-bind:mutation="'setAction'" v-bind:label="'Select an action'"  />
                                     </div>
                                 </div>
                                 <div>
@@ -106,7 +106,7 @@ export default {
                 
             ],
             imgProfileHover: false,
-            logoutLoading: false
+            logoutLoading: false,
         }
     },
     methods: {

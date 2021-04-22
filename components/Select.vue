@@ -3,8 +3,8 @@
         <label id="listbox-label" class="block text-sm font-medium text-gray-700">
             
         </label>
-        <div class="mt-1 relative">
-            <button @click="changeStatus()" type="button" class="bg-white relative w-full border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" aria-haspopup="listbox" aria-expanded="true" aria-labelledby="listbox-label">
+        <div class="relative">
+            <button @click="changeStatus()" type="button" class="bg-white relative w-full border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2.5 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" aria-haspopup="listbox" aria-expanded="true" aria-labelledby="listbox-label">
                 <span class="block truncate">
                     {{selected}}
                 </span>
@@ -31,6 +31,12 @@ export default {
     props: {
         options: {
             type: Array
+        },
+        mutation: {
+            type: String
+        },
+        label: {
+            type: String
         }
     },
     computed: {
@@ -40,7 +46,7 @@ export default {
     data() {
         return {
             open: false,
-            selected: 'Select an action'
+            selected: this.label
         }
     },
     methods: {
@@ -55,7 +61,7 @@ export default {
         changeSelected(action) {
             this.selected = action;
             this.open = false;
-            this.$store.commit('setAction', {action: action});
+            this.$store.commit(`${this.mutation}` , {action: action});
         },
     },
     created() {
