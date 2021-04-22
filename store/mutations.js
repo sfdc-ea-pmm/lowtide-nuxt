@@ -5,4 +5,7 @@ export default {
     setNotificationFieldFilter(state, field) {
         state.notificationFieldFilter = field;
     },
+    setCurrentStep(state, step) {
+        state.currentStep = step;
+    },
 }

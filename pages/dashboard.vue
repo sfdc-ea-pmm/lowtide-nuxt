@@ -38,11 +38,13 @@
                 <div class="bg-white lg:min-w-0 lg:flex-1">
                     <div class="pl-4 pr-6 pt-4 pb-4 border-b border-t border-gray-200 sm:pl-6 lg:pl-8 xl:pl-6 xl:pt-6 xl:border-t-0">
                         <div class="flex items-center">
-                            <h1 class="flex-1 text-lg font-medium">
+                            <h1 class="flex-1 text-xl font-medium py-0.5">
                                 {{this.action}}
                             </h1>
                             <div class="relative">
-                                
+                                <button @click="nextStep()" v-show="this.action!=='Welcome!'" type="button" class="inline-flex items-center px-2.5 py-1.5 border border-gray-300 shadow-sm text-xs leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                    Next step
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -83,6 +85,9 @@ export default {
     computed: {
         action () {
             return this.$store.state.action;
+        },
+        currentStep () {
+            return this.$store.state.currentStep;
         }
     },
 
@@ -123,6 +128,9 @@ export default {
             } catch (error) {
                 console.error(error);   
             }
+        },
+        async nextStep() {
+            this.$store.commit(`setCurrentStep` , this.currentStep+1);
         },
     },
     mounted() {

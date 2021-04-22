@@ -12,10 +12,13 @@
                 <div class="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6">
                     <div>
                         <div class="space-y-5">
-                            <div class="text-left">
+                            <div class="text-left flex justify-between flex-row">
                                 <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">
                                     Notifications
                                 </h3>
+                                <svg @click="modalClose()" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 cursor-pointer text-gray-400" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                </svg>
                             </div>
                             <div class="flex flex-wrap justify-between space-x-2">
                                 <Select v-bind:options="this.options" v-bind:label="'Type'" v-bind:mutation="'setNotificationFieldFilter'" class="flex-grow flex-shrink-0 select-basis" />
@@ -115,7 +118,7 @@ export default {
         flex-basis: 75px;
     }
     .modal-scroll{
-        height: 500px;
+        height: 400px;
         overflow-y: auto;
     }
 </style>
