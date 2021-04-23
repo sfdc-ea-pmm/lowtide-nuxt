@@ -25,7 +25,7 @@
                                         </div>
                                     </div>
                                     <div class="flex flex-col sm:flex-row xl:flex-col">
-                                        <Select v-bind:options="this.options" v-bind:mutation="'setAction'" v-bind:label="'Select an action'"  />
+                                        <Select v-bind:options="this.options" v-bind:mutation="'setAction'" v-bind:label="'Select an action'" v-bind:step="this.currentStep" />
                                     </div>
                                 </div>
                                 <div>
@@ -42,8 +42,14 @@
                                 {{this.action}}
                             </h1>
                             <div class="relative">
+                                <button :disabled="this.currentStep===0" @click="cancel()" v-show="this.action!=='Welcome!'" type="button" :class="(this.currentStep===0 ? 'cursor-not-allowed ' : '') + 'disabled:opacity-50 inline-flex items-center px-2.5 py-1.5 border border-gray-300 shadow-sm text-xs leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'">
+                                    Cancel
+                                </button>
+                                <button :disabled="this.currentStep===0" @click="previousStep()" v-show="this.action!=='Welcome!'" type="button" :class="(this.currentStep===0 ? 'cursor-not-allowed ' : '') + 'disabled:opacity-50 inline-flex items-center px-2.5 py-1.5 border border-gray-300 shadow-sm text-xs leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'">
+                                    Previous
+                                </button>
                                 <button @click="nextStep()" v-show="this.action!=='Welcome!'" type="button" class="inline-flex items-center px-2.5 py-1.5 border border-gray-300 shadow-sm text-xs leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                                    Next step
+                                    Next
                                 </button>
                             </div>
                         </div>
@@ -129,8 +135,15 @@ export default {
                 console.error(error);   
             }
         },
+        async cancel() {
+            this.$store.commit(`setAction` , 'Welcome!');
+            this.$store.commit(`setCurrentStep` , 0);
+        },
         async nextStep() {
             this.$store.commit(`setCurrentStep` , this.currentStep+1);
+        },
+        async previousStep() {
+            this.$store.commit(`setCurrentStep` , this.currentStep-1);
         },
     },
     mounted() {
