@@ -43,7 +43,7 @@
                         <button @click="loginSalesforce()" :disabled="btnOauthLoading || btnCredentialsLoading" type="button" :class="(btnOauthLoading || btnCredentialsLoading ? 'cursor-not-allowed ' : '') + 'disabled:opacity-50 w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500'">
                             <div v-if="btnOauthLoading" class="loader animate-spin"></div>
                             <div class="flex justify-center flex-row flex-grow" v-else>
-                                <SalesforceIcon /> 
+                                <SvgSalesforce /> 
                                 <span class="flex-grow">Login with Salesforce</span>
                             </div>
                         </button>
@@ -51,6 +51,7 @@
                 </form>
             </div>
         </div>
+        <Notification />
     </div>
 </template>
 
@@ -58,7 +59,9 @@
 export default {
 
     computed: {
-
+        notificationStatus () {
+            return this.$store.state.notificationStatus;
+        },
     },
 
     data() {
@@ -80,7 +83,12 @@ export default {
                 this.btnCredentialsLoading = false;                
                 this.$router.push('/dashboard');
             } catch (error) {
-                console.error(error);   
+                this.$store.commit(`setToastStatus` , {
+                    status: true,
+                    type: 'error',
+                    message: 'Invalid credentials.'
+                });
+                this.btnCredentialsLoading = false;
             }
         },
         async loginSalesforce() {

@@ -8,4 +8,7 @@ export default {
     setCurrentStep(state, step) {
         state.currentStep = step;
     },
+    setToastStatus(state, status) {
+        state.toastStatus = status;
+    },
 }
