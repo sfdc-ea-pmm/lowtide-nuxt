@@ -51,7 +51,7 @@
                 </form>
             </div>
         </div>
-        <Notification />
+        <Toast />
     </div>
 </template>
 
@@ -59,8 +59,8 @@
 export default {
 
     computed: {
-        notificationStatus () {
-            return this.$store.state.notificationStatus;
+        toastStatus () {
+            return this.$store.state.toastStatus;
         },
     },
 
@@ -80,20 +80,37 @@ export default {
                     username: this.username,
                     password: this.password
                 }, {withCredentials: true});
-                this.btnCredentialsLoading = false;                
+                this.btnCredentialsLoading = false;
                 this.$router.push('/dashboard');
             } catch (error) {
-                this.$store.commit(`setToastStatus` , {
+                let currentTime = this.getCurrentTime();
+                this.$store.commit(`setToastStatus` , [{
                     status: true,
                     type: 'error',
-                    message: 'Invalid credentials.'
-                });
+                    message: 'Invalid credentials.',
+                    time: currentTime
+                }, ...this.toastStatus]);
                 this.btnCredentialsLoading = false;
             }
         },
         async loginSalesforce() {
             this.btnOauthLoading = true;
             window.location.href = "http://localhost:3000/api/auth/oauth";
+        },
+        getCurrentTime(){
+            let date = new Date();
+            let hours = date.getHours(),
+                minutes = date.getMinutes(),
+                seconds = date.getSeconds();
+            let currentTime = (hours < 10 ? '0' + hours : hours ) + ":" + (minutes < 10 ? '0' + minutes : minutes ) + ":" + (seconds < 10 ? '0' + seconds : seconds );
+            return currentTime;
+        }
+    },
+    validate({redirect}) {
+        if(window.innerWidth <= 480){
+            return redirect('/compatibility');
+        }else{
+            return true;
         }
     },
     mounted: function () {
