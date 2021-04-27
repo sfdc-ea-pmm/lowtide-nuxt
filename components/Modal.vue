@@ -1,8 +1,8 @@
 <template>
     <div>
-        <a @click.prevent="modalOpen()" href="#" class="text-blue-600 font-semibold hover:text-blue-900">View all activity <span aria-hidden="true">&rarr;</span></a>
+        <a @click.prevent="modalOpen()" href="#" class="text-blue-600 font-semibold hover:text-blue-900 md:hidden lg:block">View all activity <span aria-hidden="true">&rarr;</span></a>
 
-        <div :class="(modalShow ? 'modal-open ' : 'modal-close -z-index ') + 'modal fixed z-10 inset-0'" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+        <div :class="(this.modalStatus ? 'modal-open ' : 'modal-close -z-index ') + 'modal fixed z-10 inset-0'" aria-labelledby="modal-title" role="dialog" aria-modal="true">
             <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
 
                 <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
@@ -21,7 +21,7 @@
                                 </svg>
                             </div>
                             <div class="flex flex-wrap justify-between space-x-2">
-                                <Select v-bind:options="this.options" v-bind:label="'Type'" v-bind:mutation="'setNotificationFieldFilter'" class="flex-grow flex-shrink-0 select-basis" />
+                                <Select v-bind:options="this.options" v-bind:label="'Type'" v-bind:mutation="'setNotificationFieldFilter'" class="flex-grow flex-shrink-0" />
                                 <input v-model="filterValue" type="text" class="flex-grow flex-shrink shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block border-gray-300 rounded-md text-sm" placeholder="Filter value">
                             </div>
                             <div :class="(scroll ? 'modal-scroll' : '')">
@@ -75,7 +75,10 @@ export default {
         filteredNotifications(){
             const filtered = this.notifications.filter((v, i) => v[this.notificationFieldFilter].toLowerCase().includes(this.filterValue.toLowerCase()));
             return filtered;
-        }
+        },
+        modalStatus(){
+            return this.$store.state.modalStatus;
+        },
     },
 
     data() {
@@ -93,9 +96,11 @@ export default {
     methods: {
         modalOpen (){
             this.modalShow = true;
+            this.$store.commit(`setModalStatus` , true);
         },
         modalClose (){
             this.modalShow = false;
+            this.$store.commit(`setModalStatus` , false);
         }
     },
     mounted() {
@@ -113,9 +118,6 @@ export default {
     }
     .modal-open{
         opacity: 1;
-    }
-    .select-basis{
-        flex-basis: 75px;
     }
     .modal-scroll{
         height: 400px;

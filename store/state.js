@@ -2,5 +2,6 @@ export default () => ({
     action: 'Welcome!',
     notificationFieldFilter: 'type',
     currentStep: 0,
-    toastStatus: []
+    toastStatus: [],
+    modalStatus: false
 })

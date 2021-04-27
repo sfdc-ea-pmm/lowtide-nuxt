@@ -3,9 +3,9 @@
         <div class="flex-grow w-full mx-auto xl:pl-8 lg:flex">
             <div class="flex-1 min-w-0 bg-white xl:flex">
                 <div class="xl:flex-shrink-0 xl:w-72 xl:border-r xl:border-gray-200 bg-white">
-                    <div class="pl-4 pr-6 py-6 sm:pl-6 lg:pl-8 xl:pl-0">
+                    <div class="pl-4 pr-6 pt-6 pb-4 sm:pl-6 lg:pl-8 xl:pl-0">
                         <div class="flex items-center justify-between">
-                            <div class="flex-1 space-y-12">
+                            <div class="flex-1 lg:space-y-12 space-y-8">
                                 <div class="space-y-8 sm:space-y-0 sm:flex sm:justify-between sm:items-center xl:block xl:space-y-8">
                                     <div class="flex items-center space-x-3">
                                         <div class="flex-shrink-0 h-12 w-12 relative">
@@ -24,8 +24,13 @@
                                             </a>
                                         </div>
                                     </div>
-                                    <div class="flex flex-col sm:flex-row xl:flex-col">
+                                    <div class="flex sm:flex-row lg:flex-col space-x-2 select-basis">
                                         <Select v-bind:options="this.options" v-bind:mutation="'setAction'" v-bind:label="'Select an action'" v-bind:step="this.currentStep" />
+                                        <button @click="openModal()" type="button" class="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 lg:hidden">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                                            </svg>
+                                        </button>
                                     </div>
                                 </div>
                                 <div>
@@ -54,7 +59,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="p-6">
+                    <div class="p-6 main-section">
                         <div v-show="this.action==='Welcome!'">
                             Welcome!
                         </div>
@@ -64,7 +69,7 @@
                     </div>
                 </div>
             </div>
-            <div class="bg-gray-50 pr-4 pr-8 lg:flex-shrink-0 lg:border-l lg:border-gray-200">
+            <div class="bg-gray-50 lg:flex-shrink-0 lg:border-l lg:border-gray-200 md:p-0">
                 <NotificationCenter v-bind:notifications="this.notifications" />
             </div>
         </div>
@@ -115,10 +120,10 @@ export default {
                 {title: 'Timeshift', value: 'Timeshift'}
             ],
             steps: [
-                {title: 'Select dataset parameters', description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry', type: 'current'},
-                {title: 'Define columns', description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry', type: 'upcoming'},
-                {title: 'Set relations', description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry', type: 'upcoming'},
-                {title: 'Generate data', description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry', type: 'upcoming'}
+                {title: 'Select dataset parameters', description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text of the printing and typesetting industry.', type: 'current'},
+                {title: 'Define columns', description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.', type: 'upcoming'},
+                {title: 'Set relations', description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text of the printing and typesetting industry.', type: 'upcoming'},
+                {title: 'Generate data', description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text of the printing and typesetting industry.', type: 'upcoming'}
                 
             ],
             imgProfileHover: false,
@@ -145,6 +150,16 @@ export default {
         async previousStep() {
             this.$store.commit(`setCurrentStep` , this.currentStep-1);
         },
+        openModal(){
+            this.$store.commit(`setModalStatus` , true);
+        }
+    },
+    validate({redirect}) {
+        if(window.innerWidth <= 480){
+            return redirect('/compatibility');
+        }else{
+            return true;
+        }
     },
     mounted() {
 
@@ -154,10 +169,10 @@ export default {
             switch (this.action) {
                 case 'Einstein Discovery Data':
                     this.steps = [
-                        {title: 'Select dataset parameters', description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry', type: 'current'},
-                        {title: 'Define columns', description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry', type: 'upcoming'},
-                        {title: 'Set relations', description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry', type: 'upcoming'},
-                        {title: 'Generate data', description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry', type: 'upcoming'}
+                        {title: 'Select dataset parameters', description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text of the printing and typesetting industry.', type: 'current', type: 'current'},
+                        {title: 'Define columns', description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.', type: 'upcoming'},
+                        {title: 'Set relations', description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text of the printing and typesetting industry.', type: 'upcoming'},
+                        {title: 'Generate data', description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text of the printing and typesetting industry.', type: 'upcoming'}
                         
                     ];
                     break;
@@ -183,6 +198,12 @@ export default {
 </script>
 
 <style>
+    .main-section{
+        min-height: 300px;
+    }
+    .select-basis{
+        flex-basis: 300px;
+    }
     .img-profile{
         transition: opacity 0.4s;
     }

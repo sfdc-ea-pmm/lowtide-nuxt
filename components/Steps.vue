@@ -1,7 +1,7 @@
 <template>
     <nav aria-label="Progress">
         <ol class="overflow-hidden">
-            <li v-for="(v, i) in this.steps" v-bind:key="i" class="relative pb-36">
+            <li v-for="(v, i) in this.steps" v-bind:key="i" class="relative pb-6">
                 <div v-if="i+1<steps.length" class="-ml-px absolute mt-0.5 top-4 left-4 w-0.5 h-full bg-blue-600" aria-hidden="true"></div>
                 <a href="#" class="relative flex items-start group">
                     <span v-show="/*v.type==='current'*/i===currentStep" class="h-9 flex items-center" aria-hidden="true">
@@ -21,7 +21,7 @@
                             <span class="h-2.5 w-2.5 bg-transparent rounded-full group-hover:bg-gray-300"></span>
                         </span>
                     </span>
-                    <span class="ml-4 min-w-0 flex flex-col">
+                    <span class="ml-4 min-w-0 flex flex-col mt-2">
                         <span class="text-sm font-semibold tracking-wide">{{v.title}}</span>
                         <span class="text-sm text-gray-500 mt-4">{{v.description}}</span>
                     </span>

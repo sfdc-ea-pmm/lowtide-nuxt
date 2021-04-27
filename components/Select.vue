@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="flex-grow">
         <label id="listbox-label" class="block text-sm font-medium text-gray-700">
             
         </label>

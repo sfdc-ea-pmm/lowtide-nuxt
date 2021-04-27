@@ -11,4 +11,7 @@ export default {
     setToastStatus(state, status) {
         state.toastStatus = status;
     },
+    setModalStatus(state, status) {
+        state.modalStatus = status;
+    },
 }
