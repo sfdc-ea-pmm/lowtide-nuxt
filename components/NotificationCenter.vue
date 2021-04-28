@@ -29,7 +29,7 @@
                 </ul>
             </div>
         </div>
-        <div class="lg:py-4 lg:px-6 text-sm border-t border-gray-200 md:p-0 ">
+        <div class="lg:py-4 lg:px-6 text-sm lg:border-t border-gray-200 md:p-0 ">
             <Modal v-bind:notifications="this.notifications" v-bind:scroll="true" />      
         </div>
     </div>

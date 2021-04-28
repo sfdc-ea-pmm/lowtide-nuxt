@@ -3,10 +3,10 @@
         <div class="flex-grow w-full mx-auto xl:pl-8 lg:flex">
             <div class="flex-1 min-w-0 bg-white xl:flex">
                 <div class="xl:flex-shrink-0 xl:w-72 xl:border-r xl:border-gray-200 bg-white">
-                    <div class="pl-4 pr-6 pt-6 pb-4 sm:pl-6 lg:pl-8 xl:pl-0">
+                    <div :class="(this.action!=='Home' ? 'md:pb-2 ' : 'md:pb-6 ') + 'md:pl-6 pr-6 pt-6 xl:pb-4 xl:pl-0'">
                         <div class="flex items-center justify-between">
-                            <div class="flex-1 lg:space-y-12 space-y-8">
-                                <div class="space-y-8 sm:space-y-0 sm:flex sm:justify-between sm:items-center xl:block xl:space-y-8">
+                            <div class="flex-1 xl:space-y-8 md:space-y-6">
+                                <div class="xl:space-y-8 md:space-y-0 sm:flex sm:justify-between sm:items-center xl:block">
                                     <div class="flex items-center space-x-3">
                                         <div class="flex-shrink-0 h-12 w-12 relative">
                                             <img @mouseenter="imgProfileHover=true" :class="(imgProfileHover ? '-z-index opacity-0 ' : '') + 'img-profile h-12 w-12 rounded-full'" src="https://images.unsplash.com/photo-1517365830460-955ce3ccd263?ixlib=rb-1.2.1&ixqx=Tt6LMluVtn&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=256&h=256&q=80" alt="">
@@ -33,36 +33,34 @@
                                         </button>
                                     </div>
                                 </div>
-                                <div>
-                                    <Steps v-bind:steps="this.steps" v-show="this.action!=='Welcome!'" />
+                                <div v-show="this.action!=='Home'">
+                                    <Steps v-bind:steps="this.steps" />
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="bg-white lg:min-w-0 lg:flex-1">
-                    <div class="pl-4 pr-6 pt-4 pb-4 border-b border-t border-gray-200 sm:pl-6 lg:pl-8 xl:pl-6 xl:pt-6 xl:border-t-0">
+                    <div class="pl-6 pr-6 pt-4 pb-4 border-b border-t border-gray-200  xl:pt-6 xl:border-t-0">
                         <div class="flex items-center">
                             <h1 class="flex-1 text-xl font-medium py-0.5">
                                 {{this.action}}
                             </h1>
                             <div class="relative">
-                                <button :disabled="this.currentStep===0" @click="cancel()" v-show="this.action!=='Welcome!'" type="button" :class="(this.currentStep===0 ? 'cursor-not-allowed ' : '') + 'disabled:opacity-50 inline-flex items-center px-2.5 py-1.5 border border-gray-300 shadow-sm text-xs leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'">
+                                <button @click="cancel()" v-show="this.action!=='Home'" type="button" :class="'disabled:opacity-50 inline-flex items-center px-2.5 py-1.5 border border-gray-300 shadow-sm text-xs leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'">
                                     Cancel
                                 </button>
-                                <button :disabled="this.currentStep===0" @click="previousStep()" v-show="this.action!=='Welcome!'" type="button" :class="(this.currentStep===0 ? 'cursor-not-allowed ' : '') + 'disabled:opacity-50 inline-flex items-center px-2.5 py-1.5 border border-gray-300 shadow-sm text-xs leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'">
+                                <button :disabled="this.currentStep===0" @click="previousStep()" v-show="this.action!=='Home'" type="button" :class="(this.currentStep===0 ? 'cursor-not-allowed ' : '') + 'disabled:opacity-50 inline-flex items-center px-2.5 py-1.5 border border-gray-300 shadow-sm text-xs leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'">
                                     Previous
                                 </button>
-                                <button @click="nextStep()" v-show="this.action!=='Welcome!'" type="button" class="inline-flex items-center px-2.5 py-1.5 border border-gray-300 shadow-sm text-xs leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                <button @click="nextStep()" v-show="this.action!=='Home'" type="button" class="inline-flex items-center px-2.5 py-1.5 border border-gray-300 shadow-sm text-xs leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                                     Next
                                 </button>
                             </div>
                         </div>
                     </div>
                     <div class="p-6 main-section">
-                        <div v-show="this.action==='Welcome!'">
-                            Welcome!
-                        </div>
+                        <Home v-show="this.action==='Home'" />
                         <Deploy v-show="this.action==='Deploy'" />
                         <Timeshift v-show="this.action==='Timeshift'" />
                         <DiscoveryData v-show="this.action==='Einstein Discovery Data'" />
@@ -141,7 +139,7 @@ export default {
             }
         },
         async cancel() {
-            this.$store.commit(`setAction` , 'Welcome!');
+            this.$store.commit(`setAction` , 'Home');
             this.$store.commit(`setCurrentStep` , 0);
         },
         async nextStep() {

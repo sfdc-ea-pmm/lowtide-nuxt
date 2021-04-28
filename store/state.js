@@ -1,5 +1,5 @@
 export default () => ({
-    action: 'Welcome!',
+    action: 'Home',
     notificationFieldFilter: 'type',
     currentStep: 0,
     toastStatus: [],

@@ -1,6 +1,11 @@
 <template>
     <div>
-        <a @click.prevent="modalOpen()" href="#" class="text-blue-600 font-semibold hover:text-blue-900 md:hidden lg:block">View all activity <span aria-hidden="true">&rarr;</span></a>
+        <a @click.prevent="modalOpen()" href="#" class="text-blue-600 font-semibold hover:text-blue-900 md:hidden lg:block">
+            View all activity 
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline-block" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            </svg>
+        </a>
 
         <div :class="(this.modalStatus ? 'modal-open ' : 'modal-close -z-index ') + 'modal fixed z-10 inset-0'" aria-labelledby="modal-title" role="dialog" aria-modal="true">
             <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
