@@ -1,145 +1,52 @@
 <template>
 
-    <div class="rounded-md grid gap-4">
-    <ul class="divide-y divide-gray-200">
-        <li>
-        <a href="#" class="block hover:bg-gray-50">
-            <div class="flex items-center px-4 py-4 sm:px-6">
-            <div class="min-w-0 flex-1 flex items-center">
-                <div class="flex-shrink-0">
-                <img class="h-12 w-12 rounded-full" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixqx=Tt6LMluVtn&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="">
-                </div>
-                <div class="min-w-0 flex-1 px-4 md:grid md:grid-cols-2 md:gap-4">
-                <div>
-                    <p class="text-sm font-medium text-indigo-600 truncate">Ricardo Cooper</p>
-                    <p class="mt-2 flex items-center text-sm text-gray-500">
-                    <!-- Heroicon name: solid/mail -->
-                    <svg class="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                        <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
-                        <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
-                    </svg>
-                    <span class="truncate">ricardo.cooper@example.com</span>
-                    </p>
-                </div>
-                <div class="hidden md:block">
-                    <div>
-                    <p class="text-sm text-gray-900">
-                        Applied on
-                        <time datetime="2020-01-07">January 7, 2020</time>
-                    </p>
-                    <p class="mt-2 flex items-center text-sm text-gray-500">
-                        <!-- Heroicon name: solid/check-circle -->
-                        <svg class="flex-shrink-0 mr-1.5 h-5 w-5 text-green-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
-                        </svg>
-                        Completed phone screening
-                    </p>
-                    </div>
-                </div>
-                </div>
-            </div>
-            <div>
-                <!-- Heroicon name: solid/chevron-right -->
-                <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
-                </svg>
-            </div>
-            </div>
-        </a>
-        </li>
+    <div>
+        <h2 class="text-gray-500 text-xs font-medium uppercase tracking-wide">Templates</h2>
+        <ul class="mt-3">
+            <li v-for="(v) in this.templates" v-bind:key="v.id" class="rounded-md mb-2">
+                <div class="flex-1 flex items-center justify-between border border-gray-200 bg-white rounded-md truncate py-1.5">
+                    <div class="flex-1 px-4 py-2 text-sm truncate flex items-center">
+                        <button @click="setSelected(v.id)" type="button" class="flex-shrink-0 group relative rounded-full inline-flex items-center justify-center h-5 w-10 cursor-pointer focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 mr-4" role="switch" aria-checked="false">
+                            <span class="sr-only">Use setting</span>
+                            <span aria-hidden="true" class="pointer-events-none absolute bg-white w-full h-full rounded-md"></span>
 
-        <li>
-        <a href="#" class="block hover:bg-gray-50">
-            <div class="flex items-center px-4 py-4 sm:px-6">
-            <div class="min-w-0 flex-1 flex items-center">
-                <div class="flex-shrink-0">
-                <img class="h-12 w-12 rounded-full" src="https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&ixqx=Tt6LMluVtn&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="">
-                </div>
-                <div class="min-w-0 flex-1 px-4 md:grid md:grid-cols-2 md:gap-4">
-                <div>
-                    <p class="text-sm font-medium text-indigo-600 truncate">Kristen Ramos</p>
-                    <p class="mt-2 flex items-center text-sm text-gray-500">
-                    <!-- Heroicon name: solid/mail -->
-                    <svg class="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                        <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
-                        <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
-                    </svg>
-                    <span class="truncate">kristen.ramos@example.com</span>
-                    </p>
-                </div>
-                <div class="hidden md:block">
-                    <div>
-                    <p class="text-sm text-gray-900">
-                        Applied on
-                        <time datetime="2020-01-07">January 7, 2020</time>
-                    </p>
-                    <p class="mt-2 flex items-center text-sm text-gray-500">
-                        <!-- Heroicon name: solid/check-circle -->
-                        <svg class="flex-shrink-0 mr-1.5 h-5 w-5 text-green-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
-                        </svg>
-                        Completed phone screening
-                    </p>
-                    </div>
-                </div>
-                </div>
-            </div>
-            <div>
-                <!-- Heroicon name: solid/chevron-right -->
-                <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
-                </svg>
-            </div>
-            </div>
-        </a>
-        </li>
+                            <span aria-hidden="true" :class="(selected[v.id] ? 'bg-indigo-600 ' : 'bg-gray-200 ') + 'pointer-events-none absolute h-4 w-9 mx-auto rounded-full transition-colors ease-in-out duration-200'"></span>
+                            <span aria-hidden="true" :class="(selected[v.id] ? 'translate-x-5 ' : 'translate-x-0 ') + 'pointer-events-none absolute left-0 inline-block h-5 w-5 border border-gray-200 rounded-full bg-white shadow transform ring-0 transition-transform ease-in-out duration-200'"></span>
 
-        <li>
-        <a href="#" class="block hover:bg-gray-50">
-            <div class="flex items-center px-4 py-4 sm:px-6">
-            <div class="min-w-0 flex-1 flex items-center">
-                <div class="flex-shrink-0">
-                <img class="h-12 w-12 rounded-full" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixqx=Tt6LMluVtn&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="">
-                </div>
-                <div class="min-w-0 flex-1 px-4 md:grid md:grid-cols-2 md:gap-4">
-                <div>
-                    <p class="text-sm font-medium text-indigo-600 truncate">Ted Fox</p>
-                    <p class="mt-2 flex items-center text-sm text-gray-500">
-                    <!-- Heroicon name: solid/mail -->
-                    <svg class="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                        <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
-                        <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
-                    </svg>
-                    <span class="truncate">ted.fox@example.com</span>
-                    </p>
-                </div>
-                <div class="hidden md:block">
-                    <div>
-                    <p class="text-sm text-gray-900">
-                        Applied on
-                        <time datetime="2020-01-07">January 7, 2020</time>
-                    </p>
-                    <p class="mt-2 flex items-center text-sm text-gray-500">
-                        <!-- Heroicon name: solid/check-circle -->
-                        <svg class="flex-shrink-0 mr-1.5 h-5 w-5 text-green-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
-                        </svg>
-                        Completed phone screening
-                    </p>
+                        </button>
+                        <a href="#" class="text-gray-900 font-medium hover:text-gray-600">{{v.label}}</a>
+                    </div>
+                    <div class="flex-shrink-0 pr-2">
+                        <button class="w-8 h-8 bg-white inline-flex items-center justify-center text-gray-400 rounded-full bg-transparent hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                            <span class="sr-only">Open options</span>
+                            <svg @click="setAccordion(v.id)" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path class="transition-all" v-show="accordion[v.id]===false" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                                <path class="transition-all" v-show="accordion[v.id]===true" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
+                            </svg>
+                        </button>
                     </div>
                 </div>
+                <div :class="(accordion[v.id] ? 'accordion-body-open ' : 'accordion-body-close ') + 'border-gray-200 p-4 border rounded-md mt-1 space-y-4'">
+                    <div>
+                        <h2 class="text-sm font-medium text-gray-500">Description</h2>
+                        <p class="text-sm mt-2">Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum. Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum.</p>
+                    </div>
+                    <div v-if="v.tags" :class="(v.tags.length > 0 ? '' : 'margin-0')">
+                        <h2 v-show="v.tags.length > 0" class="text-sm font-medium text-gray-500">Tags</h2>
+                        <ul :class="(v.tags.length > 0 ? 'mt-2 ' : '') + 'leading-8 space-x-2'">
+                            <li v-for="(va, ib) in v.tags" v-bind:key="va+ib" class="inline">
+                                <a href="#" class="relative inline-flex items-center rounded-full border border-gray-300 px-3 pt-0.5 pb-1">
+                                    <div class="absolute flex-shrink-0 flex items-center justify-center">
+                                        <span class="h-1.5 w-1.5 rounded-full bg-blue-500" aria-hidden="true"></span>
+                                    </div>
+                                    <div class="ml-3.5 text-sm font-medium text-gray-900">{{va}}</div>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
-            </div>
-            <div>
-                <!-- Heroicon name: solid/chevron-right -->
-                <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
-                </svg>
-            </div>
-            </div>
-        </a>
-        </li>
-    </ul>
+            </li>
+        </ul>
     </div>
         
 </template>
@@ -152,11 +59,33 @@ export default {
 
     data() {
         return {
-            
+            templates: [
+                {id: '1', label: 'CSV Template'},
+                {id: '2', label: 'Demo | Analytics for ERM', tags: ['Health', 'Volunteering', 'Philanthropy']},
+                {id: '3', label: 'Demo | Analytics for MFG', tags: []},
+                {id: '4', label: 'TEMP | Data for XYZ', tags: ['Technology', 'Industry']}
+            ],
+            accordion: {
+                1: false,
+                2: false,
+                3: false,
+                4: false
+            },
+            selected: {
+                1: false,
+                2: false,
+                3: false,
+                4: false
+            }
         }
     },
     methods: {
-        
+        setAccordion(id){
+            this.accordion[id] = !this.accordion[id];
+        },
+        setSelected(id){
+            this.selected[id] = !this.selected[id];
+        }
     },
     created() {
         
@@ -165,5 +94,7 @@ export default {
 </script>
 
 <style>
-
+    .margin-0{
+        margin-top: 0px!important;
+    }
 </style>

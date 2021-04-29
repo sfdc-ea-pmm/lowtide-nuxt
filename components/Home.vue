@@ -39,7 +39,7 @@
             </div>
             -->
             <ul class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-2">
-                <li v-for="(v) in this.developers" v-bind:key="v.email" class="col-span-1 bg-white rounded-lg shadow divide-y divide-gray-200">
+                <li v-for="(v) in this.developers" v-bind:key="v.email" class="bg-white rounded-lg shadow divide-y divide-gray-200 border-t">
                     <div class="w-full flex items-center justify-between p-6 space-x-6">
                         <div class="flex-1 truncate">
                             <div class="flex items-center space-x-3">
@@ -53,23 +53,30 @@
                     <div>
                         <div class="-mt-px flex divide-x divide-gray-200">
                             <div class="w-0 flex-1 flex">
-                            <a :href="'mailto:'+v.email" class="relative -mr-px w-0 flex-1 inline-flex items-center justify-center py-4 text-sm text-gray-700 font-medium border border-transparent rounded-bl-lg hover:text-gray-500">
-                                <!-- Heroicon name: solid/mail -->
-                                <svg class="w-5 h-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
-                                <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
-                                </svg>
-                                <span class="ml-3">Email</span>
-                            </a>
+                                <a :href="'mailto:'+v.email" class="relative -mr-px w-0 flex-1 inline-flex items-center justify-center py-2 text-xs text-gray-700 font-medium border border-transparent rounded-bl-lg hover:text-gray-500">
+                                    <!-- Heroicon name: solid/mail -->
+                                    <svg class="w-4 h-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                        <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
+                                        <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
+                                    </svg>
+                                    <span class="ml-3">Email</span>
+                                </a>
                             </div>
                             <div class="-ml-px w-0 flex-1 flex">
-                            <a href="tel:+1-202-555-0170" class="relative w-0 flex-1 inline-flex items-center justify-center py-4 text-sm text-gray-700 font-medium border border-transparent rounded-br-lg hover:text-gray-500">
-                                <!-- Heroicon name: solid/phone -->
-                                <svg class="w-5 h-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
-                                </svg>
-                                <span class="ml-3">Call</span>
-                            </a>
+                                <a :href="v.github" class="relative w-0 flex-1 inline-flex items-center justify-center py-2 text-xs text-gray-700 font-medium border border-transparent rounded-br-lg hover:text-gray-500">
+                                    <!-- Heroicon name: solid/phone -->
+                                    <svg class="w-4 h-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                        <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
+                                    </svg>
+                                    <span class="ml-3">Call</span>
+                                </a>
+                            </div>
+                            <div class="-ml-px w-0 flex-1 flex">
+                                <a target="_blank" :href="v.github" class="relative w-0 flex-1 inline-flex items-center justify-center py-2 text-xs text-gray-700 font-medium border border-transparent rounded-br-lg hover:text-gray-500">
+                                    <!-- Heroicon name: solid/phone -->
+                                    <img class="h-4 w-4" src="~/assets/img/github.png" alt="">
+                                    <span class="ml-3">Github</span>
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -82,7 +89,7 @@
             <h2 class="text-sm font-medium text-gray-500 mb-4">Team members</h2>
             <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
 
-                <div v-for="(v) in this.teamMembers" v-bind:key="v.email" class="relative rounded-lg border border-gray-300 bg-white px-6 py-5 shadow-sm flex items-center space-x-3 hover:border-gray-400 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-blue-500">
+                <div v-for="(v) in this.teamMembers" v-bind:key="v.email" class="relative rounded-lg border border-gray-300 bg-white px-4 py-4 shadow-sm flex items-center space-x-3 hover:border-gray-400 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-blue-500">
                     <div class="flex-shrink-0">
                         <img class="h-10 w-10 rounded-full" :src="v.img" alt="">
                     </div>
@@ -114,8 +121,8 @@ export default {
     data() {
         return {
             developers: [
-                {name: 'Romario Sarmiento', email: 'rsarmiento@salesforce.com', img: 'https://images.unsplash.com/photo-1513910367299-bce8d8a0ebf6?ixlib=rb-1.2.1&ixqx=Tt6LMluVtn&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80', position: 'Demo Engineer'},
-                {name: 'Luc Iyer', email: 'luciyer@salesforce.com', img: 'https://images.unsplash.com/photo-1517070208541-6ddc4d3efbcb?ixlib=rb-1.2.1&ixqx=Tt6LMluVtn&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80', position: 'Demo Engineer'}
+                {name: 'Romario Sarmiento', email: 'rsarmiento@salesforce.com', img: 'https://images.unsplash.com/photo-1513910367299-bce8d8a0ebf6?ixlib=rb-1.2.1&ixqx=Tt6LMluVtn&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80', position: 'Demo Engineer', github: 'http://github.com/romariosc97'},
+                {name: 'Luc Iyer', email: 'luciyer@salesforce.com', img: 'https://images.unsplash.com/photo-1517070208541-6ddc4d3efbcb?ixlib=rb-1.2.1&ixqx=Tt6LMluVtn&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80', position: 'Demo Engineer', github: 'http://github.com/luciyer'}
             ],
             teamMembers: [
                 {name: 'Jayger McGough', email: 'jmcgough@salesforce.com', img: 'https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?ixlib=rb-1.2.1&ixqx=Tt6LMluVtn&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80'},
