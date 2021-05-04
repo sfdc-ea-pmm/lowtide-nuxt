@@ -1,43 +1,81 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+const fs = require("fs"),
+      path = require("path"),
+      jsforce = require("jsforce"),
+      express = require("express"),
+      morgan = require("morgan"),
+      cors = require("cors"),
+      session = require("express-session"),
+      createError = require('http-errors'),
+      cookieParser = require('cookie-parser'),
+      socketSession = require("express-socket.io-session");
 
-var indexRouter = require('./routes/index');
-const auth = require("./routes/auth")
+global.appRoot = path.resolve(__dirname)
 
-var app = express();
+const config = require("./config"),
+      repo = require("./src/repo"),
+      auth = require("./src/auth"),
+      //logger = require("./src/logger"),
+      socketio = require("socket.io"),
+      router = require("./src/router");
+
+const app = express()
 
 // view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'pug');
+// app.set('views', path.join(__dirname, 'views'));
+// app.set('view engine', 'pug');
 
-app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+app
+  .use(cors(config.corsOptions))
+  .use(express.json())
+  .use(express.urlencoded({ extended: true }))
+  .use(morgan('dev'))
+  .use(auth.session)
+  .use("/api/*", auth.required)
+  .use(auth.middleware)
 
-app.use(auth.session);
-app.use(auth.middleware)
+app.use("/api/data/*", auth.refreshed)
 
-app.use('/', indexRouter);
+// //catch 404 and forward to error handler
+//
+// app.use(function(req, res, next) {
+//   console.log("throw an error!")
+//   next(createError(404));
+// });
+//
+// // error handler
+//
+// app.use(function(err, req, res, next) {
+//   // set locals, only providing error in development
+//   res.locals.message = err.message;
+//   res.locals.error = req.app.get('env') === 'development' ? err : {};
+//
+//   // render the error page
+//   res.status(err.status || 500);
+//   res.render('error');
+// });
 
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  next(createError(404));
-});
+const server = app.listen(process.env.PORT || 8080)
 
-// error handler
-app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
+//
+// global.io = socketio(server)
+//
+// io.use(socketSession(auth.session))
+//
+// io.on('connection', socket => {
+//   socket.on('subscribeToJobUpdates', (providedId) => {
+//     const sessionId = providedId || socket.handshake.session.socketRoom
+//     console.log('Subscribing to updates, roomId:', sessionId)
+//     socket.join(sessionId)
+//   })
+// })
 
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
-});
+/* Folders (Analytics Applications) */
+
+app.route(config.ltApi("org_folders"))
+  .get(router.org.getFolders)
+app.route(config.ltApi("org_folders_id"))
+  .get(router.org.getFolder)
+
+
 
 module.exports = app;

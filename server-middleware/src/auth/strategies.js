@@ -2,13 +2,13 @@ require("dotenv").config()
 
 const jsforce = require("jsforce")
 
-const routes = require("./routes"),
+const { ltApi } = require(appRoot + "/config"),
       helpers = require("./helpers");
 
 const salesforceInfo = async (connection) => {
 
   const identity = await connection.identity(),
-        orgApi = await helpers.getSfdcApi(connection)
+        orgApi = await helpers.getApiVersion(connection)
 
   return {
     api: orgApi,
@@ -27,16 +27,17 @@ const salesforceInfo = async (connection) => {
 }
 
 const handleSuccess = async (req, res, connection) => {
+
   req.session.salesforce = await salesforceInfo(connection)
+  req.session.socketRoom = req.session.id
+  req.session.jobs = []
+
   const { api, auth, user } = req.session.salesforce
+
   return res.status(200).json({
     message: `Logged in as ${user.name} at ${auth.instanceUrl} (API v${api.version})`
   })
-}
 
-const handleSuccessOauth = async (req, res, connection) => {
-  req.session.salesforce = await salesforceInfo(connection)
-  res.redirect(process.env.BASE_URL+'/dashboard')
 }
 
 const handleError = (res, error, code) => {
@@ -70,7 +71,7 @@ exports.salesforceSession = (req, res) => {
 const oauth2 = new jsforce.OAuth2({
   clientId: process.env.CLIENT_ID,
   clientSecret: process.env.CLIENT_SECRET,
-  redirectUri: process.env.HOSTNAME + routes.callback
+  redirectUri: process.env.HOSTNAME + ltApi('auth_callback')
 })
 
 exports.oauthRedirect = (req, res) => {
@@ -80,9 +81,22 @@ exports.oauthRedirect = (req, res) => {
 exports.handleOauthCallback = async (req, res) => {
 
   const conn = new jsforce.Connection({ oauth2: oauth2 })
+
   conn.authorize(req.query.code)
-    //.then(_ => handleSuccess(req, res, conn))
-    .then(_ => handleSuccessOauth(req, res, conn))
+    .then(async (_) => {
+
+      req.session.salesforce = await salesforceInfo(conn)
+      req.session.socketRoom = req.session.id
+      req.session.jobs = []
+
+      const { api, auth, user } = req.session.salesforce
+
+      if (process.env.ENV_TYPE === 'development')
+        return res.redirect('/')
+
+      res.redirect(process.env.FRONTEND_HOSTNAME + '/deploy')
+
+    })
     .catch(error => handleError(res, error, 403))
 
 }
@@ -108,6 +122,7 @@ exports.revokeSession = async (req, res) => {
   } finally {
     req.session.destroy()
     res.status(200).json({ message: `${result}. Session destroyed.` })
+    //success(res, { message: `${result}. Session destroyed.` })
   }
 
 }

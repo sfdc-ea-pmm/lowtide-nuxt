@@ -6,10 +6,24 @@ const session = require("express-session")
 let RedisStore = require("connect-redis")(session)
 let redisClient = redis.createClient(process.env.REDIS_URL)
 
+const prodCookieSettings = {
+  maxAge: (60 * 60000),
+  httpOnly: true,
+  secure: false, // false for dev
+  sameSite: 'none'
+}
+
+const devCookieSettings = {
+  maxAge: (60 * 60000)
+}
+
+const selectedCookieSettings = process.env.ENV_TYPE === 'development' ? devCookieSettings : prodCookieSettings;
+
 const sessionOptions = {
-  name: "lowtide.auth",
+  name: "Lowtide",
   secret: process.env.SESSION_SECRET,
-  cookie: { maxAge: (60 * 60000) },
+  proxy: true,
+  cookie: selectedCookieSettings,
   store: new RedisStore({ client: redisClient }),
   saveUninitialized: false,
   resave: false
