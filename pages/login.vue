@@ -81,7 +81,7 @@ export default {
                     password: this.password
                 }, {withCredentials: true});
                 this.btnCredentialsLoading = false;
-                this.$router.push('/dashboard'); 
+                this.$router.push('/dashboard');
             } catch (error) {
                 let currentTime = this.getCurrentTime();
                 this.$store.commit(`setToastStatus` , [{
