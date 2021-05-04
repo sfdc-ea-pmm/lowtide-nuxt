@@ -8,14 +8,15 @@
     width: 20px;
     height: 20px;
 }
-.accordion-body-close{
+.accordion{
     transition: max-height 0.2s ease, padding 0.2s ease, border-width 0.4s linear;
+}
+.accordion-body-close{
     max-height: 0px;
     overflow: hidden;
     padding: 0 1rem;
     border: none;
 }
 .accordion-body-open{
-    transition: max-height 0.2s ease, padding 0.2s ease, border-width 0.4s linear;
     max-height: 500px;
 }

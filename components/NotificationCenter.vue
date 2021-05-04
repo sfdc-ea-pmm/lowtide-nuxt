@@ -1,9 +1,9 @@
 <template>
     <div>
-        <div class="pt-6 pb-5 pl-6 pr-8 border-b md:hidden lg:block">
+        <div class="pt-6 pb-5 pl-6 pr-8 border-b md:hidden lg:hidden xl:block">
             <h2 class="text-lg font-semibold">Notifications</h2>
         </div>
-        <div class="pl-6 lg:w-80 md:hidden lg:block lg:pr-8">
+        <div class="pl-6 lg:w-80 md:hidden lg:hidden xl:block lg:pr-8">
             <div>
                 <ul class="divide-y divide-gray-200">
                     <li :class="'py-4'" v-for="(v, i) in this.dashboardNotifications" v-bind:key="i">
@@ -29,7 +29,7 @@
                 </ul>
             </div>
         </div>
-        <div class="lg:py-4 lg:px-6 text-sm lg:border-t border-gray-200 md:p-0 ">
+        <div class="xl:py-4 xl:px-6 text-sm xl:border-t border-gray-200 md:p-0 ">
             <Modal v-bind:notifications="this.notifications" v-bind:scroll="true" />      
         </div>
     </div>

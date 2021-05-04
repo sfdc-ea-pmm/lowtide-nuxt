@@ -1,13 +1,13 @@
 <template>
     <div class="relative min-h-screen flex flex-col">
         <div class="flex-grow w-full mx-auto xl:pl-8 lg:flex">
-            <div class="flex-1 min-w-0 bg-white xl:flex">
-                <div class="xl:flex-shrink-0 xl:w-72 xl:border-r xl:border-gray-200 bg-white">
+            <div class="flex-1 min-w-0 bg-white lg:flex">
+                <div class="xl:flex-shrink-0 xl:w-72 lg:w-80 lg:border-r lg:border-gray-200 bg-white">
                     <div :class="(this.action!=='Home' ? 'md:pb-2 ' : 'md:pb-6 ') + 'md:pl-6 pr-6 pt-6 xl:pb-4 xl:pl-0'">
                         <div class="flex items-center justify-between">
                             <div class="flex-1 xl:space-y-8 md:space-y-6">
-                                <div class="xl:space-y-8 md:space-y-0 sm:flex sm:justify-between sm:items-center xl:block">
-                                    <div class="flex items-center space-x-3">
+                                <div class="xl:space-y-8 lg:space-y-4 md:space-y-0 sm:flex sm:justify-between sm:items-center xl:block lg:flex-col">
+                                    <div class="flex items-center space-x-3 lg:w-full">
                                         <div class="flex-shrink-0 h-12 w-12 relative">
                                             <img @mouseenter="imgProfileHover=true" :class="(imgProfileHover ? '-z-index opacity-0 ' : '') + 'img-profile h-12 w-12 rounded-full'" src="https://images.unsplash.com/photo-1517365830460-955ce3ccd263?ixlib=rb-1.2.1&ixqx=Tt6LMluVtn&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=256&h=256&q=80" alt="">
                                             <div @mouseleave="imgProfileHover=false" :class="(imgProfileHover ? 'cursor-pointer ' : '-z-index ') + 'flex justify-center items-center h-12 w-12 absolute top-0 left-0 rounded-full text-white' + (logoutLoading ? ' bg-blue-300' : ' bg-blue-500')">
@@ -24,9 +24,9 @@
                                             </a>
                                         </div>
                                     </div>
-                                    <div class="flex sm:flex-row lg:flex-col space-x-2 select-basis">
+                                    <div class="flex sm:flex-row xl:flex-col space-x-2 select-basis w-full justify-between">
                                         <Select v-bind:options="this.options" v-bind:mutation="'setAction'" v-bind:label="'Select an action'" v-bind:step="this.currentStep" />
-                                        <button @click="openModal()" type="button" class="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 lg:hidden">
+                                        <button @click="openModal()" type="button" class="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 xl:hidden h-fit">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
                                             </svg>
@@ -41,7 +41,7 @@
                     </div>
                 </div>
                 <div class="bg-white lg:min-w-0 lg:flex-1">
-                    <div class="pl-6 pr-6 pt-4 pb-4 border-b border-t border-gray-200  xl:pt-6 xl:border-t-0">
+                    <div class="pl-6 pr-6 pt-4 pb-4 border-b border-t border-gray-200 xl:pt-6 xl:border-t-0">
                         <div class="flex items-center">
                             <h1 class="flex-1 text-xl font-medium py-0.5">
                                 {{this.action}}
@@ -202,6 +202,16 @@ export default {
     .select-basis{
         flex-basis: 300px;
     }
+    @media (min-width: 1024px) {
+        .select-basis{
+            flex-basis: 0px;
+        }
+    }
+    @media (min-width: 1280px) {
+        .select-basis{
+            flex-basis: 300px;
+        }
+    }
     .img-profile{
         transition: opacity 0.4s;
     }
@@ -210,5 +220,8 @@ export default {
     }
     .logout{
         flex-grow: 1;
+    }
+    .h-fit{
+        height: fit-content;
     }
 </style>
