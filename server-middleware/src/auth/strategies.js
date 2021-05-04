@@ -114,7 +114,7 @@ exports.getSessionInfo = (req, res) => {
 exports.revokeSession = async (req, res) => {
 
   let result
-  const conn = helpers.refreshConnection(req.session)
+  const conn = helpers.refreshed(req.session)
 
   try {
     await conn.logout()

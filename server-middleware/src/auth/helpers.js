@@ -29,8 +29,8 @@ const foundConnection = (req) => {
 const authHelpers = {
 
   refreshed: (req, res, next) => {
-    req.sfConn = new jsforce.Connection(req.session.salesforce.auth)
-    next()
+    req.sfConn = new jsforce.Connection(req.salesforce.auth)
+    //next()
   },
 
   required: (req, res, next) => {
