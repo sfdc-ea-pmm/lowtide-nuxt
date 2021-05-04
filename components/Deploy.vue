@@ -36,6 +36,32 @@
                         <h2 class="text-sm font-medium text-gray-500">Description</h2>
                         <p class="text-sm mt-2">Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum. Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum.</p>
                     </div>
+                    <div v-if="v.dashboards" :class="(v.dashboards.length > 0 ? '' : 'margin-0')">
+                        <h2 v-show="v.dashboards.length > 0" class="text-sm font-medium text-gray-500">Dashboards</h2>
+                        <ul :class="(v.dashboards.length > 0 ? 'mt-2 ' : '') + 'leading-8 space-x-2'">
+                            <li v-for="(va, ib) in v.dashboards" v-bind:key="va+ib" class="inline">
+                                <div class="flex items-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                                    </svg>
+                                    <span class="ml-1 text-sm font-medium text-gray-900">{{va}}</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div v-if="v.datasets" :class="(v.datasets.length > 0 ? '' : 'margin-0')">
+                        <h2 v-show="v.datasets.length > 0" class="text-sm font-medium text-gray-500">Datasets</h2>
+                        <ul :class="(v.datasets.length > 0 ? 'mt-2 ' : '') + 'leading-8 space-x-2'">
+                            <li v-for="(va, ib) in v.datasets" v-bind:key="va+ib" class="inline">
+                                <a href="#" class="relative inline-flex items-center rounded-full border border-gray-300 px-3 pt-0.5 pb-1">
+                                    <div class="absolute flex-shrink-0 flex items-center justify-center">
+                                        <span class="h-1.5 w-1.5 rounded-full bg-blue-500" aria-hidden="true"></span>
+                                    </div>
+                                    <div class="ml-3.5 text-sm font-medium text-gray-900">{{va}}</div>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
                     <div v-if="v.tags" :class="(v.tags.length > 0 ? '' : 'margin-0')">
                         <h2 v-show="v.tags.length > 0" class="text-sm font-medium text-gray-500">Tags</h2>
                         <ul :class="(v.tags.length > 0 ? 'mt-2 ' : '') + 'leading-8 space-x-2'">
@@ -93,6 +119,7 @@ export default {
         try {
             const response = await this.$axios.get('https://lt4.herokuapp.com/api/data/repository', {withCredentials: true});
             this.templates = response.data.data;
+            console.log(this.templates);
         } catch (e) {
             this.templates = [];
         }
@@ -100,7 +127,6 @@ export default {
             this.accordion = {...this.accordion, [''+v.api_name]: false}
             this.selected = {...this.selected, [''+v.api_name]: false}
         });
-        console.log(this.accordion)
     },
 }
 </script>
