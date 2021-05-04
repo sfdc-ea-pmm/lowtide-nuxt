@@ -56,11 +56,7 @@ app.use("/data/*", auth.refreshed)
 //   res.render('error');
 // });
 
-<<<<<<< HEAD
-// const server = app.listen(process.env.PORT || 8080)
-=======
 //const server = app.listen(process.env.PORT || 8080)
->>>>>>> d12a15b8878a4f94e9de42786df182534b33f279
 
 //
 // global.io = socketio(server)
@@ -82,6 +78,10 @@ app.route(config.ltApi("org_folders"))
 app.route(config.ltApi("org_folders_id"))
   .get(router.org.getFolder)
 
+/* Repository */
+
+app.route(config.ltApi("repo_templates"))
+  .get(router.repo.getTemplates)
 
 
 module.exports = app;
