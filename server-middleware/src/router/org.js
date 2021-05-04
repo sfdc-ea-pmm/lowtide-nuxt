@@ -33,7 +33,9 @@ const orgOperations = {
   deleteDataflow: async(req, res) =>
     resolve(res, org.deleteDataflow(req.sfConn, req.params.id)),
 
-  // getTemplates: async(req, res) => ,
+  getTemplates: async(req, res) =>
+    resolve(res, org.getTemplates(req.sfConn)),
+
   //
   // getTemplate: async(req, res) => ,
   //

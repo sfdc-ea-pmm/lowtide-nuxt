@@ -192,7 +192,7 @@ module.exports = {
   readBucket: readBucket,
   clearFolder: clearFolder,
   streamDownload,
-  getTemplateManifest: getTemplateManifest,
+  getTemplateManifest,
   downloadAndDeployTemplate: downloadAndDeployTemplate,
   uploadActivityLog: uploadActivityLog
 }

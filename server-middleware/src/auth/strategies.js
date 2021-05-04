@@ -51,6 +51,8 @@ exports.credentialLogin = (req, res) => {
   const { username, password } = req.body
   const conn = new jsforce.Connection()
 
+  console.log('Logging in', username, password)
+
   conn.login(username, password)
     .then(_ => handleSuccess(req, res, conn))
     .catch(error => handleError(res, error, 403))

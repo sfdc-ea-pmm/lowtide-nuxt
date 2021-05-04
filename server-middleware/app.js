@@ -30,6 +30,7 @@ app
   .use(express.urlencoded({ extended: true }))
   .use(cookieParser())
   .use(morgan('dev'))
+  .use(cookieParser())
   .use(auth.session)
   .use("/*", auth.required)
   .use(auth.middleware)
@@ -77,6 +78,10 @@ app.route(config.ltApi("org_folders"))
 app.route(config.ltApi("org_folders_id"))
   .get(router.org.getFolder)
 
+/* Repository */
+
+app.route(config.ltApi("repo_templates"))
+  .get(router.repo.getTemplates)
 
 
 module.exports = app;
