@@ -177,7 +177,7 @@ export default {
                 case 'Deploy':
                     this.steps = [
                         {title: 'Select templates', description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry', type: 'current'},
-                        {title: 'Deploying', description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry', type: 'upcoming'},
+                        {title: 'Confirm selection', description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry', type: 'upcoming'},
                         {title: 'Results', description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry', type: 'upcoming'}
                         
                     ];
