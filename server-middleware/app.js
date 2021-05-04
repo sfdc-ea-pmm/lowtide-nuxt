@@ -28,12 +28,13 @@ app
   .use(cors(config.corsOptions))
   .use(express.json())
   .use(express.urlencoded({ extended: true }))
+  .use(cookieParser())
   .use(morgan('dev'))
   .use(auth.session)
-  .use("/api/*", auth.required)
+  .use("/*", auth.required)
   .use(auth.middleware)
 
-app.use("/api/data/*", auth.refreshed)
+app.use("/data/*", auth.refreshed)
 
 // //catch 404 and forward to error handler
 //
@@ -54,7 +55,7 @@ app.use("/api/data/*", auth.refreshed)
 //   res.render('error');
 // });
 
-const server = app.listen(process.env.PORT || 8080)
+//const server = app.listen(process.env.PORT || 8080)
 
 //
 // global.io = socketio(server)
