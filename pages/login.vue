@@ -76,15 +76,12 @@ export default {
         async login() {
             this.btnCredentialsLoading = true;
             try {
-                console.log('logging in')
                 const res = await this.$axios.post('http://localhost:3000/api/auth/login', {
                     username: this.username,
                     password: this.password
                 }, {withCredentials: true});
-                console.log(res);
                 this.btnCredentialsLoading = false;
                 this.$router.push('/dashboard');
-                console.log('llegue')
             } catch (error) {
                 let currentTime = this.getCurrentTime();
                 this.$store.commit(`setToastStatus` , [{
