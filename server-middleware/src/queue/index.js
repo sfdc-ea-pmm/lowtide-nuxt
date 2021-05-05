@@ -1,10 +1,12 @@
-const Queue = require("bull")
+const Queue = require('bull')
 
-const auth = require(appRoot + "/src/auth"),
-      s3 = require(appRoot + "/src/repo"),
-      ts = require(appRoot + "/src/timeshift");
+const { runDataflow, generateTimeshiftDataflow, deleteDataflow } = require('../dataflow'),
+      refreshDatasets = require('../refresh'),
+      deployTemplate = require('../deploy');
 
-const jobQueue = new Queue("lowtide_jobs", process.env.REDIS_URL)
+const restQueue = new Queue('restQueue', process.env.REDIS_URL)
+const deployQueue = new Queue('deployQueue', process.env.REDIS_URL)
+const timeshiftQueue = new Queue('timeshiftQueue', process.env.REDIS_URL)
 
 jobQueue.process('template_deploy', (job) => {
   const params = job.data
@@ -68,5 +70,60 @@ const sendUpdate = (job, message, object) => {
 //   console.log('Job queue has drained.')
 // })
 
+  delete rest.queue
+  delete rest.stacktrace
 
-module.exports = jobQueue
+  const response = { id, name, params, body, ...rest }
+
+  for (const [key, value] of Object.entries(response))
+    if (dateKeys.includes(key))
+      response[key] = new Date(value)
+
+  return response
+
+}
+
+/* Events */
+
+const setListeners = function(emitter) {
+
+  const logEvents = [ 'paused', 'drained', 'cleaned' ];
+
+  const coerceSendEvents = {
+    active: 'jobStarted',
+    stalled: 'jobInfo',
+    progress: 'jobInfo',
+    failed: 'jobError',
+    completed: 'jobSuccess'
+  }
+
+  for (const e of logEvents)
+    emitter.on(e, () => console.log(`Internal: lowtide.${emitter.name} event: ${e}.`))
+
+  for (const [key, evt] of Object.entries(coerceSendEvents)) {
+    if (['progress', 'failed', 'completed'].includes(key))
+      emitter.on(key, (job, data) => {
+        jobs.emit(evt, {
+          job,
+          producer: `lowtide.${emitter.name}`,
+          payload: data
+        })
+      })
+    else
+      emitter.on(key, job =>  {
+        jobs.emit(evt, {
+          job, producer: `lowtide.${emitter.name}`,
+        })
+      })
+  }
+
+  return emitter
+
+}
+
+module.exports = {
+  restQueue: setListeners(restQueue),
+  deployQueue: setListeners(deployQueue),
+  timeshiftQueue: setListeners(timeshiftQueue),
+  formatJobResponse
+}

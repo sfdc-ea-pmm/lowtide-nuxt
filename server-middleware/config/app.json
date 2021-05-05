@@ -1,0 +1,33 @@
+{
+  "appName" : "Lowtide",
+  "defaultApiVersion": {
+    "label" : "Spring '20",
+    "url" : "/services/data/v48.0",
+    "version" : "48.0"
+  },
+  "corsOptions": {
+    "origin": [
+      "https://lowtide-demo.herokuapp.com",
+      "http://localhost:3000"
+    ],
+    "credentials": true
+  },
+  "deployOptions": {
+    "allowMissingFiles": false,
+    "autoUpdatePackage": true,
+    "checkOnly": false,
+    "ignoreWarnings": false,
+    "performRetrieve": false,
+    "purgeOnDelete": false,
+    "rollbackOnError": true,
+    "singlePackage": false
+  },
+  "awsOptions" : {
+    "name": "ac-template-repo",
+    "folders" : {
+      "beta" : "beta/",
+      "master" : "master/",
+      "manifest": "manifest/"
+    }
+  }
+}

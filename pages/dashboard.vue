@@ -73,7 +73,7 @@
         </div>
         <Toast />
     </div>
-        
+
 </template>
 
 <script>
@@ -83,7 +83,7 @@ export default {
             const response = await $axios.get('http://localhost:3000/api/auth/session', {withCredentials: true});
             const session = response.data.data;
             if('salesforce' in session){
-                
+
             }else{
                 redirect('/login');
             }
@@ -123,7 +123,7 @@ export default {
                 {title: 'Define columns', description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.', type: 'upcoming'},
                 {title: 'Set relations', description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text of the printing and typesetting industry.', type: 'upcoming'},
                 {title: 'Generate data', description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text of the printing and typesetting industry.', type: 'upcoming'}
-                
+
             ],
             imgProfileHover: false,
             logoutLoading: false,
@@ -133,10 +133,10 @@ export default {
         async logout() {
             try {
                 this.logoutLoading = true;
-                await this.$axios.get('http://localhost:3000/api/auth/revoke', {withCredentials: true});            
+                await this.$axios.get('http://localhost:3000/api/auth/revoke', {withCredentials: true});
                 this.$router.push('/login');
             } catch (error) {
-                console.error(error);   
+                console.error(error);
             }
         },
         async cancel() {
@@ -172,7 +172,7 @@ export default {
                         {title: 'Define columns', description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.', type: 'upcoming'},
                         {title: 'Set relations', description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text of the printing and typesetting industry.', type: 'upcoming'},
                         {title: 'Generate data', description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text of the printing and typesetting industry.', type: 'upcoming'}
-                        
+
                     ];
                     break;
                 case 'Deploy':
@@ -180,7 +180,7 @@ export default {
                         {title: 'Select templates', description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry', type: 'current'},
                         {title: 'Confirm selection', description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry', type: 'upcoming'},
                         {title: 'Deploy', description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry', type: 'upcoming'}
-                        
+
                     ];
                     break;
                 case 'Timeshift':
