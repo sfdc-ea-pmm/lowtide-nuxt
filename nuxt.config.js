@@ -1,7 +1,7 @@
 export default {
   ssr: false,
   serverMiddleware: {
-    '/api': '~/server-middleware/app.js'
+    '/api': '~/server-middleware/index.js'
   },
   head: {
     title: 'Lowtide',
