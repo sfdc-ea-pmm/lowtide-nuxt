@@ -95,7 +95,7 @@
             <LoadingCards v-show="this.isLoading" v-bind:cards="10" />
         </ul>
     </div>
-        
+
 </template>
 
 <script>
@@ -116,7 +116,7 @@ export default {
 
             },
             selected: {
-                
+
             },
             deployTemplates: [
 
@@ -133,7 +133,7 @@ export default {
             this.$store.commit(`setConfirmSelection` , this.deployTemplates);
             try {
                 const response = await this.$axios.get(`http://localhost:3000/api/data/repository/${this.branch}`, {withCredentials: true});
-                this.templates = response.data;
+                this.templates = response.data.data;
                 this.isLoading = false;
             } catch (e) {
                 this.templates = [];
@@ -159,7 +159,7 @@ export default {
                 this.deployTemplates = [...this.deployTemplates, template];
             }else{
                 this.deployTemplates = this.deployTemplates.filter((v) => v.label !== template.label ? true : false);
-                
+
             }
             this.$store.commit(`setConfirmSelection` , this.deployTemplates);
         },
