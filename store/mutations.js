@@ -14,8 +14,11 @@ export default {
     setModalStatus(state, status) {
         state.modalStatus = status;
     },
-    setSelectedDeployTemplates(state, array) {
-        state.selectedDeployTemplates = array;
+    setSelectedDeploy(state, array) {
+        state.selectedDeploy = array;
+    },
+    setConfirmSelection(state, array) {
+        state.confirmSelection = array;
     },
     
 }

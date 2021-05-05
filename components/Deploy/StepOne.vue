@@ -101,8 +101,11 @@
 <script>
 export default {
     computed: {
-        selectedDeployTemplates () {
-            return this.$store.state.selectedDeployTemplates;
+        confirmSelection () {
+            return this.$store.state.confirmSelection;
+        },
+        selectedDeploy () {
+            return this.$store.state.selectedDeploy;
         }
     },
 
@@ -112,9 +115,9 @@ export default {
             accordion: {
 
             },
-            selected: {
-
-            },
+            selected: [
+                
+            ],
             deployTemplates: [
 
             ],
@@ -127,7 +130,7 @@ export default {
             this.isLoading = true;
             this.templates = [];
             this.deployTemplates = [];
-            this.$store.commit(`setSelectedDeployTemplates` , this.deployTemplates);
+            this.$store.commit(`setConfirmSelection` , this.deployTemplates);
             try {
                 const response = await this.$axios.get(`http://localhost:3000/api/repository/template/${this.branch}`, {withCredentials: true});
                 this.templates = response.data;
@@ -140,19 +143,23 @@ export default {
                 this.accordion = {...this.accordion, [''+v.template.api_name]: false}
                 this.selected = {...this.selected, [''+v.template.api_name]: false}
             });
+            this.$store.commit(`setSelectedDeploy` , this.selected);
         },
         setAccordion(id){
             this.accordion[id] = !this.accordion[id];
         },
         setSelected(template){
+            console.log(this.selected, this.selectedDeploy);
             this.selected[template.api_name] = !this.selected[template.api_name];
+            this.$store.commit(`setSelectedDeploy` , this.selected);
+            
             if(this.selected[template.api_name]){
-                this.deployTemplates = [...this.deployTemplates, template.label];
+                this.deployTemplates = [...this.deployTemplates, template];
             }else{
-                this.deployTemplates = this.deployTemplates.filter((v) => v !== template.label ? true : false);
+                this.deployTemplates = this.deployTemplates.filter((v) => v.label !== template.label ? true : false);
                 
             }
-            this.$store.commit(`setSelectedDeployTemplates` , this.deployTemplates);
+            this.$store.commit(`setConfirmSelection` , this.deployTemplates);
         },
         changeBranch(){
             if(this.branch==='master'){
