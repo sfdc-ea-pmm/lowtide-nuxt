@@ -24,7 +24,7 @@ const getTemplates = async (req, res) => {
 
 const downloadTemplate = async (req, res) => {
 
-  const templateKey = `${req.body.branch}/${req.body.template}`
+  const templateKey = `${req.params.branch}/${req.body.template}`
   const stream = await repo.streamDownload(templateKey)
 
   res.attachment(req.body.template)
@@ -44,10 +44,10 @@ const deployFromS3 = async (req, res) => {
   const params = {
     session: req.session,
     branch: req.params.branch,
-    template_keys: req.body.templates
+    template_keys: req.body
   }
 
-  io.to(req.session.socketRoom).emit('jobUpdate', { message: 'Starting Template Deploy.' })
+  //io.to(req.session.socketRoom).emit('jobUpdate', { message: 'Starting Template Deploy.' })
 
   try {
 
@@ -57,7 +57,7 @@ const deployFromS3 = async (req, res) => {
       job_name: "Deploy Operation",
       job_details: {
         branch: req.params.branch,
-        templates: req.body.templates
+        templates: req.body
       },
       job_id: result.id,
       run_at: new Date(result.timestamp)
@@ -67,13 +67,14 @@ const deployFromS3 = async (req, res) => {
     res.status(200).json(jobInfo)
 
   } catch (error) {
+    console.log(error)
     res.status(500).json(error)
   }
 
 }
 
 module.exports = {
+  getTemplates,
   downloadTemplate,
-  getTemplates: getTemplates,
-  deployFromS3: deployFromS3
+  deployFromS3
 }

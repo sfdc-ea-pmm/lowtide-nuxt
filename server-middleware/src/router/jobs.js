@@ -29,9 +29,10 @@ const checkSessionJobs = async (req, res) => {
       return res.status(200).json([])
 
     const sessionJobs = req.session.jobs.map(d => d.job_id)
-
     const allCurrentJobs = await queue.getJobs(['active', 'completed'])
     const jobResults = allCurrentJobs.filter(d => sessionJobs.includes(d.id))
+
+    console.log(allCurrentJobs.map(d => d.id))
 
     if (jobResults && jobResults.length > 0) {
       formattedResults = jobResults.map(formatResponse)
@@ -48,5 +49,5 @@ const checkSessionJobs = async (req, res) => {
 }
 
 module.exports = {
-  checkSessionJobs: checkSessionJobs
+  checkSessionJobs
 }

@@ -28,6 +28,10 @@ const foundConnection = (req) => {
 
 const authHelpers = {
 
+  refresh: (session) => {
+    return new jsforce.Connection(session.salesforce.auth)
+  },
+
   refreshed: (req, res, next) => {
     req.sfConn = new jsforce.Connection(req.session.salesforce.auth)
     next()

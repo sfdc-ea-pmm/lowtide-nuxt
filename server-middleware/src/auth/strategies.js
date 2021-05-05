@@ -51,8 +51,6 @@ exports.credentialLogin = (req, res) => {
   const { username, password } = req.body
   const conn = new jsforce.Connection()
 
-  console.log('Logging in', username, password)
-
   conn.login(username, password)
     .then(_ => handleSuccess(req, res, conn))
     .catch(error => handleError(res, error, 403))
@@ -114,7 +112,8 @@ exports.getSessionInfo = (req, res) => {
 exports.revokeSession = async (req, res) => {
 
   let result
-  const conn = helpers.refreshed(req.session)
+  
+  const conn = helpers.refresh(req.session)
 
   try {
     await conn.logout()
