@@ -14,4 +14,8 @@ export default {
     setModalStatus(state, status) {
         state.modalStatus = status;
     },
+    setSelectedDeployTemplates(state, array) {
+        state.selectedDeployTemplates = array;
+    },
+    
 }
