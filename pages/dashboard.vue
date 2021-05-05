@@ -109,7 +109,7 @@ export default {
                 {title: 'Deploy', time: '13:26:44', message: 'Your job has finished but an error has occurred.', type: 'error'},
                 {title: 'Timeshift', time: '13:35:51', message: 'Your job has started.', type: 'info'},
                 {title: 'Session', time: '13:36:39', message: 'Your session will expire soon.', type: 'info'},
-                {title: 'Timeshit', time: '13:46:22', message: 'Your job has finished successfully.', type: 'success'},
+                {title: 'Timeshift', time: '13:46:22', message: 'Your job has finished successfully.', type: 'success'},
                 {title: 'Einstein Data Discovery', time: '13:52:49', message: 'Your job has started.', type: 'info'},
                 {title: 'Einstein Data Discovery', time: '13:53:09', message: 'Your job has finished but an error has occurred.', type: 'error'},
             ],
@@ -119,11 +119,22 @@ export default {
                 {title: 'Timeshift', value: 'Timeshift'}
             ],
             steps: [
-                {title: 'Select dataset parameters', description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text of the printing and typesetting industry.', type: 'current'},
-                {title: 'Define columns', description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.', type: 'upcoming'},
-                {title: 'Set relations', description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text of the printing and typesetting industry.', type: 'upcoming'},
-                {title: 'Generate data', description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text of the printing and typesetting industry.', type: 'upcoming'}
-
+                {
+                  title: 'Select Dataset Parameters',
+                  description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text of the printing and typesetting industry.', type: 'current'
+                },
+                {
+                  title: 'Define Columns',
+                  description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.', type: 'upcoming'
+                },
+                {
+                  title: 'Set Relations',
+                  description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text of the printing and typesetting industry.', type: 'upcoming'
+                },
+                {
+                  title: 'Generate Data',
+                  description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text of the printing and typesetting industry.', type: 'upcoming'
+                }
             ],
             imgProfileHover: false,
             logoutLoading: false,
@@ -168,26 +179,69 @@ export default {
             switch (this.action) {
                 case 'Einstein Discovery Data':
                     this.steps = [
-                        {title: 'Select dataset parameters', description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text of the printing and typesetting industry.', type: 'current', type: 'current'},
-                        {title: 'Define columns', description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.', type: 'upcoming'},
-                        {title: 'Set relations', description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text of the printing and typesetting industry.', type: 'upcoming'},
-                        {title: 'Generate data', description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text of the printing and typesetting industry.', type: 'upcoming'}
-
+                        {
+                          title: 'Select Dataset Parameters',
+                          description: 'TBD',
+                          type: 'current'
+                        },
+                        {
+                          title: 'Define Columns',
+                          description: 'TBD',
+                          type: 'upcoming'
+                        },
+                        {
+                          title: 'Set Relations',
+                          description: 'TBD',
+                          type: 'upcoming'
+                        },
+                        {
+                          title: 'Generate Data',
+                          description: 'TBD',
+                          type: 'upcoming'
+                        },
                     ];
                     break;
                 case 'Deploy':
                     this.steps = [
-                        {title: 'Select templates', description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry', type: 'current'},
-                        {title: 'Confirm selection', description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry', type: 'upcoming'},
-                        {title: 'Deploy', description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry', type: 'upcoming'}
-
+                        {
+                          title: 'Select Templates',
+                          description: 'In this step, select the application templates you want to deploy into your Salesforce org. You can uncollapse each card for more information about dashboards, datasets, etc.',
+                          type: 'current'
+                        },
+                        {
+                          title: 'Confirm Selections',
+                          description: 'Make sure you have selected all the assets you want. Feel free to step backwards and add or remove more templates!',
+                          type: 'upcoming'
+                        },
+                        {
+                          title: 'Deploy Templates',
+                          description: 'Off we go! Deploy the templates to your Salesforce org and view the notifications panel for updates.',
+                          type: 'upcoming'
+                        }
                     ];
                     break;
                 case 'Timeshift':
                     this.steps = [
-                        {title: 'Select datasets', description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry', type: 'current'},
-                        {title: 'Timeshifting', description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry', type: 'upcoming'},
-                        {title: 'Results', description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry', type: 'upcoming'}
+                        {
+                          title: 'Select Datasets',
+                          description: 'Choose which datasets to include in your timeshifting dataflow. Remember, only datasets with date columns will be timeshifted properly.',
+                          type: 'current'
+                        },
+                        {
+                          title: 'Generate Dataflows',
+                          description: 'Two dataflows will be generated and inserted in your org, and a "primer" dataflow will be run.',
+                          type: 'upcoming'
+                        },
+                        {
+                          title: 'Delete Primer Dataflow',
+                          description: 'Now that we have properly configured your new timeshift datasets, we can remove the primer.',
+                          type: 'upcoming'
+                        },
+                        {
+                          title: 'Schedule Dataflow',
+                          description: 'Last but not least, to keep things perpetually up to date, we can schedule our timeshift dataflow to run regularly.',
+                          type: 'upcoming'
+                        },
                     ];
                     break;
             }
