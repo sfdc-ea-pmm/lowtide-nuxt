@@ -83,5 +83,16 @@ app.route(config.ltApi("org_folders_id"))
 app.route(config.ltApi("repo_templates"))
   .get(router.repo.getTemplates)
 
+app.route(config.ltApi("repo_template_download"))
+  .post(router.repo.downloadTemplate)
+
+app.route(config.ltApi("repo_template_deploy"))
+  .post(router.repo.deployFromS3)
+
+/* Jobs */
+
+app.route(config.ltApi("session_jobs"))
+  .get(router.jobs.checkSessionJobs)
+
 
 module.exports = app;

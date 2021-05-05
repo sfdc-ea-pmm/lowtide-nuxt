@@ -105,9 +105,11 @@ const getTemplateManifest = async (params) => {
 
 }
 
-const downloadAndDeployTemplate = async (conn, params) => {
+const downloadAndDeployTemplate = async (params) => {
 
-  const { session, branch, template_keys } = params
+  const { conn, session, branch, template_keys } = params
+
+  console.log(conn, branch, template_keys)
 
   const bucket = config.awsConfig.bucket.name,
         subfolder = config.awsConfig.bucket.folders[branch];

@@ -19,7 +19,7 @@ exports.validDataflowOperation = (req) => {
 
   const valid_overwrite = (
     matchValue(req.body.dataflow_parameters, "operation", "overwrite") &&
-    objectHas(req.body.dataflow_parameters, "id") && 
+    objectHas(req.body.dataflow_parameters, "id") &&
     objectHas(req.body, "dataset_array")
   )
 
@@ -39,11 +39,7 @@ exports.validTemplateDeploy = (req) => {
     (matchValue(req.params, "branch", "beta") || matchValue(req.params, "branch", "master"))
   )
 
-  const valid_list = (
-    objectHas(req.body, "templates") && Array.isArray(req.body.templates)
-  )
-
-  return (valid_branch && valid_list)
+  return (valid_branch && Array.isArray(req.body))
 
 }
 

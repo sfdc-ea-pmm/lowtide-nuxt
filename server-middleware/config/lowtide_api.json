@@ -43,10 +43,11 @@
 
   "repo" : "/repository/*",
 
-  "repo_templates" : "/repository/template/:branch",
-  "repo_template_deploy" : "/repository/template/:branch/deploy",
-  "repo_template_download" : "/repository/template/download",
+  "repo_templates" : "/data/repository/:branch",
 
-  "session_jobs": "/jobs/session/all"
+  "repo_template_deploy" : "/services/repository/:branch/deploy",
+  "repo_template_download" : "/download/repository/:branch",
+
+  "session_jobs": "/data/job"
 
 }
