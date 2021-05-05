@@ -81,7 +81,7 @@ export default {
     async asyncData({ $axios, redirect }) {
         try {
             const response = await $axios.get('http://localhost:3000/api/auth/session', {withCredentials: true});
-            const session = response.data;
+            const session = response.data.data;
             if('salesforce' in session){
                 
             }else{
