@@ -14,7 +14,7 @@
                 </button>
             </div>
         </div>
-        <ul class="mt-3">
+        <ul class="mt-4">
             <li v-for="(v, i) in this.templates" v-bind:key="v.template.api_name" class="rounded-md mb-4 relative">
 
                 <div class="rounded-full bg-blue-500 absolute w-6 h-6 -top-2 -left-2" v-if="i===-1">
@@ -29,8 +29,8 @@
                             <span class="sr-only">Use setting</span>
                             <span aria-hidden="true" class="pointer-events-none absolute bg-white w-full h-full rounded-md"></span>
 
-                            <span aria-hidden="true" :class="(selected[v.template.api_name] ? 'bg-blue-600 ' : 'bg-gray-200 ') + 'pointer-events-none absolute h-4 w-9 mx-auto rounded-full transition-colors ease-in-out duration-200'"></span>
-                            <span aria-hidden="true" :class="(selected[v.template.api_name] ? 'translate-x-5 ' : 'translate-x-0 ') + 'pointer-events-none absolute left-0 inline-block h-5 w-5 border border-gray-200 rounded-full bg-white shadow transform ring-0 transition-transform ease-in-out duration-200'"></span>
+                            <span aria-hidden="true" :class="(selectedDeploy[v.template.api_name] ? 'bg-blue-600 ' : 'bg-gray-200 ') + 'pointer-events-none absolute h-4 w-9 mx-auto rounded-full transition-colors ease-in-out duration-200'"></span>
+                            <span aria-hidden="true" :class="(selectedDeploy[v.template.api_name] ? 'translate-x-5 ' : 'translate-x-0 ') + 'pointer-events-none absolute left-0 inline-block h-5 w-5 border border-gray-200 rounded-full bg-white shadow transform ring-0 transition-transform ease-in-out duration-200'"></span>
 
                         </button>
                         <a href="#" class="text-gray-900 font-medium hover:text-gray-600">{{v.template.label}}</a>
@@ -115,9 +115,9 @@ export default {
             accordion: {
 
             },
-            selected: [
+            selected: {
                 
-            ],
+            },
             deployTemplates: [
 
             ],
@@ -139,21 +139,23 @@ export default {
                 this.templates = [];
                 this.isLoading = false;
             }
+            let selectedTmp = {};
             this.templates.forEach((v, i) => {
                 this.accordion = {...this.accordion, [''+v.template.api_name]: false}
-                this.selected = {...this.selected, [''+v.template.api_name]: false}
+                selectedTmp = {...selectedTmp, [''+v.template.api_name]: false}
             });
-            this.$store.commit(`setSelectedDeploy` , this.selected);
+            this.$store.commit(`setSelectedDeploy` , selectedTmp);
         },
         setAccordion(id){
             this.accordion[id] = !this.accordion[id];
         },
         setSelected(template){
-            console.log(this.selected, this.selectedDeploy);
-            this.selected[template.api_name] = !this.selected[template.api_name];
-            this.$store.commit(`setSelectedDeploy` , this.selected);
-            
-            if(this.selected[template.api_name]){
+            let selectedTmp = {...this.selectedDeploy};
+            selectedTmp[template.api_name] = !selectedTmp[template.api_name];
+            this.$store.commit(`setSelectedDeploy` , selectedTmp);
+
+            this.deployTemplates = this.confirmSelection;
+            if(selectedTmp[template.api_name]){
                 this.deployTemplates = [...this.deployTemplates, template];
             }else{
                 this.deployTemplates = this.deployTemplates.filter((v) => v.label !== template.label ? true : false);

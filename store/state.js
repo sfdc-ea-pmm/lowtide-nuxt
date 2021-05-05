@@ -4,6 +4,6 @@ export default () => ({
     currentStep: 0,
     toastStatus: [],
     modalStatus: false,
-    selectedDeploy: [],
+    selectedDeploy: {},
     confirmSelection: []
 })
