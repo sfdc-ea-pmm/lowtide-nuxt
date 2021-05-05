@@ -1,7 +1,7 @@
 <template>
     <div class="fixed top-4 right-0 min-w-full">
         <transition-group name="toast" tag="div">
-            <div v-for="(v, i) in this.toastStatus" v-bind:key="v.time" aria-live="assertive" :class="/*(v.status ? 'toast-open ' : 'toast-close ') + */'flex items-end justify-end px-4 py-2 sticky top-0'">
+            <div v-for="(v, i) in this.toastStatus" v-bind:key="v.time" aria-live="assertive" :class="'flex items-end justify-end px-4 py-2 sticky top-0'">
                 <div class="max-w-sm w-full bg-white shadow-lg rounded-lg pointer-events-auto ring-1 ring-black ring-opacity-5 overflow-hidden">
                     <div class="p-4">
                         <div class="flex items-start">

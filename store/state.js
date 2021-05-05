@@ -3,5 +3,7 @@ export default () => ({
     notificationFieldFilter: 'type',
     currentStep: 0,
     toastStatus: [],
-    modalStatus: false
+    modalStatus: false,
+    selectedDeploy: {},
+    confirmSelection: []
 })

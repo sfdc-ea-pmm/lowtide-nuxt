@@ -109,10 +109,10 @@ exports.getSessionInfo = (req, res) => {
 
 /* Logout */
 
-exports.revokeSession = async (req, res) => {
+exports.revokeSession = async (req, res, next) => {
 
   let result
-  
+
   const conn = helpers.refresh(req.session)
 
   try {
