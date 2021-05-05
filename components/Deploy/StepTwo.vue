@@ -1,9 +1,30 @@
 <template>
 
     <div>
-        <h2 class="text-gray-500 text-xs font-medium uppercase tracking-wide">Confirm selected templates</h2>
+        <h2 class="text-gray-500 text-xs font-medium uppercase tracking-wide py-1">Confirm selected templates</h2>
         <div class="mt-4">            
-
+            <div class="rounded-md bg-blue-50 p-4" v-show="this.confirmSelection.length <= 0">
+                <div class="flex">
+                    <div class="flex-shrink-0">
+                        <svg class="h-5 w-5 text-blue-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
+                        </svg>
+                    </div>
+                    <div class="ml-3 flex-1 md:flex md:justify-between">
+                        <p class="text-sm text-blue-700">
+                            No selected templates.
+                        </p>
+                        <p class="mt-3 text-sm md:mt-0 md:ml-6">
+                            <a @click.prevent="previousStep()" href="#" class="whitespace-nowrap font-medium text-blue-700 hover:text-blue-500">
+                                Previous 
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 15l-3-3m0 0l3-3m-3 3h8M3 12a9 9 0 1118 0 9 9 0 01-18 0z" />
+                                </svg>
+                            </a>
+                        </p>
+                    </div>
+                </div>
+            </div>
             <transition-group class="space-y-4" name="deploy-card" tag="ul">
                 <li class="bg-white shadow overflow-hidden sm:rounded-md" v-for="(v) in this.confirmSelection" v-bind:key="v.api_name">
                     <a href="#" class="block hover:bg-gray-50">
@@ -56,6 +77,9 @@ export default {
         },
         confirmSelection () {
             return this.$store.state.confirmSelection;
+        },
+        currentStep () {
+            return this.$store.state.currentStep;
         }
     },
 
@@ -74,6 +98,9 @@ export default {
             this.selected = {...this.selectedDeploy};
             this.selected[template.api_name] = !this.selected[template.api_name];
             this.$store.commit(`setSelectedDeploy` , this.selected);
+        },
+        previousStep() {
+            this.$store.commit(`setCurrentStep` , this.currentStep-1);
         }
     },
     created() {

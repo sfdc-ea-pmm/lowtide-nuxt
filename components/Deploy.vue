@@ -3,6 +3,7 @@
     <div>
         <DeployStepOne v-show="this.currentStep===0 && this.action==='Deploy'"/>
         <DeployStepTwo v-show="this.currentStep===1 && this.action==='Deploy'"/>
+        <DeployStepThree v-show="this.currentStep===2 && this.action==='Deploy'"/>
     </div>
         
 </template>

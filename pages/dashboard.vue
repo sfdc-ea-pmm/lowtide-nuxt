@@ -53,7 +53,7 @@
                                 <button :disabled="this.currentStep===0" @click="previousStep()" v-show="this.action!=='Home'" type="button" :class="(this.currentStep===0 ? 'cursor-not-allowed ' : '') + 'disabled:opacity-50 inline-flex items-center px-2.5 py-1.5 border border-gray-300 shadow-sm text-xs leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'">
                                     Previous
                                 </button>
-                                <button @click="nextStep()" v-show="this.action!=='Home'" type="button" class="inline-flex items-center px-2.5 py-1.5 border border-gray-300 shadow-sm text-xs leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                <button :disabled="this.currentStep===(this.steps.length-1)" @click="nextStep()" v-show="this.action!=='Home'" type="button" :class="(this.currentStep===(this.steps.length-1) ? 'cursor-not-allowed ' : '') + 'disabled:opacity-50 inline-flex items-center px-2.5 py-1.5 border border-gray-300 shadow-sm text-xs leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'">
                                     Next
                                 </button>
                             </div>
@@ -71,6 +71,7 @@
                 <NotificationCenter v-bind:notifications="this.notifications" />
             </div>
         </div>
+        <Toast />
     </div>
         
 </template>
