@@ -55,7 +55,9 @@ const setListeners = function(emitter) {
     })
 
   }
+
   return emitter
+
 }
 
 module.exports = setListeners(jobEvents)

@@ -1,35 +1,43 @@
 const Queue = require('bull')
+
 const { runDataflow, generateTimeshiftDataflow, deleteDataflow } = require('../dataflow'),
       refreshDatasets = require('../refresh'),
       deployTemplate = require('../deploy');
+
 const restQueue = new Queue('restQueue', process.env.REDIS_URL)
 const deployQueue = new Queue('deployQueue', process.env.REDIS_URL)
 const timeshiftQueue = new Queue('timeshiftQueue', process.env.REDIS_URL)
+
 /* Processes */
 deployQueue.process('template_deploy', async (job) => {
   const { session, template } = job.data
   const jobExecResult = await deployTemplate({ session, job, template })
   return jobExecResult
 })
+
 /* Timeshift 4 step process; refresh -> generate -> run dataflow -> delete primer */
 timeshiftQueue.process('refresh_stale_datasets', async (job) => {
   const jobExecResult = await refreshDatasets(job)
   return jobExecResult
 })
+
 timeshiftQueue.process('generate_timeshift_dataflow', async (job) => {
   const jobExecResult = await generateTimeshiftDataflow(job)
   return jobExecResult
 })
+
 timeshiftQueue.process('delete_primer_dataflow', async (job) => {
   const { dataflowId } = job.data
   const jobExecResult = await deleteDataflow({ job, dataflowId })
   return jobExecResult
 })
+
 restQueue.process('dataflow_run', async (job) => {
   const { session, params, body } = job.data
   const jobExecResult = await runDataflow({ session, job, dataflowId: params.id })
   return jobExecResult
 })
+
 /* Helper to standardize format and exclude some attributes. */
 const formatJobResponse = function(job) {
   const { id, name, opts, data, ...rest } = job,
@@ -43,6 +51,7 @@ const formatJobResponse = function(job) {
       response[key] = new Date(value)
   return response
 }
+
 /* Events */
 const setListeners = function(emitter) {
   const logEvents = [ 'paused', 'drained', 'cleaned' ];
@@ -73,6 +82,7 @@ const setListeners = function(emitter) {
   }
   return emitter
 }
+
 module.exports = {
   restQueue: setListeners(restQueue),
   deployQueue: setListeners(deployQueue),
