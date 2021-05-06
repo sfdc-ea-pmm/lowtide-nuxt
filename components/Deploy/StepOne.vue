@@ -47,8 +47,8 @@
                 </div>
                 <div :class="(accordion[v.api_name] ? 'accordion-body-open ' : 'accordion-body-close ') + 'accordion border-gray-200 p-4 border rounded-md mt-1 space-y-4'">
                     <div>
-                        <h2 class="text-sm font-medium text-gray-500">Description</h2>
-                        <p class="text-sm mt-2">Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum. Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum.</p>
+                        <h2 v-show="v.description !== ''" class="text-sm font-medium text-gray-500">Description</h2>
+                        <p v-show="v.description !== ''" class="text-sm mt-2">{{v.description}}</p>
                     </div>
                     <div v-if="v.dashboards" :class="(v.dashboards.length > 0 ? '' : 'margin-0')">
                         <h2 v-show="v.dashboards.length > 0" class="text-sm font-medium text-gray-500">Dashboards</h2>
@@ -80,7 +80,7 @@
                         <h2 v-show="v.tags.length > 0" class="text-sm font-medium text-gray-500">Tags</h2>
                         <ul :class="(v.tags.length > 0 ? 'mt-2 ' : '') + 'leading-8'">
                             <li v-for="(va, ib) in v.tags" v-bind:key="va+ib" class="inline">
-                                <a href="#" class="relative inline-flex items-center rounded-full border border-gray-300 px-3 pt-0.5 pb-1">
+                                <a href="#" class="relative inline-flex items-center rounded-full border border-gray-300 px-3 mr-2 pt-0.5 pb-1">
                                     <div class="absolute flex-shrink-0 flex items-center justify-center">
                                         <span class="h-1.5 w-1.5 rounded-full bg-blue-500" aria-hidden="true"></span>
                                     </div>
