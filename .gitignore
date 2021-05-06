@@ -7,6 +7,9 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
+# File generated at each server-up. 
+/server-middleware/config/routes.json
+
 # Runtime data
 pids
 *.pid
