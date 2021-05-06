@@ -5,5 +5,6 @@ export default () => ({
     toastStatus: [],
     modalStatus: false,
     selectedDeploy: {},
-    confirmSelection: []
+    confirmSelection: [],
+    finishedProcess: false
 })

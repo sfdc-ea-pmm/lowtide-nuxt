@@ -37,7 +37,10 @@
                                 </div>
                                 <div class="min-w-0 flex-1 px-6 md:grid md:grid-cols-2 md:gap-6">
                                     <div>
-                                        <p class="text-sm font-medium text-indigo-600 truncate">{{v.label}}</p>
+                                        <p class="text-sm text-gray-900 truncate">
+                                            <span class="font-medium mr-1">Name</span><br>
+                                            <span class="break-words">{{v.label}}</span>
+                                        </p>
                                         <p class="mt-2 flex items-center text-sm text-gray-500">
                                             <span class="truncate">Version: {{v.version}}</span>
                                         </p>
@@ -45,7 +48,8 @@
                                     <div class="hidden md:block">
                                         <div>
                                             <p class="text-sm text-gray-900">
-                                                <span class="font-medium mr-1">API Name:</span>{{v.api_name}}
+                                                <span class="font-medium mr-1">API name</span><br>
+                                                <span class="break-words">{{v.api_name}}</span>
                                             </p>
                                             <p class="mt-2 flex items-center text-sm text-gray-500">
                                                 <span class="font-medium mr-1">API Version: </span>{{v.api_version}}

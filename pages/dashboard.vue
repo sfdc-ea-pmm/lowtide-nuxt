@@ -47,14 +47,17 @@
                                 {{this.action}}
                             </h1>
                             <div class="relative">
-                                <button @click="cancel()" v-show="this.action!=='Home'" type="button" :class="'disabled:opacity-50 inline-flex items-center px-2.5 py-1.5 border border-gray-300 shadow-sm text-xs leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'">
+                                <button @click="cancel()" v-show="this.action!=='Home' && !this.finishedProcess" type="button" :class="'disabled:opacity-50 inline-flex items-center px-2.5 py-1.5 border border-gray-300 shadow-sm text-xs leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'">
                                     Cancel
                                 </button>
-                                <button :disabled="this.currentStep===0" @click="previousStep()" v-show="this.action!=='Home'" type="button" :class="(this.currentStep===0 ? 'cursor-not-allowed ' : '') + 'disabled:opacity-50 inline-flex items-center px-2.5 py-1.5 border border-gray-300 shadow-sm text-xs leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'">
+                                <button :disabled="this.currentStep===0" @click="previousStep()" v-show="this.action!=='Home' && !this.finishedProcess" type="button" :class="(this.currentStep===0 ? 'cursor-not-allowed ' : '') + 'disabled:opacity-50 inline-flex items-center px-2.5 py-1.5 border border-gray-300 shadow-sm text-xs leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'">
                                     Previous
                                 </button>
-                                <button :disabled="this.currentStep===(this.steps.length-1)" @click="nextStep()" v-show="this.action!=='Home'" type="button" :class="(this.currentStep===(this.steps.length-1) ? 'cursor-not-allowed ' : '') + 'disabled:opacity-50 inline-flex items-center px-2.5 py-1.5 border border-gray-300 shadow-sm text-xs leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'">
+                                <button :disabled="this.currentStep===(this.steps.length-1)" @click="nextStep()" v-show="this.action!=='Home' && !this.finishedProcess" type="button" :class="(this.currentStep===(this.steps.length-1) ? 'cursor-not-allowed ' : '') + 'disabled:opacity-50 inline-flex items-center px-2.5 py-1.5 border border-gray-300 shadow-sm text-xs leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'">
                                     Next
+                                </button>
+                                <button @click="finished()" v-show="this.finishedProcess" type="button" class="inline-flex items-center px-2.5 py-1.5 border border-gray-300 shadow-sm text-xs leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                    Finish
                                 </button>
                             </div>
                         </div>
@@ -98,6 +101,9 @@ export default {
         },
         currentStep () {
             return this.$store.state.currentStep;
+        },
+        finishedProcess () {
+            return this.$store.state.finishedProcess;
         }
     },
 
@@ -150,14 +156,20 @@ export default {
                 console.error(error);
             }
         },
-        async cancel() {
+        cancel() {
             this.$store.commit(`setAction` , 'Home');
             this.$store.commit(`setCurrentStep` , 0);
+            this.$store.commit(`setConfirmSelection` , []);
+            this.$store.commit(`setSelectedDeploy` , {});
         },
-        async nextStep() {
+        finished() {
+            this.cancel();
+            this.$store.commit(`setFinishedProcess` , false);
+        },
+        nextStep() {
             this.$store.commit(`setCurrentStep` , this.currentStep+1);
         },
-        async previousStep() {
+        previousStep() {
             this.$store.commit(`setCurrentStep` , this.currentStep-1);
         },
         openModal(){

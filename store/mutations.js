@@ -20,5 +20,7 @@ export default {
     setConfirmSelection(state, array) {
         state.confirmSelection = array;
     },
-    
+    setFinishedProcess(state, status) {
+        state.finishedProcess = status;
+    },
 }

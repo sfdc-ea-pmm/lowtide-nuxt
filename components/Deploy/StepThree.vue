@@ -26,15 +26,16 @@
         </div>
         <div class="mt-6 flex justify-center">
             <ul class="-my-5 divide-y divide-gray-200 w-120">
-                <li v-for="(v) in this.confirmSelection" v-bind:key="v.api_name" class="py-5">
+                <li v-for="(v, i) in this.confirmSelection" v-bind:key="v.api_name" class="py-5 flex text-sm">
+                    <div class="mr-2 font-semibold text-gray-800">{{i+1}}.</div>
                     <div class="relative focus-within:ring-2 focus-within:ring-indigo-500">
-                        <h3 class="text-sm font-semibold text-gray-800">
+                        <h3 class="font-semibold text-gray-800">
                             <p class="hover:underline focus:outline-none">
                                 <span class="absolute inset-0" aria-hidden="true"></span>
                                 {{v.label}}
                             </p>
                         </h3>
-                        <p class="mt-1 text-sm text-gray-600 line-clamp-2">
+                        <p class="mt-1 text-gray-600 line-clamp-2">
                             {{v.description==='' ? 'No description.' : v.description}}
                         </p>
                     </div>
@@ -70,9 +71,15 @@ export default {
         }
     },
     methods: {
-        deploy(){
+        async deploy(){
             this.isDeploying = true;
-            console.log('deploying');
+            let selectedTemplates = this.confirmSelection;
+            let body = [];
+            selectedTemplates.forEach(v => {
+                body.push(v.api_name);
+            });
+            const response = await this.$axios.post('http://localhost:3000/api/services/template/deploy', body, {withCredentials: true});
+            console.log(response, body);
             let currentTime = this.getCurrentTime();
             this.$store.commit(`setToastStatus` , [{
                 status: true,
@@ -80,6 +87,7 @@ export default {
                 message: 'Deploy is underway, please check the notification center for updates!',
                 time: currentTime
             }, ...this.toastStatus]);
+            this.$store.commit(`setFinishedProcess` , true);
         },
         getCurrentTime(){
             let date = new Date();
