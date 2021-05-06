@@ -26,17 +26,21 @@ const utilityMethods = {
 
     const allowedClients = cors(corsOptions), session = initSession();
 
-    // global.socket = socketio(server)
-    //
-    // socket.use(socketSession(session))
-    //
-    // socket.on('connection', socket => {
-    //   socket.on('subscribeToJobUpdates', (providedId) => {
-    //     const sessionId = providedId || socket.handshake.session.socketRoom
-    //     console.log(`Socket client subscribed to ${sessionId}.`)
-    //     socket.join(sessionId)
-    //   })
-    // })
+    console.log("Setting up socket server...")
+
+    const socketCorsConfig = { cors: { origin: '*' } }
+
+    global.socket = socketio(3001, socketCorsConfig)
+
+    socket.use(socketSession(session))
+
+    socket.on('connection', socket => {
+      socket.on('subscribeToJobUpdates', (providedId) => {
+        const sessionId = providedId || socket.handshake.session.socketRoom
+        console.log(`Socket client subscribed to ${sessionId}.`)
+        socket.join(sessionId)
+      })
+    })
 
     return { allowedClients, session }
 
