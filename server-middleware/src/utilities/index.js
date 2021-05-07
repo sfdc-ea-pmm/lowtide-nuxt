@@ -42,6 +42,8 @@ const utilityMethods = {
       })
     })
 
+    console.log("Socket server configured. Listening for `subscribeToJobUpdates` events.")
+
     return { allowedClients, session }
 
   },

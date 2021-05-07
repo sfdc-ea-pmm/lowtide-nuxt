@@ -1,9 +1,8 @@
 module.exports = class {
 
-  constructor(connection, endpoint, queryList, batchSize = 10, sleepMs = 1000) {
+  constructor(connection, endpointList, batchSize = 10, sleepMs = 1000) {
     this.connection = connection
-    this.endpoint = endpoint
-    this.queryList = queryList
+    this.endpointList = endpointList
     this.batchSize = batchSize
     this.sleepFor = sleepMs
     this.queryResults = []
@@ -11,9 +10,8 @@ module.exports = class {
 
   async singleQuery(q) {
     try {
-      const { context, query } = q
-      const result = await this.connection.requestPost(this.endpoint, query)
-      return { ...context, queryResult: result }
+      const result = await this.connection.request(q)
+      return { endpoint: q, queryResult: result }
     } catch (error) {
       return Promise.reject(error)
     }
@@ -23,7 +21,7 @@ module.exports = class {
 
     let sleep = () => new Promise(resolve => setTimeout(resolve, this.sleepFor))
 
-    const batchedList = this.queryList.reduce((temp, x, i) => {
+    const batchedList = this.endpointList.reduce((temp, x, i) => {
       const subIndex = Math.floor(i / this.batchSize)
       if(!temp[subIndex])
         temp[subIndex] = []
@@ -32,7 +30,8 @@ module.exports = class {
     }, [])
 
     for (const [index, batch] of batchedList.entries()) {
-      this.queryResults.push(await Promise.allSettled(batch.map(q => this.singleQuery(q))))
+      const batchResult = await Promise.allSettled(batch.map(q => this.singleQuery(q)))
+      this.queryResults.push(batchResult)
       await sleep()
     }
 
