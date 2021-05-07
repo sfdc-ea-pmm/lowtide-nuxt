@@ -7,10 +7,19 @@
             </dt>
             <dd class="text-sm text-gray-900 space-y-3 text-justify">
                 <p>
-                Tincidunt quam neque in cursus viverra orci, dapibus nec tristique. Nullam ut sit dolor consectetur urna, dui cras nec sed. Cursus risus congue arcu aenean posuere aliquam.
+                Hello! Welcome to <strong>Lowtide</strong>, a suite of tools designed to make it easier to demo our analytics products.
                 </p>
                 <p>
-                Et vivamus lorem pulvinar nascetur non. Pulvinar a sed platea rhoncus ac mauris amet. Urna, sem pretium sit pretium urna, senectus vitae. Scelerisque fermentum, cursus felis dui suspendisse velit pharetra. Augue et duis cursus maecenas eget quam lectus. Accumsan vitae nascetur pharetra rhoncus praesent dictum risus suspendisse.
+                These tools are currently in <strong>alpha testing</strong> stage, so expect that occasionally bugs or oddities may appear. Please bear with us as we improve them and continuously add new functionality and net new tools.
+                </p>
+                <p>
+                We hope that this application is relatively self-explanatory, but in the interest of being as user-friendly as possible, please <a class="font-bold text-blue-600 cursor-pointer hover:text-blue-500" href="#">start by watching this video tutorial</a>, and <a class="font-bold text-blue-600 cursor-pointer hover:text-blue-500" href="#">read the FAQ</a>.
+                </p>
+                <p>
+                For developers or those with enough knowledge of javascript to be dangerous, we've made available <a class="font-bold text-blue-600 cursor-pointer hover:text-blue-500" href="#">lowtide-boilerplate</a>, an application shell designed to allow you to develop your own tools by providing a simple API layer with authentication into Salesforce and the basic frontend skeleton that you see in this very app.
+                </p>
+                <p>
+                Please direct any questions or issues to <strong>Luc Iyer</strong> by clicking "Email" below. 
                 </p>
             </dd>
         </div>
@@ -18,7 +27,6 @@
             <h2 class="text-sm font-medium text-gray-500 mb-4">Developers</h2>
             <!--
             <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-
                 <div v-for="(v) in this.developers" v-bind:key="v.email" class="relative rounded-lg border border-gray-300 bg-white px-6 py-5 shadow-sm flex items-center space-x-3 hover:border-gray-400 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-blue-500">
                     <div class="flex-shrink-0">
                         <img class="h-10 w-10 rounded-full" :src="v.img" alt="">
@@ -35,7 +43,6 @@
                         </a>
                     </div>
                 </div>
-
             </div>
             -->
             <ul class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-2">
@@ -77,7 +84,7 @@
             </ul>
         </div>
         <div class="">
-            <h2 class="text-sm font-medium text-gray-500 mb-4">Team members</h2>
+            <h2 class="text-sm font-medium text-gray-500 mb-4">Team Members</h2>
             <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
 
                 <div v-for="(v) in this.teamMembers" v-bind:key="v.email" class="relative rounded-lg border border-gray-300 bg-white px-4 py-4 shadow-sm flex items-center space-x-3 hover:border-gray-400 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-blue-500">
@@ -100,7 +107,7 @@
             </div>
         </div>
     </div>
-        
+
 </template>
 
 <script>
@@ -112,8 +119,8 @@ export default {
     data() {
         return {
             developers: [
-                {name: 'Romario Sarmiento', email: 'rsarmiento@salesforce.com', img: 'https://images.unsplash.com/photo-1513910367299-bce8d8a0ebf6?ixlib=rb-1.2.1&ixqx=Tt6LMluVtn&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80', position: 'Demo Engineer', github: 'http://github.com/romariosc97'},
-                {name: 'Luc Iyer', email: 'luciyer@salesforce.com', img: 'https://images.unsplash.com/photo-1517070208541-6ddc4d3efbcb?ixlib=rb-1.2.1&ixqx=Tt6LMluVtn&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80', position: 'Demo Engineer', github: 'http://github.com/luciyer'}
+                {name: 'Romario Sarmiento', email: 'rsarmiento@salesforce.com', img: 'https://images.unsplash.com/photo-1513910367299-bce8d8a0ebf6?ixlib=rb-1.2.1&ixqx=Tt6LMluVtn&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80', position: 'Frontend Development', github: 'http://github.com/romariosc97'},
+                {name: 'Luc Iyer', email: 'luciyer@salesforce.com', img: 'https://images.unsplash.com/photo-1517070208541-6ddc4d3efbcb?ixlib=rb-1.2.1&ixqx=Tt6LMluVtn&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80', position: 'Backend & API Development', github: 'http://github.com/luciyer'}
             ],
             teamMembers: [
                 {name: 'Jayger McGough', email: 'jmcgough@salesforce.com', img: 'https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?ixlib=rb-1.2.1&ixqx=Tt6LMluVtn&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80'},
@@ -124,10 +131,10 @@ export default {
         }
     },
     methods: {
-        
+
     },
     created() {
-        
+
     },
 }
 </script>
