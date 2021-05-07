@@ -3,7 +3,7 @@
     <div>
         <h2 class="text-gray-500 text-xs font-medium uppercase tracking-wide py-1">Confirm selected templates</h2>
         <div class="mt-4">            
-            <div class="rounded-md bg-blue-50 p-4" v-show="this.confirmSelection.length <= 0">
+            <div class="rounded-md bg-blue-50 p-4" v-show="this.confirmDeploySelection.length <= 0">
                 <div class="flex">
                     <div class="flex-shrink-0">
                         <svg class="h-5 w-5 text-blue-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
@@ -26,7 +26,7 @@
                 </div>
             </div>
             <transition-group class="space-y-4" name="deploy-card" tag="ul">
-                <li class="bg-white shadow overflow-hidden sm:rounded-md" v-for="(v) in this.confirmSelection" v-bind:key="v.api_name">
+                <li class="bg-white shadow overflow-hidden sm:rounded-md" v-for="(v) in this.confirmDeploySelection" v-bind:key="v.api_name">
                     <a href="#" class="block hover:bg-gray-50">
                         <div class="flex items-center px-4 py-4 sm:px-6">
                             <div class="min-w-0 flex-1 flex items-center">
@@ -79,8 +79,8 @@ export default {
         selectedDeploy () {
             return this.$store.state.selectedDeploy;
         },
-        confirmSelection () {
-            return this.$store.state.confirmSelection;
+        confirmDeploySelection () {
+            return this.$store.state.confirmDeploySelection;
         },
         currentStep () {
             return this.$store.state.currentStep;
@@ -95,9 +95,9 @@ export default {
     },
     methods: {
         deleteTemplate(template){
-            this.deployTemplates = this.confirmSelection;
+            this.deployTemplates = this.confirmDeploySelection;
             this.deployTemplates = this.deployTemplates.filter((v) => v.label !== template.label ? true : false);
-            this.$store.commit(`setConfirmSelection` , this.deployTemplates);
+            this.$store.commit(`setConfirmDeploySelection` , this.deployTemplates);
 
             this.selected = {...this.selectedDeploy};
             this.selected[template.api_name] = !this.selected[template.api_name];

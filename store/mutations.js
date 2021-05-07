@@ -17,8 +17,14 @@ export default {
     setSelectedDeploy(state, object) {
         state.selectedDeploy = object;
     },
-    setConfirmSelection(state, array) {
-        state.confirmSelection = array;
+    setConfirmDeploySelection(state, array) {
+        state.confirmDeploySelection = array;
+    },
+    setSelectedTimeshift(state, object) {
+        state.selectedTimeshift = object;
+    },
+    setConfirmTimeshiftSelection(state, array) {
+        state.confirmTimeshiftSelection = array;
     },
     setFinishedProcess(state, status) {
         state.finishedProcess = status;

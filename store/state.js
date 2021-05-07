@@ -5,7 +5,9 @@ export default () => ({
     toastStatus: [],
     modalStatus: false,
     selectedDeploy: {},
-    confirmSelection: [],
+    confirmDeploySelection: [],
+    selectedTimeshift: {},
+    confirmTimeshiftSelection: [],
     finishedProcess: false,
     session: {},
     notifications: (!sessionStorage.notifications ? [] : JSON.parse(sessionStorage.notifications))

@@ -160,7 +160,7 @@ export default {
         cancel() {
             this.$store.commit(`setAction` , 'Home');
             this.$store.commit(`setCurrentStep` , 0);
-            this.$store.commit(`setConfirmSelection` , []);
+            this.$store.commit(`setConfirmDeploySelection` , []);
             this.$store.commit(`setSelectedDeploy` , {});
         },
         finished() {
