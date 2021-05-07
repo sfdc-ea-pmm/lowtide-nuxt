@@ -6,5 +6,7 @@ export default () => ({
     modalStatus: false,
     selectedDeploy: {},
     confirmSelection: [],
-    finishedProcess: false
+    finishedProcess: false,
+    session: {},
+    notifications: (!sessionStorage.notifications ? [] : JSON.parse(sessionStorage.notifications))
 })

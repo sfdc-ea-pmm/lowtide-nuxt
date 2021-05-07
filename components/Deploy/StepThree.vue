@@ -43,10 +43,33 @@
             </ul>
         </div>
         <div v-show="this.confirmSelection.length > 0" class="mt-6 flex justify-center">
-            <button :disabled="this.isDeploying" @click="deploy()" :class="(this.isDeploying ? 'cursor-not-allowed ' : '') + 'w-120 mx-auto disabled:opacity-50 flex justify-center items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'">
+            <button :disabled="this.finishedProcess" @click="deploy()" :class="(this.finishedProcess ? 'cursor-not-allowed ' : '') + 'w-120 mx-auto disabled:opacity-50 flex justify-center items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'">
                 Confirm and deploy
             </button>
         </div>
+        <div class="rounded-md bg-blue-50 p-4 mt-4" v-show="this.finishedProcess">
+            <div class="flex">
+                <div class="flex-shrink-0">
+                    <svg class="h-5 w-5 text-blue-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
+                    </svg>
+                </div>
+                <div class="ml-3 flex-1 md:flex md:justify-between">
+                    <p class="text-sm text-blue-700">
+                        Deploy is underway, please check the notification center for updates.
+                    </p>
+                    <p class="mt-3 text-sm md:mt-0 md:ml-6">
+                        <a @click.prevent="finished()" href="#" class="whitespace-nowrap font-medium text-blue-700 hover:text-blue-500">
+                            Finish 
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                            </svg>
+                        </a>
+                    </p>
+                </div>
+            </div>
+        </div>
+        
     </div>
         
 </template>
@@ -62,44 +85,41 @@ export default {
         },
         currentStep () {
             return this.$store.state.currentStep;
-        }
+        },
+        finishedProcess () {
+            return this.$store.state.finishedProcess;
+        },
     },
 
     data() {
         return {
-            isDeploying: false
+            
         }
     },
     methods: {
         async deploy(){
-            this.isDeploying = true;
             let selectedTemplates = this.confirmSelection;
             let body = [];
             selectedTemplates.forEach(v => {
                 body.push(v.api_name);
             });
-            const response = await this.$axios.post('http://localhost:3000/api/services/template/deploy', body, {withCredentials: true});
-            console.log(response, body);
-            let currentTime = this.getCurrentTime();
-            this.$store.commit(`setToastStatus` , [{
-                status: true,
-                type: 'success',
-                message: 'Deploy is underway, please check the notification center for updates!',
-                time: currentTime
-            }, ...this.toastStatus]);
+            await this.$axios.post('http://localhost:3000/api/services/template/deploy', body, {withCredentials: true});
+
             this.$store.commit(`setFinishedProcess` , true);
-        },
-        getCurrentTime(){
-            let date = new Date();
-            let hours = date.getHours(),
-                minutes = date.getMinutes(),
-                seconds = date.getSeconds();
-            let currentTime = (hours < 10 ? '0' + hours : hours ) + ":" + (minutes < 10 ? '0' + minutes : minutes ) + ":" + (seconds < 10 ? '0' + seconds : seconds );
-            return currentTime;
         },
         previousStep() {
             this.$store.commit(`setCurrentStep` , this.currentStep-2);
-        }
+        },
+        cancel() {
+            this.$store.commit(`setAction` , 'Home');
+            this.$store.commit(`setCurrentStep` , 0);
+            this.$store.commit(`setConfirmSelection` , []);
+            this.$store.commit(`setSelectedDeploy` , {});
+        },
+        finished() {
+            this.cancel();
+            this.$store.commit(`setFinishedProcess` , false);
+        },
     },
     created() {
         

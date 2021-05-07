@@ -71,7 +71,7 @@
                 </div>
             </div>
             <div class="bg-gray-50 lg:flex-shrink-0 lg:border-l lg:border-gray-200 md:p-0">
-                <NotificationCenter v-bind:notifications="this.notifications" />
+                <NotificationCenter />
             </div>
         </div>
         <Toast />
@@ -81,17 +81,19 @@
 
 <script>
 export default {
-    async asyncData({ $axios, redirect }) {
+    async asyncData({ $axios, redirect, store }) {
         try {
             const response = await $axios.get('http://localhost:3000/api/auth/session', {withCredentials: true});
             const session = response.data.data;
             if('salesforce' in session){
-
+                store.commit(`setSession` , session);
             }else{
+                sessionStorage.removeItem('notifications');;
                 redirect('/login');
             }
             return { session }
         } catch (e) {
+            sessionStorage.removeItem('notifications');;
             redirect('/login');
         }
     },
@@ -104,21 +106,17 @@ export default {
         },
         finishedProcess () {
             return this.$store.state.finishedProcess;
-        }
+        },
+        toastStatus () {
+            return this.$store.state.toastStatus;
+        },
+        notifications () {
+            return this.$store.state.notifications;
+        },
     },
 
     data() {
         return {
-            notifications: [
-                {title: 'Timeshift', time: '13:05:12', message: 'Your job has finished successfully.', type: 'success'},
-                {title: 'Deploy', time: '13:21:51', message: 'Your job has started.', type: 'info'},
-                {title: 'Deploy', time: '13:26:44', message: 'Your job has finished but an error has occurred.', type: 'error'},
-                {title: 'Timeshift', time: '13:35:51', message: 'Your job has started.', type: 'info'},
-                {title: 'Session', time: '13:36:39', message: 'Your session will expire soon.', type: 'info'},
-                {title: 'Timeshift', time: '13:46:22', message: 'Your job has finished successfully.', type: 'success'},
-                {title: 'Einstein Data Discovery', time: '13:52:49', message: 'Your job has started.', type: 'info'},
-                {title: 'Einstein Data Discovery', time: '13:53:09', message: 'Your job has finished but an error has occurred.', type: 'error'},
-            ],
             options: [
                 {title: 'Einstein Discovery Data', value: 'Einstein Discovery Data'},
                 {title: 'Deploy', value: 'Deploy'},
@@ -151,6 +149,9 @@ export default {
             try {
                 this.logoutLoading = true;
                 await this.$axios.get('http://localhost:3000/api/auth/revoke', {withCredentials: true});
+                this.$store.commit(`setNotifications` , []);
+                sessionStorage.removeItem('notifications');
+                this.finished();
                 this.$router.push('/login');
             } catch (error) {
                 console.error(error);
@@ -174,6 +175,14 @@ export default {
         },
         openModal(){
             this.$store.commit(`setModalStatus` , true);
+        },
+        getCurrentTime(){
+            let date = new Date();
+            let hours = date.getHours(),
+                minutes = date.getMinutes(),
+                seconds = date.getSeconds();
+            let currentTime = (hours < 10 ? '0' + hours : hours ) + ":" + (minutes < 10 ? '0' + minutes : minutes ) + ":" + (seconds < 10 ? '0' + seconds : seconds );
+            return currentTime;
         }
     },
     validate({redirect}) {
@@ -184,6 +193,36 @@ export default {
         }
     },
     mounted() {
+        const vm = this;
+        vm.socket = this.$nuxtSocket({
+            name: "main"
+        });
+        vm.socket.emit('subscribeToJobUpdates', this.session.socketRoom);
+
+        const activeEvents = [ 'jobSuccess', 'jobError', 'serverError' ];
+
+        activeEvents.forEach(event => {
+            vm.socket.on(event, (message) => {
+                let currentTime = this.getCurrentTime();
+                console.log(message);
+                if(message.event.producer==='lowtide.deployQueue'){
+                    let type = (event==='jobError' || event==='serverError') ? 'error' : 'success';
+                    let text = (event==='jobError' || event==='serverError') ? `${message.data.job.context.template} had a error.` : `${message.data.job.context.template} has been successfully deployed.`;
+                    vm.$store.commit(`setToastStatus` , [{
+                        status: true,
+                        type: type,
+                        message: text,
+                        time: currentTime
+                    }, ...vm.toastStatus]);
+                    vm.$store.commit(`setNotifications` , [
+                        {title: 'Deploy', time: currentTime, message: text, type: type}
+                    , ...this.notifications]);
+                    
+                }
+            });
+        });
+
+        //const eventsList = [ 'jobStarted', 'jobInfo', 'jobSuccess', 'jobError', 'serverError' ];
 
     },
     watch: {

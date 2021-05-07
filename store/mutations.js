@@ -23,4 +23,11 @@ export default {
     setFinishedProcess(state, status) {
         state.finishedProcess = status;
     },
+    setSession(state, status) {
+        state.session = status;
+    },
+    setNotifications(state, notifications) {
+        sessionStorage.notifications = JSON.stringify(notifications);
+        state.notifications = notifications;
+    },
 }

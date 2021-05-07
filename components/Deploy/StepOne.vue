@@ -46,9 +46,9 @@
                     </div>
                 </div>
                 <div :class="(accordion[v.api_name] ? 'accordion-body-open ' : 'accordion-body-close ') + 'accordion border-gray-200 p-4 border rounded-md mt-1 space-y-4'">
-                    <div>
-                        <h2 v-show="v.description !== ''" class="text-sm font-medium text-gray-500">Description</h2>
-                        <p v-show="v.description !== ''" class="text-sm mt-2">{{v.description}}</p>
+                    <div v-if="v.description !== ''">
+                        <h2 class="text-sm font-medium text-gray-500">Description</h2>
+                        <p class="text-sm mt-2">{{v.description}}</p>
                     </div>
                     <div v-if="v.dashboards" :class="(v.dashboards.length > 0 ? '' : 'margin-0')">
                         <h2 v-show="v.dashboards.length > 0" class="text-sm font-medium text-gray-500">Dashboards</h2>

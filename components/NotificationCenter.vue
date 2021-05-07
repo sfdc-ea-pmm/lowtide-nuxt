@@ -4,7 +4,8 @@
             <h2 class="text-lg font-semibold">Notifications</h2>
         </div>
         <div class="pl-6 lg:w-80 md:hidden lg:hidden xl:block lg:pr-8">
-            <div>
+            <div v-show="this.dashboardNotifications.length<=0" class="text-sm py-6 text-gray-800">No activity registered.</div>
+            <div v-show="this.dashboardNotifications.length>0">
                 <ul class="divide-y divide-gray-200">
                     <li :class="'py-4'" v-for="(v, i) in this.dashboardNotifications" v-bind:key="i">
                         <div class="flex space-x-3">
@@ -29,22 +30,20 @@
                 </ul>
             </div>
         </div>
-        <div class="xl:py-4 xl:px-6 text-sm xl:border-t border-gray-200 md:p-0 ">
-            <Modal v-bind:notifications="this.notifications" v-bind:scroll="true" />      
+        <div class="xl:py-4 xl:px-6 text-sm xl:border-t border-gray-200 md:p-0" v-show="this.dashboardNotifications.length>0">
+            <Modal v-bind:notifications="this.globalNotifications" v-bind:scroll="true" />      
         </div>
     </div>
 </template>
 
 <script>
 export default {
-    props: {
-        notifications: {
-            type: Array
-        }
-    },
     computed: {
+        globalNotifications () {
+            return this.$store.state.notifications;
+        },
         dashboardNotifications(){
-            return this.notifications.filter((v, i) => i < 6 );
+            return this.globalNotifications.filter((v, i) => i < 6 );
         }
     },
 
