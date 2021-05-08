@@ -2,8 +2,8 @@
 
     <div>
         <h2 class="text-gray-500 text-xs font-medium uppercase tracking-wide py-1">Generate dataflows</h2>
-        <div class="mt-4">
-            <div class="rounded-md bg-blue-50 p-4" v-show="this.confirmTimeshiftSelection.length <= 0">
+        <div class="my-4">
+            <div class="rounded-md bg-blue-50 p-4" v-show="this.selectedTimeshift.length <= 0">
                 <div class="flex">
                     <div class="flex-shrink-0">
                         <svg class="h-5 w-5 text-blue-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
@@ -40,54 +40,62 @@
                 </div>
             </div>
             <transition-group class="space-y-4" name="deploy-card" tag="ul">
-                <li class="bg-white shadow overflow-hidden sm:rounded-md" v-for="(v, i) in this.confirmTimeshiftSelection" v-bind:key="v.Id">
+                <li class="bg-white shadow overflow-hidden sm:rounded-md" v-for="(v, i) in this.fields" :key="v.id">
                     <a @click.prevent href="#" class="block hover:bg-gray-50">
                         <div class="px-8 py-6">
                             <div class="flex">
                                 <div class="flex-1">
                                     <p class="text-sm text-gray-500">
-                                        <span v-if="fields.length <= 0">Connector</span>
-                                        <span v-else>{{fields[i].connector}}</span>
+                                        <h2 class="text-gray-500 text-xs font-medium uppercase tracking-wide">
+                                          <span v-if="fields.length <= 0">Connector</span>
+                                          <span v-else>{{ v.connector }}</span>
+                                        </h2>
                                     </p>
-                                    <p class="text-xl font-medium text-gray-900">
-                                        {{v.MasterLabel}}
+                                    <p class="text-lg font-medium text-gray-900">
+                                        {{ v.name }}
                                     </p>
                                 </div>
                                 <div class="pt-2 pr-2">
-                                    <span class="text-xl font-medium text-gray-900"  v-if="fields.length<=0">0000</span>
-                                    <span class="text-xl font-medium text-gray-900" v-else>{{fields[i].rows}}</span>
+                                    <span class="text-lg font-medium text-gray-900"  v-if="fields.length <=0 ">?</span>
+                                    <span class="text-lg font-medium text-gray-900" v-else>{{ v.rows }}</span>
                                     <p class="text-center text-xs text-gray-500">
                                         rows
                                     </p>
                                 </div>
                             </div>
 
-                            <div class="border-b border-gray-200">
-                                <h2 class="text-gray-500 text-sm font-medium uppercase tracking-wide pb-2 pt-4">Date fields</h2>
-                            </div>
-                            <div class="mt-4 space-y-4">
-                                <div v-if="fields.length<=0" class="mt-6">
-                                    <div class="snippet" data-title=".dot-typing">
-                                        <div class="stage">
-                                            <div class="dot-typing mx-auto"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="flex items-center" v-for="(va) in (fields.length<=0 ? [] : fields[i].dates)" v-bind:key="va.id">
-                                    <button @click="setSelected(v.Id, va.alias)" type="button" class="flex-shrink-0 group relative rounded-full inline-flex items-center justify-center h-5 w-10 cursor-pointer focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 mr-4" role="switch" aria-checked="false">
-                                        <span class="sr-only">Use setting</span>
-                                        <span aria-hidden="true" class="pointer-events-none absolute bg-white w-full h-full rounded-md"></span>
+                            <div v-if="v.dates.length">
+                              <div class="border-b border-gray-200">
+                                  <h2 class="text-gray-500 text-sm font-medium uppercase tracking-wide pb-2 pt-4">Date fields</h2>
+                              </div>
+                              <div class="mt-4 space-y-4">
+                                  <div v-if="fields.length<=0" class="mt-6">
+                                      <div class="snippet" data-title=".dot-typing">
+                                          <div class="stage">
+                                              <div class="dot-typing mx-auto"></div>
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <div class="flex items-center" v-for="(va) in (fields.length<=0 ? [] : fields[i].dates)" v-bind:key="va.id">
+                                      <button @click="setSelected(v.Id, va.alias)" type="button" class="flex-shrink-0 group relative rounded-full inline-flex items-center justify-center h-5 w-10 cursor-pointer focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 mr-4" role="switch" aria-checked="false">
+                                          <span class="sr-only">Use setting</span>
+                                          <span aria-hidden="true" class="pointer-events-none absolute bg-white w-full h-full rounded-md"></span>
 
-                                        <span aria-hidden="true" :class="(selectedTimeshiftFields[fields[i].id+'_'+va.alias] ? 'bg-blue-600 ' : 'bg-gray-200 ') + 'pointer-events-none absolute h-4 w-9 mx-auto rounded-full transition-colors ease-in-out duration-200'"></span>
-                                        <span aria-hidden="true" :class="(selectedTimeshiftFields[fields[i].id+'_'+va.alias] ? 'translate-x-5 ' : 'translate-x-0 ') + 'pointer-events-none absolute left-0 inline-block h-5 w-5 border border-gray-200 rounded-full bg-white shadow transform ring-0 transition-transform ease-in-out duration-200'"></span>
+                                          <span aria-hidden="true" :class="(selectedTimeshiftFields[fields[i].id+'_'+va.alias] ? 'bg-blue-600 ' : 'bg-gray-200 ') + 'pointer-events-none absolute h-4 w-9 mx-auto rounded-full transition-colors ease-in-out duration-200'"></span>
+                                          <span aria-hidden="true" :class="(selectedTimeshiftFields[fields[i].id+'_'+va.alias] ? 'translate-x-5 ' : 'translate-x-0 ') + 'pointer-events-none absolute left-0 inline-block h-5 w-5 border border-gray-200 rounded-full bg-white shadow transform ring-0 transition-transform ease-in-out duration-200'"></span>
 
-                                    </button>
-                                    <div>
-                                        <div class="text-xs">{{va.label}}</div>
-                                        <div class="text-xs text-gray-500">({{va.alias}})</div>
-                                    </div>
-                                </div>
+                                      </button>
+                                      <div>
+                                          <div class="text-sm">{{ va.label }}</div>
+                                          <div class="text-xs text-gray-500">API Name: {{ va.fields.fullField }}</div>
+                                      </div>
+                                  </div>
+                              </div>
                             </div>
+                            <div v-else>
+                              <h2 class="text-gray-500 text-xs font-medium uppercase tracking-wide">No Date Fields Found</h2>
+                            </div>
+
                         </div>
                     </a>
                 </li>
@@ -117,7 +125,7 @@ export default {
     data() {
         return {
             fields: [],
-            isLoading: false,
+            isLoading: true,
             selectedTimeshiftFields: {}
         }
     },
@@ -128,21 +136,25 @@ export default {
         },
         currentStep: async function () {
             if(this.currentStep===1 && this.action==='Timeshift'){
-                this.isLoading = true;
-                let selectedDatasets = this.confirmTimeshiftSelection;
-                let body = [];
-                selectedDatasets.forEach(v => {
-                    body.push({Id: v.Id, CurrentId: v.CurrentId});
-                });
-                console.log(body)
-                const response = await this.$axios.post('http://localhost:3000/api/data/dataset/xmd', body, {withCredentials: true});
-                this.fields = response.data.data;
-                this.isLoading = false;
-                this.fields.forEach(v => {
-                    v.dates.forEach(va => {
-                        this.selectedTimeshiftFields = {...this.selectedTimeshiftFields, [v.id+'_'+va.alias]: true};
-                    });
-                });
+
+                const xmdBody = Object.values(this.selectedTimeshift)
+                const datasetXmds = await this.$axios.post('/data/dataset/xmd', xmdBody, { withCredentials: true });
+
+                this.fields = datasetXmds.data.data
+                this.isLoading = false
+
+
+
+
+                // this.fields = response.data.data;
+                // this.isLoading = false;
+                // this.fields.forEach(v => {
+                //     v.dates.forEach(va => {
+                //         this.selectedTimeshiftFields = {...this.selectedTimeshiftFields, [v.id+'_'+va.alias]: true};
+                //     });
+                // });
+
+
             }
         }
     },
