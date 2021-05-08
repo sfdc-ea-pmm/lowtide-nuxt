@@ -3,7 +3,8 @@ const { sfApi } = require('../utilities'),
       { BatchRest } = require('../classes');
 
 const parseXmdDates = (d) => {
-  if (!d.status === 'fulfilled') return
+  console.log(d)
+  if (d.status !== 'fulfilled') return
   const { id, totalRows, dataset, xmdMain } = d.value.queryResult
   return {
     id: dataset.id,
@@ -26,6 +27,8 @@ module.exports = {
     const endpointList = idAndVersionArray.map(d => {
       return `${queryEndpoint}/${d.Id}/versions/${d.CurrentId}`
     })
+
+    console.log(endpointList)
 
     const restBatchQuery = new BatchRest(sf, endpointList)
     await restBatchQuery.execute()

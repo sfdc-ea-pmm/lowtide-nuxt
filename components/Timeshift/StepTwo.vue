@@ -2,7 +2,7 @@
 
     <div>
         <h2 class="text-gray-500 text-xs font-medium uppercase tracking-wide py-1">Generate dataflows</h2>
-        <div class="mt-4">            
+        <div class="mt-4">
             <div class="rounded-md bg-blue-50 p-4" v-show="this.confirmTimeshiftSelection.length <= 0">
                 <div class="flex">
                     <div class="flex-shrink-0">
@@ -16,7 +16,7 @@
                         </p>
                         <p class="mt-3 text-sm md:mt-0 md:ml-6">
                             <a @click.prevent="previousStep()" href="#" class="whitespace-nowrap font-medium text-blue-700 hover:text-blue-500">
-                                Previous 
+                                Previous
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 15l-3-3m0 0l3-3m-3 3h8M3 12a9 9 0 1118 0 9 9 0 01-18 0z" />
                                 </svg>
@@ -59,9 +59,9 @@
                                     <p class="text-center text-xs text-gray-500">
                                         rows
                                     </p>
-                                </div>     
+                                </div>
                             </div>
-                              
+
                             <div class="border-b border-gray-200">
                                 <h2 class="text-gray-500 text-sm font-medium uppercase tracking-wide pb-2 pt-4">Date fields</h2>
                             </div>
@@ -95,7 +95,7 @@
 
         </div>
     </div>
-        
+
 </template>
 
 <script>
@@ -123,7 +123,7 @@ export default {
     },
     watch: {
         confirmTimeshiftSelection: function(){
-            this.fields = [];  
+            this.fields = [];
             this.selectedTimeshiftFields = {};
         },
         currentStep: async function () {
@@ -134,6 +134,7 @@ export default {
                 selectedDatasets.forEach(v => {
                     body.push({Id: v.Id, CurrentId: v.CurrentId});
                 });
+                console.log(body)
                 const response = await this.$axios.post('http://localhost:3000/api/data/dataset/xmd', body, {withCredentials: true});
                 this.fields = response.data.data;
                 this.isLoading = false;
@@ -151,7 +152,7 @@ export default {
         }
     },
     created() {
-        
+
     },
 }
 </script>

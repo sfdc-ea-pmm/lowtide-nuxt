@@ -47,9 +47,9 @@
                 </div>
                 <div :class="(accordion[v.Id] ? 'accordion-body-open ' : 'accordion-body-close ') + 'accordion border-gray-200 p-4 border rounded-md mt-1 space-y-4'">
                     <h2 class="text-sm font-medium text-gray-500">Datasets</h2>
-                    <div v-for="(va) in family[v.Id]" v-bind:key="va.Id">  
-                        <div class="flex-1 flex items-center justify-between border border-gray-200 bg-white rounded-md truncate py-1.5">
-                            <div class="flex-1 px-4 py-2 text-sm truncate flex items-center">
+                    <div v-for="(va) in family[v.Id]" v-bind:key="va.Id">
+                        <div class="flex-1 flex items-center justify-between bg-white rounded-md truncate">
+                            <div class="flex-1 px-4 py-1.5 text-sm truncate flex items-center">
                                 <button @click="setSelected(va)" type="button" class="flex-shrink-0 group relative rounded-full inline-flex items-center justify-center h-5 w-10 cursor-pointer focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 mr-4" role="switch" aria-checked="false">
                                     <span class="sr-only">Use setting</span>
                                     <span aria-hidden="true" class="pointer-events-none absolute bg-white w-full h-full rounded-md"></span>
@@ -58,20 +58,8 @@
                                     <span aria-hidden="true" :class="(selectedTimeshift[va.Id] ? 'translate-x-5 ' : 'translate-x-0 ') + 'pointer-events-none absolute left-0 inline-block h-5 w-5 border border-gray-200 rounded-full bg-white shadow transform ring-0 transition-transform ease-in-out duration-200'"></span>
 
                                 </button>
-                                <a href="#" class="text-gray-900 font-medium hover:text-gray-600">{{va.DeveloperName}}</a>
+                                <a href="#" @click="setSelected(va)" class="text-gray-900 font-medium hover:text-gray-600">{{va.DeveloperName}}</a>
                             </div>
-                            <div class="flex-shrink-0 pr-2">
-                                <button class="w-8 h-8 bg-white inline-flex items-center justify-center text-gray-400 rounded-full bg-transparent hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                                    <span class="sr-only">Open options</span>
-                                    <svg @click="setAccordion(va.Id)" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path class="transition-all" v-show="accordion[va.Id]===false" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                                        <path class="transition-all" v-show="accordion[va.Id]===true" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
-                                    </svg>
-                                </button>
-                            </div>
-                        </div>
-                        <div :class="(accordion[va.Id] ? 'accordion-body-open ' : 'accordion-body-close ') + 'accordion border-gray-200 p-4 border rounded-md mt-1 space-y-4'">
-                            xxxxxx
                         </div>
                     </div>
                 </div>
