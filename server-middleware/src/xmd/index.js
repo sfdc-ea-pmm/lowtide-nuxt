@@ -17,7 +17,7 @@ const parseXmdDates = (d) => {
 
 module.exports = {
 
-  gatherDates: async function(session, idAndVersionArray) {
+  gatherDateFields: async function(session, idAndVersionArray) {
 
     const sf = refresh(session),
           coerceReq = { session: session },

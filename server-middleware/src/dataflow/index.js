@@ -1,7 +1,36 @@
 const { sfApi } = require('../utilities'),
       { refresh } = require('../auth'),
       { dataflowJobPoller } = require('../poller'),
+      { gatherDateValues } = require('../refresh'),
       { BatchQuery, LatestDateQuery, Dataflow } = require('../classes');
+
+const mergeBranches = (branchArray) => {
+  const def = {}
+  for (const b of branchArray) {
+    Object.assign(def, b.object)
+  } return def
+}
+
+const createNames = (label) => {
+
+  const mainLabel = label.trim(),
+        mainDevName = label.replace(/[^a-z^A-Z]/g, '_'),
+        primerLabel = `PRIMER ${mainLabel}`,
+        primerDevName = 'ltts_primer_' + mainDevName;
+
+  return {
+    mainLabel,
+    mainDevName,
+    primerLabel,
+    primerDevName
+  }
+
+}
+
+const suggestDates = (dateArray) => {
+
+}
+
 
 module.exports = (function () {
 
@@ -50,19 +79,41 @@ module.exports = (function () {
 
   methods.generateTimeshiftDataflow = async function(job) {
 
-    console.log('running generateTimeshiftDataflow')
-    console.log(job)
+    let mergeBranches = (branchArray) => {
+      const def = {}
+      for (const b of branchArray) {
+        Object.assign(def, b.object)
+      } return def
+    }
 
-    const { dataflowLabel, datasetArray } = job.data.body
+    const { session } = job.data,
+          { dataflowLabel, datasetArray } = job.data.body;
 
-    // timeshift !!
+    /* For each dataset field, gather the latest date. */
 
+    try {
 
+      const latestDates = await gatherDateValues(job)      
+      const dfNames = createNames(dataflowLabel)
 
+      // const primerDataflow = methods.createDataflow(session, {
+      //   DeveloperName: dfNames.primerDevName,
+      //   DeveloperLabel: dfNames.primerLabel,
+      //   DataflowDefinition: {}
+      // })
+      //
+      // const mainDataflow = methods.createDataflow(session, {
+      //   DeveloperName: dfNames.mainDevName,
+      //   DeveloperLabel: dfNames.mainLabel,
+      //   DataflowDefinition: {}
+      // })
 
+      return { message: 'Finished!', data: result }
 
-
-    return { message: 'done!' }
+    } catch (error) {
+      console.error(error.message)
+      return { message: error.message }
+    }
 
   },
 
