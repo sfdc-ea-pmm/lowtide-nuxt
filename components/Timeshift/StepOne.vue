@@ -122,7 +122,15 @@ export default {
             this.$store.commit(`setConfirmTimeshiftSelection` , this.timeshiftDatasets);
             try {
                 const response = await this.$axios.get(`http://localhost:3000/api/data/folder`, {withCredentials: true});
+                /*
+                function timeout(ms) {
+                    return new Promise(resolve => setTimeout(resolve, ms));
+                }
+                await timeout(3000);
+                console.log('folders')
+                */
                 this.folders = response.data.data;
+                this.getDatasets();
                 //this.isLoading = false;
             } catch (e) {
                 this.folders = [];
@@ -141,6 +149,7 @@ export default {
             this.$store.commit(`setConfirmTimeshiftSelection` , this.timeshiftDatasets);
             try {
                 const response = await this.$axios.get(`http://localhost:3000/api/data/dataset`, {withCredentials: true});
+                //console.log('datasets')
                 this.datasets = response.data.data;
                 this.datasets.forEach((v, i) => {
                     this.family[v.FolderId].push(v);
@@ -178,7 +187,7 @@ export default {
     },
     created() {
         this.getFolders();
-        this.getDatasets();
+        //this.getDatasets();
     },
 }
 </script>

@@ -204,7 +204,6 @@ export default {
         activeEvents.forEach(event => {
             vm.socket.on(event, (message) => {
                 let currentTime = this.getCurrentTime();
-                console.log(message);
                 if(message.event.producer==='lowtide.deployQueue'){
                     let type = (event==='jobError' || event==='serverError') ? 'error' : 'success';
                     let text = (event==='jobError' || event==='serverError') ? `${message.data.job.context.template} had a error.` : `${message.data.job.context.template} has been successfully deployed.`;
@@ -222,7 +221,12 @@ export default {
             });
         });
 
-        //const eventsList = [ 'jobStarted', 'jobInfo', 'jobSuccess', 'jobError', 'serverError' ];
+        const eventsList = [ 'jobStarted', 'jobInfo', 'jobSuccess', 'jobError', 'serverError' ];
+        for (const e of eventsList) {
+            vm.socket.on(e, (message) => {
+                console.log(message);
+            });
+        }
 
     },
     watch: {

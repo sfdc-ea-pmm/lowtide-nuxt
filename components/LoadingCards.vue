@@ -37,14 +37,5 @@ export default {
 </script>
 
 <style>
-    @keyframes shine {
-        to {
-            background-position-x: -200%;
-        }
-    }
-    .loading-card span{
-        background: linear-gradient(to right, #ececec 8%, #f5f5f5 18%, #ececec 33%, #f5f5f5 45%, #ececec 55%);
-        background-size: 200% 100%;
-        animation: 1.5s shine linear infinite;
-    }
+
 </style>

@@ -25,7 +25,7 @@
                     </div>
                 </div>
             </div>
-            <div class="rounded-md bg-blue-50 p-4 mb-6">
+            <div class="rounded-md bg-blue-50 p-4 mb-6" v-show="this.confirmTimeshiftSelection.length > 0">
                 <div class="flex">
                     <div class="flex-shrink-0">
                         <svg class="h-5 w-5 text-blue-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
@@ -46,16 +46,16 @@
                             <div class="flex">
                                 <div class="flex-1">
                                     <p class="text-sm text-gray-500">
-                                        {{fields.length <= 0 ? '' : fields[i].connector}}
+                                        <span v-if="fields.length <= 0">Connector</span>
+                                        <span v-else>{{fields[i].connector}}</span>
                                     </p>
                                     <p class="text-xl font-medium text-gray-900">
                                         {{v.MasterLabel}}
                                     </p>
                                 </div>
                                 <div class="pt-2 pr-2">
-                                    <p class="text-xl font-medium text-gray-900">
-                                        {{fields.length <= 0 ? '' : fields[i].rows}}
-                                    </p>
+                                    <span class="text-xl font-medium text-gray-900"  v-if="fields.length<=0">0000</span>
+                                    <span class="text-xl font-medium text-gray-900" v-else>{{fields[i].rows}}</span>
                                     <p class="text-center text-xs text-gray-500">
                                         rows
                                     </p>
@@ -66,6 +66,13 @@
                                 <h2 class="text-gray-500 text-sm font-medium uppercase tracking-wide pb-2 pt-4">Date fields</h2>
                             </div>
                             <div class="mt-4 space-y-4">
+                                <div v-if="fields.length<=0" class="mt-6">
+                                    <div class="snippet" data-title=".dot-typing">
+                                        <div class="stage">
+                                            <div class="dot-typing mx-auto"></div>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="flex items-center" v-for="(va) in (fields.length<=0 ? [] : fields[i].dates)" v-bind:key="va.id">
                                     <button @click="setSelected(v.Id, va.alias)" type="button" class="flex-shrink-0 group relative rounded-full inline-flex items-center justify-center h-5 w-10 cursor-pointer focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 mr-4" role="switch" aria-checked="false">
                                         <span class="sr-only">Use setting</span>
@@ -75,8 +82,10 @@
                                         <span aria-hidden="true" :class="(selectedTimeshiftFields[fields[i].id+'_'+va.alias] ? 'translate-x-5 ' : 'translate-x-0 ') + 'pointer-events-none absolute left-0 inline-block h-5 w-5 border border-gray-200 rounded-full bg-white shadow transform ring-0 transition-transform ease-in-out duration-200'"></span>
 
                                     </button>
-                                    <span class="text-xs mr-2">{{va.alias}}</span>
-                                    <span class="text-xs text-gray-500">({{va.fullyQualifiedName}})</span>
+                                    <div>
+                                        <div class="text-xs">{{va.label}}</div>
+                                        <div class="text-xs text-gray-500">({{va.alias}})</div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
