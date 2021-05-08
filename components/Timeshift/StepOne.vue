@@ -2,7 +2,7 @@
 
     <div>
         <div class="flex justify-between items-center w-full">
-            <h2 class="text-gray-500 text-xs font-medium uppercase tracking-wide">Templates</h2>
+            <h2 class="text-gray-500 text-xs font-medium uppercase tracking-wide">Select datasets</h2>
             <div class="py-1 text-sm truncate flex items-center hidden">
                 <h2 class="text-gray-500 text-xs font-medium uppercase tracking-wide mr-2">Beta branch</h2>
                 <button @click="changeBranch()" type="button" class="flex-shrink-0 group relative rounded-full inline-flex items-center justify-center h-5 w-10 cursor-pointer focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 mr-4" role="switch" aria-checked="false">
@@ -146,7 +146,6 @@ export default {
                     this.family[v.FolderId].push(v);
                     this.accordion = {...this.accordion, [''+v.Id]: false};
                 });
-                console.log(this.datasets, this.family);
                 this.isLoading = false;
             } catch (e) {
                 this.datasets = [];
@@ -156,16 +155,22 @@ export default {
         setAccordion(id){
             this.accordion[id] = !this.accordion[id];
         },
-        setSelected(template){
+        setSelected(dataset){
             let selectedTmp = {...this.selectedTimeshift};
-            selectedTmp[template.Id] = !selectedTmp[template.Id];
+            selectedTmp[dataset.Id] = !selectedTmp[dataset.Id];
+            if('FolderId' in dataset){
+            }else{
+                this.family[dataset.Id].forEach((v, i) => {
+                    selectedTmp[v.Id] = selectedTmp[dataset.Id];
+                });
+            }
             this.$store.commit(`setSelectedTimeshift` , selectedTmp);
 
             this.timeshiftDatasets = this.confirmTimeshiftSelection;
-            if(selectedTmp[template.Id]){
-                this.timeshiftDatasets = [...this.timeshiftDatasets, template];
+            if(selectedTmp[dataset.Id]){
+                this.timeshiftDatasets = [...this.timeshiftDatasets, dataset];
             }else{
-                this.timeshiftDatasets = this.timeshiftDatasets.filter((v) => v.Id !== template.Id ? true : false);
+                this.timeshiftDatasets = this.timeshiftDatasets.filter((v) => v.Id !== dataset.Id ? true : false);
 
             }
             this.$store.commit(`setConfirmTimeshiftSelection` , this.timeshiftDatasets);

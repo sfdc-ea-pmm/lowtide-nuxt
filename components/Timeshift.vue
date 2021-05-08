@@ -2,6 +2,7 @@
 
     <div>
         <TimeshiftStepOne v-show="this.currentStep===0 && this.action==='Timeshift'"/>
+        <TimeshiftStepTwo v-show="this.currentStep===1 && this.action==='Timeshift'"/>
     </div>
         
 </template>

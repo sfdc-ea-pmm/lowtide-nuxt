@@ -2,7 +2,7 @@
 
     <div>
         <div class="flex justify-between items-center w-full">
-            <h2 class="text-gray-500 text-xs font-medium uppercase tracking-wide">Templates</h2>
+            <h2 class="text-gray-500 text-xs font-medium uppercase tracking-wide">Select templates</h2>
             <div class="py-1 text-sm truncate flex items-center hidden">
                 <h2 class="text-gray-500 text-xs font-medium uppercase tracking-wide mr-2">Beta branch</h2>
                 <button @click="changeBranch()" type="button" class="flex-shrink-0 group relative rounded-full inline-flex items-center justify-center h-5 w-10 cursor-pointer focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 mr-4" role="switch" aria-checked="false">
