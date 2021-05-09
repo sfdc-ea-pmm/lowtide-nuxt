@@ -30,7 +30,7 @@ const utilityMethods = {
 
     const socketCorsConfig = { cors: { origin: '*' } }
 
-    global.socket = socketio(3001, socketCorsConfig)
+    global.socket = socketio(process.env.SOCKET_PORT, socketCorsConfig)
 
     socket.use(socketSession(session))
 

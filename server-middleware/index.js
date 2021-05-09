@@ -18,7 +18,6 @@ app
   .use(allowedClients)
   .use(session)
   .use(api.router)
-  .listen(process.env.PORT || 3000)
 
 /* Socket Debug Page - Backend Dev Only!
 if (process.env.ENVIRONMENT === "development")

@@ -76,7 +76,7 @@ module.exports = {
 
     target = target || '/api'
 
-    if (process.env.ENVIRONMENT === 'development')
+    if (process.env.GENERATE_ROUTES_FILE)
       fs.writeFileSync(appRoot + '/config/routes.json', "{}")
 
     console.log('\nGenerating API structure...')
@@ -97,7 +97,7 @@ module.exports = {
 
       const routeJson = JSON.stringify(routesObject, null, 2)
 
-      if (process.env.ENVIRONMENT === 'development') {
+      if (process.env.GENERATE_ROUTES_FILE) {
         fs.writeFileSync(appRoot + '/config/routes.json', routeJson)
         console.log('\nFile written successfully. Generating router instance...')
       }

@@ -14,8 +14,8 @@ export default {
   ],
 
   env: {
-    API_URL: process.env.API_URL || 'http://localhost:3000/api',
-    HOSTNAME: process.env.HOSTNAME || 'http://localhost:3000'
+    API_URL: process.env.HOSTNAME + '/api',
+    HOSTNAME: process.env.HOSTNAME
   },
 
   head: {
@@ -51,7 +51,7 @@ export default {
   ],
 
   axios: {
-    baseURL: process.env.AXIOS_BASE_URL || 'http://localhost:3000/api'
+    baseURL: process.env.HOSTNAME + '/api'
   },
 
   io: {
