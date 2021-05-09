@@ -7,7 +7,7 @@ const { setGlobals } = require('./src/utilities')
 
 const app = express()
 
-// Pass socket server rather than null, dude.
+// Pass socket server rather than null if standalone api.
 const { allowedClients, session } = setGlobals(__dirname, null)
 
 app
