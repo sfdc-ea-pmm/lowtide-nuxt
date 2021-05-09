@@ -21,7 +21,7 @@ module.exports = {
       await auth.writeAuthToSession(req, sf)
 
       const nextUrl = process.env.ENVIRONMENT  === 'development'
-        ? '/' : process.env.FRONTEND_HOSTNAME + '/deploy';
+        ? '/' : process.env.HOSTNAME + '/deploy';
 
       return res.redirect(nextUrl)
 
