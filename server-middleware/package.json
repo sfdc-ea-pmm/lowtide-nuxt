@@ -1,6 +1,6 @@
 {
-  "name": "lowtide",
-  "version": "2.2.0",
+  "name": "lowtide-api",
+  "version": "4.0.0",
   "description": "Tableau CRM Analytics Tooling via API",
   "main": "index.js",
   "scripts": {
