@@ -129,7 +129,6 @@ module.exports = {
 
     } catch (error) {
       console.error(error)
-      console.log('Write failed. Aborting.')
       process.exit(0)
     }
 
