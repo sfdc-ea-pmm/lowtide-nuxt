@@ -35,15 +35,25 @@
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
                                 </svg>
-                                <span class="flex-grow">Login with credentials</span>
+                                <span class="flex-grow">Login with Credentials</span>
                             </span>
                         </button>
                     </div>
+                    <div class="relative">
+                    <div class="absolute inset-0 flex items-center" aria-hidden="true">
+                      <div class="w-full border-t border-gray-300" />
+                    </div>
+                    <div class="relative flex justify-center">
+                      <span class="px-2 bg-white text-sm text-gray-500">
+                        or
+                      </span>
+                    </div>
+                  </div>
                     <div>
                         <button @click="loginSalesforce()" :disabled="btnOauthLoading || btnCredentialsLoading" type="button" :class="(btnOauthLoading || btnCredentialsLoading ? 'cursor-not-allowed ' : '') + 'disabled:opacity-50 w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500'">
                             <div v-if="btnOauthLoading" class="loader animate-spin"></div>
                             <div class="flex justify-center flex-row flex-grow" v-else>
-                                <SvgSalesforce /> 
+                                <SvgSalesforce />
                                 <span class="flex-grow">Login with Salesforce</span>
                             </div>
                         </button>
@@ -76,7 +86,7 @@ export default {
         async login() {
             this.btnCredentialsLoading = true;
             try {
-                await this.$axios.post('http://localhost:3000/api/auth/login', {
+                const res = await this.$axios.post('http://localhost:3000/api/auth/login', {
                     username: this.username,
                     password: this.password
                 }, {withCredentials: true});
@@ -114,7 +124,7 @@ export default {
         }
     },
     mounted: function () {
-        
+
     },
 }
 </script>

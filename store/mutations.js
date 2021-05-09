@@ -14,4 +14,26 @@ export default {
     setModalStatus(state, status) {
         state.modalStatus = status;
     },
+    setSelectedDeploy(state, object) {
+        state.selectedDeploy = object;
+    },
+    setConfirmDeploySelection(state, array) {
+        state.confirmDeploySelection = array;
+    },
+    setSelectedTimeshift(state, object) {
+        state.selectedTimeshift = object;
+    },
+    setConfirmTimeshiftSelection(state, array) {
+        state.confirmTimeshiftSelection = array;
+    },
+    setFinishedProcess(state, status) {
+        state.finishedProcess = status;
+    },
+    setSession(state, status) {
+        state.session = status;
+    },
+    setNotifications(state, notifications) {
+        sessionStorage.notifications = JSON.stringify(notifications);
+        state.notifications = notifications;
+    },
 }

@@ -1,8 +1,23 @@
 export default {
+
   ssr: false,
-  serverMiddleware: {
-    '/api': '~/server-middleware/app.js'
+
+  server: {
+    port: 3000,
+    host: '0.0.0.0'
   },
+
+  serverMiddleware: [
+    {
+      path: '/api', handler: '~/server-middleware/index.js'
+    }
+  ],
+
+  env: {
+    API_URL: process.env.API_URL || 'http://localhost:3000/api',
+    HOSTNAME: process.env.HOSTNAME || 'http://localhost:3000'
+  },
+
   head: {
     title: 'Lowtide',
     htmlAttrs: {
@@ -17,20 +32,41 @@ export default {
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
     ]
   },
+
   css: [
     '@/assets/css/main.css',
   ],
-  plugins: [
-  ],
+
+  plugins: [],
+
   components: true,
+
   buildModules: [
     '@nuxtjs/tailwindcss',
   ],
+
   modules: [
     '@nuxtjs/axios',
+    'nuxt-socket-io'
   ],
+
+  axios: {
+    baseURL: 'http://localhost:3000/api'
+  },
+
+  io: {
+    // we could have multiple sockets that we identify with names
+    // one of these sockets may have set "default" to true
+    sockets: [{
+      default: true, // make this the default socket
+      name: 'main', // give it a name that we can later use to choose this socket in the .vue file
+      url: 'http://localhost:3001' // URL wherever your socket IO server runs
+    }]
+  },
+
   build: {
   },
+
   router: {
     extendRoutes(routes, resolve) {
       routes.push({
@@ -40,4 +76,5 @@ export default {
       })
     }
   }
+
 }

@@ -1,0 +1,301 @@
+{
+  "auth-callback": {
+    "id": "i7Ixf_J94b",
+    "name": "auth-callback",
+    "isIndex": true,
+    "path": "/auth/callback",
+    "controller": "/api/auth/callback/index.js",
+    "methods": [
+      "GET"
+    ]
+  },
+  "auth-login": {
+    "id": "jW0AdJhVq9",
+    "name": "auth-login",
+    "isIndex": true,
+    "path": "/auth/login",
+    "controller": "/api/auth/login/index.js",
+    "methods": [
+      "POST"
+    ]
+  },
+  "auth-oauth": {
+    "id": "F7VEHJvy5f",
+    "name": "auth-oauth",
+    "isIndex": true,
+    "path": "/auth/oauth",
+    "controller": "/api/auth/oauth/index.js",
+    "methods": [
+      "GET"
+    ]
+  },
+  "auth-revoke": {
+    "id": "S_4lVhLcUW",
+    "name": "auth-revoke",
+    "isIndex": true,
+    "path": "/auth/revoke",
+    "controller": "/api/auth/revoke/index.js",
+    "methods": [
+      "GET"
+    ]
+  },
+  "auth-session": {
+    "id": "xK8x-0N1x5",
+    "name": "auth-session",
+    "isIndex": true,
+    "path": "/auth/session",
+    "controller": "/api/auth/session/index.js",
+    "methods": [
+      "GET"
+    ]
+  },
+  "auth-sfdc": {
+    "id": "FUceupNDbs",
+    "name": "auth-sfdc",
+    "isIndex": true,
+    "path": "/auth/sfdc",
+    "controller": "/api/auth/sfdc/index.js",
+    "methods": [
+      "POST"
+    ]
+  },
+  "data-dataflow-id": {
+    "id": "OdXJKFQ3oW",
+    "name": "data-dataflow-id",
+    "isIndex": false,
+    "path": "/data/dataflow/:id",
+    "controller": "/api/data/dataflow/_id.js",
+    "methods": [
+      "GET",
+      "DELETE"
+    ]
+  },
+  "data-dataflow-download-id": {
+    "id": "UbIkSmJ2IH",
+    "name": "data-dataflow-download-id",
+    "isIndex": false,
+    "path": "/data/dataflow/download/:id",
+    "controller": "/api/data/dataflow/download/_id.js",
+    "methods": [
+      "GET"
+    ]
+  },
+  "data-dataflow-folder-id": {
+    "id": "qppx7eu2V-",
+    "name": "data-dataflow-folder-id",
+    "isIndex": false,
+    "path": "/data/dataflow/folder/:id",
+    "controller": "/api/data/dataflow/folder/_id.js",
+    "methods": [
+      "GET"
+    ]
+  },
+  "data-dataflow": {
+    "id": "hxQB0hwfQi",
+    "name": "data-dataflow",
+    "isIndex": true,
+    "path": "/data/dataflow",
+    "controller": "/api/data/dataflow/index.js",
+    "methods": [
+      "GET",
+      "POST"
+    ]
+  },
+  "data-dataflow-timeshift": {
+    "id": "sl6l74paHJ",
+    "name": "data-dataflow-timeshift",
+    "isIndex": true,
+    "path": "/data/dataflow/timeshift",
+    "controller": "/api/data/dataflow/timeshift/index.js",
+    "methods": [
+      "GET"
+    ]
+  },
+  "data-dataset-id": {
+    "id": "2z6OP8QoMq",
+    "name": "data-dataset-id",
+    "isIndex": false,
+    "path": "/data/dataset/:id",
+    "controller": "/api/data/dataset/_id.js",
+    "methods": [
+      "GET"
+    ]
+  },
+  "data-dataset-folder-id": {
+    "id": "kzXapCSdBJ",
+    "name": "data-dataset-folder-id",
+    "isIndex": false,
+    "path": "/data/dataset/folder/:id",
+    "controller": "/api/data/dataset/folder/_id.js",
+    "methods": [
+      "GET"
+    ]
+  },
+  "data-dataset": {
+    "id": "rX8bP6TVD7",
+    "name": "data-dataset",
+    "isIndex": true,
+    "path": "/data/dataset",
+    "controller": "/api/data/dataset/index.js",
+    "methods": [
+      "GET"
+    ]
+  },
+  "data-dataset-xmd": {
+    "id": "vW-t-H7HJD",
+    "name": "data-dataset-xmd",
+    "isIndex": true,
+    "path": "/data/dataset/xmd",
+    "controller": "/api/data/dataset/xmd/index.js",
+    "methods": [
+      "POST"
+    ]
+  },
+  "data-folder-id": {
+    "id": "opwKeySgsH",
+    "name": "data-folder-id",
+    "isIndex": false,
+    "path": "/data/folder/:id",
+    "controller": "/api/data/folder/_id.js",
+    "methods": [
+      "GET"
+    ]
+  },
+  "data-folder": {
+    "id": "ZjDF1QJOzC",
+    "name": "data-folder",
+    "isIndex": true,
+    "path": "/data/folder",
+    "controller": "/api/data/folder/index.js",
+    "methods": [
+      "GET"
+    ]
+  },
+  "data-job-id": {
+    "id": "BwSl_3TXDf",
+    "name": "data-job-id",
+    "isIndex": false,
+    "path": "/data/job/:id",
+    "controller": "/api/data/job/_id.js",
+    "methods": [
+      "GET"
+    ]
+  },
+  "data-job": {
+    "id": "iqCd9cbyMi",
+    "name": "data-job",
+    "isIndex": true,
+    "path": "/data/job",
+    "controller": "/api/data/job/index.js",
+    "methods": [
+      "GET"
+    ]
+  },
+  "data-repository": {
+    "id": "s87-Bs0Lpq",
+    "name": "data-repository",
+    "isIndex": true,
+    "path": "/data/repository",
+    "controller": "/api/data/repository/index.js",
+    "methods": [
+      "GET"
+    ]
+  },
+  "data-template-id": {
+    "id": "vpFKjMmj-k",
+    "name": "data-template-id",
+    "isIndex": false,
+    "path": "/data/template/:id",
+    "controller": "/api/data/template/_id.js",
+    "methods": [
+      "GET",
+      "DELETE"
+    ]
+  },
+  "data-template-download-id": {
+    "id": "Tp_Pn3J_OJ",
+    "name": "data-template-download-id",
+    "isIndex": false,
+    "path": "/data/template/download/:id",
+    "controller": "/api/data/template/download/_id.js",
+    "methods": [
+      "GET"
+    ]
+  },
+  "data-template": {
+    "id": "4YBjyPqgwz",
+    "name": "data-template",
+    "isIndex": true,
+    "path": "/data/template",
+    "controller": "/api/data/template/index.js",
+    "methods": [
+      "GET",
+      "POST",
+      "PUT"
+    ]
+  },
+  "services-dataflow-generate": {
+    "id": "-AqCz4WrGW",
+    "name": "services-dataflow-generate",
+    "isIndex": true,
+    "path": "/services/dataflow/generate",
+    "controller": "/api/services/dataflow/generate/index.js",
+    "methods": [
+      "POST"
+    ]
+  },
+  "services-dataflow-run-id": {
+    "id": "GsnNB7zt-I",
+    "name": "services-dataflow-run-id",
+    "isIndex": false,
+    "path": "/services/dataflow/run/:id",
+    "controller": "/api/services/dataflow/run/_id.js",
+    "methods": [
+      "GET"
+    ]
+  },
+  "services-dataset-download-id": {
+    "id": "Z6bU5nSS93",
+    "name": "services-dataset-download-id",
+    "isIndex": false,
+    "path": "/services/dataset/download/:id",
+    "controller": "/api/services/dataset/download/_id.js",
+    "methods": []
+  },
+  "services-dataset-refresh-id": {
+    "id": "0hWjD6b39B",
+    "name": "services-dataset-refresh-id",
+    "isIndex": false,
+    "path": "/services/dataset/refresh/:id",
+    "controller": "/api/services/dataset/refresh/_id.js",
+    "methods": []
+  },
+  "services-dataset-refresh": {
+    "id": "W5bfzq07rD",
+    "name": "services-dataset-refresh",
+    "isIndex": true,
+    "path": "/services/dataset/refresh",
+    "controller": "/api/services/dataset/refresh/index.js",
+    "methods": [
+      "GET"
+    ]
+  },
+  "services-template-deploy": {
+    "id": "nhC0I0cY-Z",
+    "name": "services-template-deploy",
+    "isIndex": true,
+    "path": "/services/template/deploy",
+    "controller": "/api/services/template/deploy/index.js",
+    "methods": [
+      "POST"
+    ]
+  },
+  "services-template-download-id": {
+    "id": "uKyFiGfVpl",
+    "name": "services-template-download-id",
+    "isIndex": false,
+    "path": "/services/template/download/:id",
+    "controller": "/api/services/template/download/_id.js",
+    "methods": []
+  }
+}

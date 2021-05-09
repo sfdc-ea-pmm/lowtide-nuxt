@@ -47,14 +47,17 @@
                                 {{this.action}}
                             </h1>
                             <div class="relative">
-                                <button @click="cancel()" v-show="this.action!=='Home'" type="button" :class="'disabled:opacity-50 inline-flex items-center px-2.5 py-1.5 border border-gray-300 shadow-sm text-xs leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'">
+                                <button @click="cancel()" v-show="this.action!=='Home' && !this.finishedProcess" type="button" :class="'disabled:opacity-50 inline-flex items-center px-2.5 py-1.5 border border-gray-300 shadow-sm text-xs leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'">
                                     Cancel
                                 </button>
-                                <button :disabled="this.currentStep===0" @click="previousStep()" v-show="this.action!=='Home'" type="button" :class="(this.currentStep===0 ? 'cursor-not-allowed ' : '') + 'disabled:opacity-50 inline-flex items-center px-2.5 py-1.5 border border-gray-300 shadow-sm text-xs leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'">
+                                <button :disabled="this.currentStep===0" @click="previousStep()" v-show="this.action!=='Home' && !this.finishedProcess" type="button" :class="(this.currentStep===0 ? 'cursor-not-allowed ' : '') + 'disabled:opacity-50 inline-flex items-center px-2.5 py-1.5 border border-gray-300 shadow-sm text-xs leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'">
                                     Previous
                                 </button>
-                                <button @click="nextStep()" v-show="this.action!=='Home'" type="button" class="inline-flex items-center px-2.5 py-1.5 border border-gray-300 shadow-sm text-xs leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                <button :disabled="this.currentStep===(this.steps.length-1)" @click="nextStep()" v-show="this.action!=='Home' && !this.finishedProcess" type="button" :class="(this.currentStep===(this.steps.length-1) ? 'cursor-not-allowed ' : '') + 'disabled:opacity-50 inline-flex items-center px-2.5 py-1.5 border border-gray-300 shadow-sm text-xs leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'">
                                     Next
+                                </button>
+                                <button @click="finished()" v-show="this.finishedProcess" type="button" class="inline-flex items-center px-2.5 py-1.5 border border-gray-300 shadow-sm text-xs leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                    Finish
                                 </button>
                             </div>
                         </div>
@@ -68,26 +71,29 @@
                 </div>
             </div>
             <div class="bg-gray-50 lg:flex-shrink-0 lg:border-l lg:border-gray-200 md:p-0">
-                <NotificationCenter v-bind:notifications="this.notifications" />
+                <NotificationCenter />
             </div>
         </div>
+        <Toast />
     </div>
-        
+
 </template>
 
 <script>
 export default {
-    async asyncData({ $axios, redirect }) {
+    async asyncData({ $axios, redirect, store }) {
         try {
             const response = await $axios.get('http://localhost:3000/api/auth/session', {withCredentials: true});
-            const session = response.data;
+            const session = response.data.data;
             if('salesforce' in session){
-                
+                store.commit(`setSession` , session);
             }else{
+                sessionStorage.removeItem('notifications');;
                 redirect('/login');
             }
             return { session }
         } catch (e) {
+            sessionStorage.removeItem('notifications');;
             redirect('/login');
         }
     },
@@ -97,32 +103,42 @@ export default {
         },
         currentStep () {
             return this.$store.state.currentStep;
-        }
+        },
+        finishedProcess () {
+            return this.$store.state.finishedProcess;
+        },
+        toastStatus () {
+            return this.$store.state.toastStatus;
+        },
+        notifications () {
+            return this.$store.state.notifications;
+        },
     },
 
     data() {
         return {
-            notifications: [
-                {title: 'Timeshift', time: '13:05:12', message: 'Your job has finished successfully.', type: 'success'},
-                {title: 'Deploy', time: '13:21:51', message: 'Your job has started.', type: 'info'},
-                {title: 'Deploy', time: '13:26:44', message: 'Your job has finished but an error has occurred.', type: 'error'},
-                {title: 'Timeshift', time: '13:35:51', message: 'Your job has started.', type: 'info'},
-                {title: 'Session', time: '13:36:39', message: 'Your session will expire soon.', type: 'info'},
-                {title: 'Timeshit', time: '13:46:22', message: 'Your job has finished successfully.', type: 'success'},
-                {title: 'Einstein Data Discovery', time: '13:52:49', message: 'Your job has started.', type: 'info'},
-                {title: 'Einstein Data Discovery', time: '13:53:09', message: 'Your job has finished but an error has occurred.', type: 'error'},
-            ],
             options: [
                 {title: 'Einstein Discovery Data', value: 'Einstein Discovery Data'},
                 {title: 'Deploy', value: 'Deploy'},
                 {title: 'Timeshift', value: 'Timeshift'}
             ],
             steps: [
-                {title: 'Select dataset parameters', description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text of the printing and typesetting industry.', type: 'current'},
-                {title: 'Define columns', description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.', type: 'upcoming'},
-                {title: 'Set relations', description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text of the printing and typesetting industry.', type: 'upcoming'},
-                {title: 'Generate data', description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text of the printing and typesetting industry.', type: 'upcoming'}
-                
+                {
+                  title: 'Select Dataset Parameters',
+                  description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text of the printing and typesetting industry.', type: 'current'
+                },
+                {
+                  title: 'Define Columns',
+                  description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.', type: 'upcoming'
+                },
+                {
+                  title: 'Set Relations',
+                  description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text of the printing and typesetting industry.', type: 'upcoming'
+                },
+                {
+                  title: 'Generate Data',
+                  description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text of the printing and typesetting industry.', type: 'upcoming'
+                }
             ],
             imgProfileHover: false,
             logoutLoading: false,
@@ -132,24 +148,41 @@ export default {
         async logout() {
             try {
                 this.logoutLoading = true;
-                await this.$axios.get('http://localhost:3000/api/auth/revoke', {withCredentials: true});            
+                await this.$axios.get('http://localhost:3000/api/auth/revoke', {withCredentials: true});
+                this.$store.commit(`setNotifications` , []);
+                sessionStorage.removeItem('notifications');
+                this.finished();
                 this.$router.push('/login');
             } catch (error) {
-                console.error(error);   
+                console.error(error);
             }
         },
-        async cancel() {
+        cancel() {
             this.$store.commit(`setAction` , 'Home');
             this.$store.commit(`setCurrentStep` , 0);
+            this.$store.commit(`setConfirmDeploySelection` , []);
+            this.$store.commit(`setSelectedDeploy` , {});
         },
-        async nextStep() {
+        finished() {
+            this.cancel();
+            this.$store.commit(`setFinishedProcess` , false);
+        },
+        nextStep() {
             this.$store.commit(`setCurrentStep` , this.currentStep+1);
         },
-        async previousStep() {
+        previousStep() {
             this.$store.commit(`setCurrentStep` , this.currentStep-1);
         },
         openModal(){
             this.$store.commit(`setModalStatus` , true);
+        },
+        getCurrentTime(){
+            let date = new Date();
+            let hours = date.getHours(),
+                minutes = date.getMinutes(),
+                seconds = date.getSeconds();
+            let currentTime = (hours < 10 ? '0' + hours : hours ) + ":" + (minutes < 10 ? '0' + minutes : minutes ) + ":" + (seconds < 10 ? '0' + seconds : seconds );
+            return currentTime;
         }
     },
     validate({redirect}) {
@@ -160,6 +193,40 @@ export default {
         }
     },
     mounted() {
+        const vm = this;
+        vm.socket = this.$nuxtSocket({
+            name: "main"
+        });
+        vm.socket.emit('subscribeToJobUpdates', this.session.socketRoom);
+
+        const activeEvents = [ 'jobSuccess', 'jobError', 'serverError' ];
+
+        activeEvents.forEach(event => {
+            vm.socket.on(event, (message) => {
+                let currentTime = this.getCurrentTime();
+                if(message.event.producer==='lowtide.deployQueue'){
+                    let type = (event==='jobError' || event==='serverError') ? 'error' : 'success';
+                    let text = (event==='jobError' || event==='serverError') ? `${message.data.job.context.template} had a error.` : `${message.data.job.context.template} has been successfully deployed.`;
+                    vm.$store.commit(`setToastStatus` , [{
+                        status: true,
+                        type: type,
+                        message: text,
+                        time: currentTime
+                    }, ...vm.toastStatus]);
+                    vm.$store.commit(`setNotifications` , [
+                        {title: 'Deploy', time: currentTime, message: text, type: type}
+                    , ...this.notifications]);
+                    
+                }
+            });
+        });
+
+        const eventsList = [ 'jobStarted', 'jobInfo', 'jobSuccess', 'jobError', 'serverError' ];
+        for (const e of eventsList) {
+            vm.socket.on(e, (message) => {
+                console.log(message);
+            });
+        }
 
     },
     watch: {
@@ -167,26 +234,69 @@ export default {
             switch (this.action) {
                 case 'Einstein Discovery Data':
                     this.steps = [
-                        {title: 'Select dataset parameters', description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text of the printing and typesetting industry.', type: 'current', type: 'current'},
-                        {title: 'Define columns', description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.', type: 'upcoming'},
-                        {title: 'Set relations', description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text of the printing and typesetting industry.', type: 'upcoming'},
-                        {title: 'Generate data', description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text of the printing and typesetting industry.', type: 'upcoming'}
-                        
+                        {
+                          title: 'Select Dataset Parameters',
+                          description: 'TBD',
+                          type: 'current'
+                        },
+                        {
+                          title: 'Define Columns',
+                          description: 'TBD',
+                          type: 'upcoming'
+                        },
+                        {
+                          title: 'Set Relations',
+                          description: 'TBD',
+                          type: 'upcoming'
+                        },
+                        {
+                          title: 'Generate Data',
+                          description: 'TBD',
+                          type: 'upcoming'
+                        },
                     ];
                     break;
                 case 'Deploy':
                     this.steps = [
-                        {title: 'Select templates', description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry', type: 'current'},
-                        {title: 'Confirm selection', description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry', type: 'upcoming'},
-                        {title: 'Results', description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry', type: 'upcoming'}
-                        
+                        {
+                          title: 'Select Templates',
+                          description: 'In this step, select the application templates you want to deploy into your Salesforce org. You can uncollapse each card for more information about dashboards, datasets, etc.',
+                          type: 'current'
+                        },
+                        {
+                          title: 'Confirm Selections',
+                          description: 'Make sure you have selected all the assets you want. Feel free to step backwards and add or remove more templates!',
+                          type: 'upcoming'
+                        },
+                        {
+                          title: 'Deploy Templates',
+                          description: 'Off we go! Deploy the templates to your Salesforce org and view the notifications panel for updates.',
+                          type: 'upcoming'
+                        }
                     ];
                     break;
                 case 'Timeshift':
                     this.steps = [
-                        {title: 'Select datasets', description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry', type: 'current'},
-                        {title: 'Timeshifting', description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry', type: 'upcoming'},
-                        {title: 'Results', description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry', type: 'upcoming'}
+                        {
+                          title: 'Select Datasets',
+                          description: 'Choose which datasets to include in your timeshifting dataflow. Remember, only datasets with date columns will be timeshifted properly.',
+                          type: 'current'
+                        },
+                        {
+                          title: 'Generate Dataflows',
+                          description: 'Two dataflows will be generated and inserted in your org, and a "primer" dataflow will be run.',
+                          type: 'upcoming'
+                        },
+                        {
+                          title: 'Delete Primer Dataflow',
+                          description: 'Now that we have properly configured your new timeshift datasets, we can remove the primer.',
+                          type: 'upcoming'
+                        },
+                        {
+                          title: 'Schedule Dataflow',
+                          description: 'Last but not least, to keep things perpetually up to date, we can schedule our timeshift dataflow to run regularly.',
+                          type: 'upcoming'
+                        },
                     ];
                     break;
             }

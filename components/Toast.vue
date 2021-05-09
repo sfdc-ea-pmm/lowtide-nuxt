@@ -1,19 +1,19 @@
 <template>
     <div class="fixed top-4 right-0 min-w-full">
         <transition-group name="toast" tag="div">
-            <div v-for="(v, i) in this.toastStatus" v-bind:key="v.time" aria-live="assertive" :class="/*(v.status ? 'toast-open ' : 'toast-close ') + */'flex items-end justify-end px-4 py-2 sticky top-0'">
+            <div v-for="(v, i) in this.toastStatus" v-bind:key="v.time" aria-live="assertive" :class="'flex items-end justify-end px-4 py-2 sticky top-0'">
                 <div class="max-w-sm w-full bg-white shadow-lg rounded-lg pointer-events-auto ring-1 ring-black ring-opacity-5 overflow-hidden">
                     <div class="p-4">
                         <div class="flex items-start">
                             <div class="flex-shrink-0 self-center">
                                 <!-- Heroicon name: outline/check-circle -->
-                                <svg v-show="v.type==='success'" class="h-7 w-7 text-green-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                                <svg v-show="v.type==='success'" class="h-7 w-7 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                                 </svg>
                                 <svg v-show="v.type==='info'" xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                                 </svg>
-                                <svg v-show="v.type==='error'" xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <svg v-show="v.type==='error'" xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
                                 </svg>
                             </div>

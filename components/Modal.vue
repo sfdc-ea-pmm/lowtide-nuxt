@@ -1,7 +1,7 @@
 <template>
     <div>
         <a @click.prevent="modalOpen()" href="#" class="text-blue-600 font-semibold hover:text-blue-900 md:hidden lg:hidden xl:block">
-            View all activity 
+            View all activity
             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline-block" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
             </svg>
@@ -59,7 +59,7 @@
                     </div>
                 </div>
             </div>
-        </div>          
+        </div>
     </div>
 </template>
 
@@ -96,6 +96,7 @@ export default {
                 {title: 'Time', value: 'time'},
                 {title: 'Message', value: 'message'}
             ],
+            latestTickId: 0
         }
     },
     methods: {
@@ -109,7 +110,7 @@ export default {
         }
     },
     mounted() {
-        
+
     },
 }
 </script>
