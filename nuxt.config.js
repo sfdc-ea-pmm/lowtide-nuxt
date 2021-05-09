@@ -14,8 +14,8 @@ export default {
   ],
 
   env: {
-    API_URL: process.env.API_URL || 'https://lowtidebeta.herokuapp.com:3000/api',
-    HOSTNAME: process.env.HOSTNAME || 'https://lowtidebeta.herokuapp.com:3000'
+    API_URL: process.env.API_URL || 'http://localhost:3000/api',
+    HOSTNAME: process.env.HOSTNAME || 'http://localhost:3000'
   },
 
   head: {
@@ -51,7 +51,7 @@ export default {
   ],
 
   axios: {
-    baseURL: 'https://lowtidebeta.herokuapp.com:3000/api'
+    baseURL: 'http://localhost:3000/api'
   },
 
   io: {
@@ -60,7 +60,7 @@ export default {
     sockets: [{
       default: true, // make this the default socket
       name: 'main', // give it a name that we can later use to choose this socket in the .vue file
-      url: 'https://lowtidebeta.herokuapp.com:3001' // URL wherever your socket IO server runs
+      url: 'http://localhost:3001' // URL wherever your socket IO server runs
     }]
   },
 

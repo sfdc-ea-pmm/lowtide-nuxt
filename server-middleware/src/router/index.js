@@ -104,7 +104,7 @@ module.exports = {
 
       let router = express.Router()
 
-      //router.use(required)
+      router.use(required)
 
       const staticRoutes = [],
             dynamicRoutes = [];
