@@ -82,7 +82,7 @@ export default {
         async login() {
             this.btnCredentialsLoading = true;
             try {
-                const res = await this.$axios.post('/auth/login', {
+                const res = await this.$axios.post(`${process.env.API_URL}/auth/login`, {
                     username: this.username,
                     password: this.password
                 }, {withCredentials: true});

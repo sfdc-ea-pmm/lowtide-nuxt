@@ -103,7 +103,7 @@ export default {
             selectedTemplates.forEach(v => {
                 body.push(v.api_name);
             });
-            await this.$axios.post('/services/template/deploy', body, {withCredentials: true});
+            await this.$axios.post(`${process.env.API_URL}/services/template/deploy`, body, {withCredentials: true});
 
             this.$store.commit(`setFinishedProcess` , true);
         },

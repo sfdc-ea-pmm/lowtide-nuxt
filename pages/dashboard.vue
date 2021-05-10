@@ -26,7 +26,10 @@
                                     </div>
                                     <div class="flex sm:flex-row xl:flex-col space-x-2 select-basis w-full justify-between">
                                         <Select v-bind:options="this.options" v-bind:mutation="'setAction'" v-bind:label="'Select an action'" v-bind:step="this.currentStep" />
-                                        <button @click="openModal()" type="button" class="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 xl:hidden h-fit">
+                                        <button @click="openModal()" type="button" class="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 xl:hidden h-fit relative">
+                                            <div class="rounded-full bg-blue-500 absolute w-4 h-4 -top-2 -left-2" v-show="!this.notificationsViewed">
+                                                
+                                            </div>
                                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
                                             </svg>
@@ -83,7 +86,7 @@
 export default {
     async asyncData({ $axios, redirect, store }) {
         try {
-            const response = await $axios.get('/auth/session', { withCredentials: true });
+            const response = await $axios.get(`${process.env.API_URL}/auth/session`, { withCredentials: true });
             const session = response.data.data;
             if('salesforce' in session){
               store.commit(`setSession` , session);
@@ -112,6 +115,9 @@ export default {
         },
         notifications () {
             return this.$store.state.notifications;
+        },
+        notificationsViewed () {
+            return this.$store.state.notificationsViewed;
         },
     },
 
@@ -148,7 +154,7 @@ export default {
         async logout() {
             try {
                 this.logoutLoading = true;
-                await this.$axios.get('/auth/revoke', {withCredentials: true});
+                await this.$axios.get(`${process.env.API_URL}/auth/revoke`, {withCredentials: true});
                 this.$store.commit(`setNotifications` , []);
                 sessionStorage.removeItem('notifications');
                 this.finished();
@@ -175,6 +181,9 @@ export default {
         },
         openModal(){
             this.$store.commit(`setModalStatus` , true);
+            if(!this.notificationsViewed){
+                this.$store.commit(`setNotificationsViewed` , true);
+            }
         },
         getCurrentTime(){
             let date = new Date();
@@ -206,7 +215,7 @@ export default {
                 let currentTime = this.getCurrentTime();
                 if(message.event.producer==='lowtide.deployQueue'){
                     let type = (event==='jobError' || event==='serverError') ? 'error' : 'success';
-                    let text = (event==='jobError' || event==='serverError') ? `${message.data.job.context.template} had a error.` : `${message.data.job.context.template} has been successfully deployed.`;
+                    let text = (event==='jobError' || event==='serverError') ? `${message.event.job.context.template} had a error.` : `${message.event.job.context.template} has been successfully deployed.`;
                     vm.$store.commit(`setToastStatus` , [{
                         status: true,
                         type: type,
@@ -216,6 +225,7 @@ export default {
                     vm.$store.commit(`setNotifications` , [
                         {title: 'Deploy', time: currentTime, message: text, type: type}
                     , ...this.notifications]);
+                    vm.$store.commit(`setNotificationsViewed` , false);
 
                 }
             });

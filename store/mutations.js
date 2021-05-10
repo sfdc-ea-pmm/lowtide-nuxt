@@ -36,4 +36,8 @@ export default {
         sessionStorage.notifications = JSON.stringify(notifications);
         state.notifications = notifications;
     },
+    setNotificationsViewed(state, status) {
+        sessionStorage.notificationsViewed = status;
+        state.notificationsViewed = status;
+    },
 }

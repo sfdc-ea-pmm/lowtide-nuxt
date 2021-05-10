@@ -138,7 +138,7 @@ export default {
             if(this.currentStep===1 && this.action==='Timeshift'){
 
                 const xmdBody = Object.values(this.selectedTimeshift)
-                const datasetXmds = await this.$axios.post('/data/dataset/xmd', xmdBody, { withCredentials: true });
+                const datasetXmds = await this.$axios.post(`${process.env.API_URL}/data/dataset/xmd`, xmdBody, { withCredentials: true });
 
                 this.fields = datasetXmds.data.data
                 this.isLoading = false

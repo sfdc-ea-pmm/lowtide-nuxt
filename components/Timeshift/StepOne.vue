@@ -97,8 +97,8 @@ export default {
       try {
 
         /* Gather Folders and Datasets */
-        const folderReq = await this.$axios.get(`/data/folder`, axiosOptions)
-        const datasetReq = await this.$axios.get(`/data/dataset`, axiosOptions)
+        const folderReq = await this.$axios.get(`${process.env.API_URL}/data/folder`, axiosOptions)
+        const datasetReq = await this.$axios.get(`${process.env.API_URL}/data/dataset`, axiosOptions)
 
         /* Group both by shared key */
         const datasetsGroupedByFolderId = groupBy(datasetReq.data.data, 'FolderId')
