@@ -3,7 +3,7 @@ export default {
   ssr: false,
 
   server: {
-    port: 3000,
+    port: 0,
     host: '0.0.0.0'
   },
 
