@@ -9,7 +9,7 @@ export default {
   },
 
   serverMiddleware: [
-
+    'redirect-ssl',
     {
       path: '/api', handler: '~/server-middleware/index.js'
     }
