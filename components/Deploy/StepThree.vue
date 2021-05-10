@@ -15,7 +15,7 @@
                     </p>
                     <p class="mt-3 text-sm md:mt-0 md:ml-6">
                         <a @click.prevent="previousStep()" href="#" class="whitespace-nowrap font-medium text-blue-700 hover:text-blue-500">
-                            Previous 
+                            Previous
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 15l-3-3m0 0l3-3m-3 3h8M3 12a9 9 0 1118 0 9 9 0 01-18 0z" />
                             </svg>
@@ -60,7 +60,7 @@
                     </p>
                     <p class="mt-3 text-sm md:mt-0 md:ml-6">
                         <a @click.prevent="finished()" href="#" class="whitespace-nowrap font-medium text-blue-700 hover:text-blue-500">
-                            Finish 
+                            Finish
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                             </svg>
@@ -69,9 +69,9 @@
                 </div>
             </div>
         </div>
-        
+
     </div>
-        
+
 </template>
 
 <script>
@@ -93,7 +93,7 @@ export default {
 
     data() {
         return {
-            
+
         }
     },
     methods: {
@@ -103,7 +103,7 @@ export default {
             selectedTemplates.forEach(v => {
                 body.push(v.api_name);
             });
-            await this.$axios.post('http://localhost:3000/api/services/template/deploy', body, {withCredentials: true});
+            await this.$axios.post('/services/template/deploy', body, {withCredentials: true});
 
             this.$store.commit(`setFinishedProcess` , true);
         },
@@ -122,7 +122,7 @@ export default {
         },
     },
     created() {
-        
+
     },
 }
 </script>

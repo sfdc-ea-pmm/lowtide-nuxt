@@ -129,7 +129,7 @@ export default {
             this.deployTemplates = [];
             this.$store.commit(`setConfirmDeploySelection` , this.deployTemplates);
             try {
-                const response = await this.$axios.get(`http://localhost:3000/api/data/repository`, {withCredentials: true});
+                const response = await this.$axios.get(`/data/repository`, {withCredentials: true});
                 this.templates = response.data.data;
                 this.isLoading = false;
             } catch (e) {
