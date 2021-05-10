@@ -18,7 +18,11 @@ app
   .use(allowedClients)
   .use(session)
   .use(api.router)
+<<<<<<< HEAD
   //.listen(process.env.PORT || 8080)
+=======
+  .listen(process.env.PORT || 80)
+>>>>>>> bcd80ee4fd015d081be569b75cef6fb389525b5a
 
 /* Socket Debug Page - Backend Dev Only!
 if (process.env.ENVIRONMENT === "development")
