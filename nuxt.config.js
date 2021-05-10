@@ -1,12 +1,15 @@
 export default {
 
-  ssr: true,
+  ssr: false,
   target: 'server',
 
-
+  server: {
+    port: '0',
+    host: '0.0.0.0'
+  },
 
   serverMiddleware: [
-    'redirect-ssl',
+
     {
       path: '/api', handler: '~/server-middleware/index.js'
     }
@@ -50,7 +53,7 @@ export default {
   ],
 
   axios: {
-    baseURL: process.env.HOSTNAME + '/api'
+    baseURL: process.env.API_URL
   },
 
   io: {
