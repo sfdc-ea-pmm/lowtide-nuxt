@@ -100,12 +100,6 @@ module.exports = {
   },
 
   required: function(req, res, next) {
-    console.log(
-      req.baseUrl,
-      req.url,
-      'isAuthenticating', isAuthenticating(req),
-      'foundConnection', foundConnection(req)
-    )
     if (!isAuthenticating(req) && !foundConnection(req))
       return handleError(res, { status: 403, message: 'No Salesforce authentication found.' })
     else if (!isAuthenticating(req) && foundConnection(req))

@@ -19,7 +19,7 @@
                 For developers or those with enough knowledge of javascript to be dangerous, we've made available <a class="font-bold text-blue-600 cursor-pointer hover:text-blue-500" href="#">lowtide-boilerplate</a>, an application shell designed to allow you to develop your own tools by providing a simple API layer with authentication into Salesforce and the basic frontend skeleton that you see in this very app.
                 </p>
                 <p>
-                Please direct any questions or issues to <strong>Luc Iyer</strong> by clicking "Email" below. 
+                Please direct any questions or issues to <strong>Luc Iyer</strong> by clicking "Email" below.
                 </p>
             </dd>
         </div>
@@ -119,14 +119,14 @@ export default {
     data() {
         return {
             developers: [
-                {name: 'Romario Sarmiento', email: 'rsarmiento@salesforce.com', img: 'https://images.unsplash.com/photo-1513910367299-bce8d8a0ebf6?ixlib=rb-1.2.1&ixqx=Tt6LMluVtn&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80', position: 'Frontend Development', github: 'http://github.com/romariosc97'},
-                {name: 'Luc Iyer', email: 'luciyer@salesforce.com', img: 'https://images.unsplash.com/photo-1517070208541-6ddc4d3efbcb?ixlib=rb-1.2.1&ixqx=Tt6LMluVtn&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80', position: 'Backend & API Development', github: 'http://github.com/luciyer'}
+                {name: 'Luc Iyer', email: 'luciyer@salesforce.com', img: require('~/assets/img/luc.jpeg'), position: 'Backend & API Development', github: 'http://github.com/luciyer'},
+                {name: 'Romario Sarmiento', email: 'rsarmiento@salesforce.com', img: require('~/assets/img/romario.jpeg'), position: 'Frontend Development', github: 'http://github.com/romariosc97'}
             ],
             teamMembers: [
-                {name: 'Jayger McGough', email: 'jmcgough@salesforce.com', img: 'https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?ixlib=rb-1.2.1&ixqx=Tt6LMluVtn&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80'},
-                {name: 'Aditi Patel', email: 'aditi.patel@salesforce.com', img: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixqx=Tt6LMluVtn&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80'},
-                {name: 'Rodrigo Mercader', email: 'rmercader@salesforce.com', img: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-1.2.1&ixqx=Tt6LMluVtn&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80'},
-                {name: 'Juan Ferreira', email: 'juan.ferreira@salesforce.com', img: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixqx=Tt6LMluVtn&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80'}
+                {name: 'Jayger McGough', email: 'jmcgough@salesforce.com', img: require('~/assets/img/jayger.jpeg') },
+                {name: 'Aditi Patel', email: 'aditi.patel@salesforce.com', img: require('~/assets/img/aditi.jpeg') },
+                {name: 'Rodrigo Mercader', email: 'rmercader@salesforce.com', img: require('~/assets/img/rodrigo.png') },
+                {name: 'Juan Ferreira', email: 'juan.ferreira@salesforce.com', img: require('~/assets/img/juan.png') }
             ],
         }
     },
