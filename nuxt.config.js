@@ -4,11 +4,7 @@ export default {
   target: 'server',
 
   server: {
-<<<<<<< HEAD
-    port: '0',
-=======
-    port: '80',
->>>>>>> bcd80ee4fd015d081be569b75cef6fb389525b5a
+    port: process.env.PORT || 3000,
     host: '0.0.0.0'
   },
 

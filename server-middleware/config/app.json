@@ -7,7 +7,7 @@
   },
   "corsOptions": {
     "origin": [
-      "https://lowtide-demo.herokuapp.com",
+      "https://lowtidebeta.herokuapp.com",
       "http://localhost:3000"
     ],
     "credentials": true
