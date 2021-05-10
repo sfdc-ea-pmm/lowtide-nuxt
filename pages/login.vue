@@ -5,26 +5,22 @@
             <div class="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
                 <form @submit.prevent="login()" class="space-y-6" action="#" method="POST">
                     <div class="sm:mx-auto sm:w-full sm:max-w-md">
-                        <img class="mx-auto h-12 w-auto" src="https://tailwindui.com/img/logos/workflow-mark-blue-600.svg" alt="Workflow" />
-                        <h2 class="mt-2 text-center text-3xl font-extrabold text-gray-900">
-                            LOWTIDE
+                        <img class="mx-auto h-12 w-auto" src="~/assets/img/lt-logo.png" alt="Workflow" />
+                        <h2 class="mt-2 text-center text-3xl font-semibold text-gray-900">
+
                         </h2>
                     </div>
                     <div>
-                        <label for="username" class="block text-sm font-medium text-gray-700">
-                            Username
-                        </label>
+                        <label for="username" class="block text-sm font-medium text-gray-700"></label>
                         <div class="mt-1">
-                            <input v-model="username" id="username" name="username" type="text" autocomplete="username" required="" class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" />
+                            <input v-model="username" id="username" name="username" placeholder="user@demo.org" type="text" autocomplete="username" required="" class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" />
                         </div>
                     </div>
 
                     <div>
-                        <label for="password" class="block text-sm font-medium text-gray-700">
-                        Password
-                        </label>
+                        <label for="password" class="block text-sm font-medium text-gray-700"></label>
                         <div class="mt-1">
-                            <input v-model="password" id="password" name="password" type="password" autocomplete="current-password" required="" class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" />
+                            <input v-model="password" id="password" name="password" type="password" placeholder="password" autocomplete="current-password" required="" class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" />
                         </div>
                     </div>
 
