@@ -43,7 +43,7 @@ module.exports = {
     const prodCookieSettings = {
       maxAge: (180 * 60000),
       httpOnly: true,
-      secure: false, /* false for dev */
+      secure: true, /* false for dev */
       sameSite: 'none'
     }
 
