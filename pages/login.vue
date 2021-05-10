@@ -86,7 +86,7 @@ export default {
         async login() {
             this.btnCredentialsLoading = true;
             try {
-                const res = await this.$axios.post('http://localhost:3000/api/auth/login', {
+                const res = await this.$axios.post('/auth/login', {
                     username: this.username,
                     password: this.password
                 }, {withCredentials: true});
@@ -105,7 +105,7 @@ export default {
         },
         async loginSalesforce() {
             this.btnOauthLoading = true;
-            window.location.href = "http://localhost:3000/api/auth/oauth";
+            window.location.href = process.env.API_URL + "/auth/oauth";
         },
         getCurrentTime(){
             let date = new Date();

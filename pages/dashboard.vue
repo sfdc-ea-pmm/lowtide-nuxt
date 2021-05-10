@@ -83,13 +83,13 @@
 export default {
     async asyncData({ $axios, redirect, store }) {
         try {
-            const response = await $axios.get('http://localhost:3000/api/auth/session', {withCredentials: true});
+            const response = await $axios.get('/auth/session', { withCredentials: true });
             const session = response.data.data;
             if('salesforce' in session){
-                store.commit(`setSession` , session);
-            }else{
-                sessionStorage.removeItem('notifications');;
-                redirect('/login');
+              store.commit(`setSession` , session);
+            } else {
+              sessionStorage.removeItem('notifications');;
+              redirect('/login');
             }
             return { session }
         } catch (e) {
@@ -148,7 +148,7 @@ export default {
         async logout() {
             try {
                 this.logoutLoading = true;
-                await this.$axios.get('http://localhost:3000/api/auth/revoke', {withCredentials: true});
+                await this.$axios.get('/auth/revoke', {withCredentials: true});
                 this.$store.commit(`setNotifications` , []);
                 sessionStorage.removeItem('notifications');
                 this.finished();
@@ -216,7 +216,7 @@ export default {
                     vm.$store.commit(`setNotifications` , [
                         {title: 'Deploy', time: currentTime, message: text, type: type}
                     , ...this.notifications]);
-                    
+
                 }
             });
         });
