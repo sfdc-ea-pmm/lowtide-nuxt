@@ -1,4 +1,4 @@
-export default {
+const nuxtConfig = {
 
   ssr: false,
   target: 'server',
@@ -9,7 +9,6 @@ export default {
   },
 
   serverMiddleware: [
-    'redirect-ssl',
     {
       path: '/api', handler: '~/server-middleware/index.js'
     }
@@ -80,3 +79,8 @@ export default {
   }
 
 }
+
+if (process.ENVIRONMENT === 'development')
+  nuxtConfig.serverMiddleware.push('redirect-ssl')
+
+export default nuxtConfig
