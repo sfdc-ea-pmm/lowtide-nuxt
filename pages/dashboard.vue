@@ -9,7 +9,7 @@
                                 <div class="xl:space-y-8 lg:space-y-4 md:space-y-0 sm:flex sm:justify-between sm:items-center xl:block lg:flex-col">
                                     <div class="flex items-center space-x-3 lg:w-full">
                                         <div class="flex-shrink-0 h-12 w-12 relative">
-                                            <img @mouseenter="imgProfileHover=true" :class="(imgProfileHover ? '-z-index opacity-0 ' : '') + 'img-profile h-12 w-12 rounded-full'" src="https://images.unsplash.com/photo-1517365830460-955ce3ccd263?ixlib=rb-1.2.1&ixqx=Tt6LMluVtn&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=256&h=256&q=80" alt="">
+                                            <img @mouseenter="imgProfileHover=true" :class="(imgProfileHover ? '-z-index opacity-0 ' : '') + 'img-profile h-12 w-12 rounded-full'" src="~/assets/img/generic.png" alt="">
                                             <div @mouseleave="imgProfileHover=false" :class="(imgProfileHover ? 'cursor-pointer ' : '-z-index ') + 'flex justify-center items-center h-12 w-12 absolute top-0 left-0 rounded-full text-white' + (logoutLoading ? ' bg-blue-300' : ' bg-blue-500')">
                                                 <div v-if="logoutLoading" class="loader animate-spin"></div>
                                                 <svg v-else @click="logout()" xmlns="http://www.w3.org/2000/svg" :class="'logout h-6 w-6'" fill="none" viewBox="0 0 24 24" stroke="currentColor">
