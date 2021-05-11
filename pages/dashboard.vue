@@ -3,7 +3,7 @@
         <div class="flex-grow w-full mx-auto xl:pl-8 lg:flex">
             <div class="flex-1 min-w-0 bg-white lg:flex">
                 <div class="xl:flex-shrink-0 xl:w-72 lg:w-80 lg:border-r lg:border-gray-200 bg-white">
-                    <div :class="(this.action!=='Home' ? 'md:pb-2 ' : 'md:pb-6 ') + 'md:pl-6 pr-6 pt-6 xl:pb-4 xl:pl-0'">
+                    <div :class="(this.action!=='Home' && this.action!=='FAQ' ? 'md:pb-2 ' : 'md:pb-6 ') + 'md:pl-6 pr-6 pt-6 xl:pb-4 xl:pl-0'">
                         <div class="flex items-center justify-between">
                             <div class="flex-1 xl:space-y-8 md:space-y-6">
                                 <div class="xl:space-y-8 lg:space-y-4 md:space-y-0 sm:flex sm:justify-between sm:items-center xl:block lg:flex-col">
@@ -20,7 +20,7 @@
                                         <div class="space-y-0.5">
                                             <div class="text-sm font-medium text-gray-900">{{ session.salesforce.user.name }}</div>
                                             <a :href="session.salesforce.auth.instanceUrl" class="group flex items-center space-x-1.5">
-                                                <span class="text-sm text-gray-500 group-hover:text-gray-900 font-medium">{{ session.salesforce.user.username }}</span>
+                                                <span class="text-sm text-gray-500 group-hover:text-gray-900 font-medium truncate">{{ session.salesforce.user.username }}</span>
                                             </a>
                                         </div>
                                     </div>
@@ -36,7 +36,7 @@
                                         </button>
                                     </div>
                                 </div>
-                                <div v-show="this.action!=='Home'">
+                                <div v-show="this.action!=='Home' && this.action!=='FAQ'">
                                     <Steps v-bind:steps="this.steps" />
                                 </div>
                             </div>
@@ -50,13 +50,13 @@
                                 {{this.action}}
                             </h1>
                             <div class="relative">
-                                <button @click="cancel()" v-show="this.action!=='Home' && !this.finishedProcess" type="button" :class="'disabled:opacity-50 inline-flex items-center px-2.5 py-1.5 border border-gray-300 shadow-sm text-xs leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'">
+                                <button @click="cancel()" v-show="(this.action!=='Home' && this.action!=='FAQ') && !this.finishedProcess" type="button" :class="'disabled:opacity-50 inline-flex items-center px-2.5 py-1.5 border border-gray-300 shadow-sm text-xs leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'">
                                     Cancel
                                 </button>
-                                <button :disabled="this.currentStep===0" @click="previousStep()" v-show="this.action!=='Home' && !this.finishedProcess" type="button" :class="(this.currentStep===0 ? 'cursor-not-allowed ' : '') + 'disabled:opacity-50 inline-flex items-center px-2.5 py-1.5 border border-gray-300 shadow-sm text-xs leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'">
+                                <button :disabled="this.currentStep===0" @click="previousStep()" v-show="(this.action!=='Home' && this.action!=='FAQ') && !this.finishedProcess" type="button" :class="(this.currentStep===0 ? 'cursor-not-allowed ' : '') + 'disabled:opacity-50 inline-flex items-center px-2.5 py-1.5 border border-gray-300 shadow-sm text-xs leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'">
                                     Previous
                                 </button>
-                                <button :disabled="this.currentStep===(this.steps.length-1)" @click="nextStep()" v-show="this.action!=='Home' && !this.finishedProcess" type="button" :class="(this.currentStep===(this.steps.length-1) ? 'cursor-not-allowed ' : '') + 'disabled:opacity-50 inline-flex items-center px-2.5 py-1.5 border border-gray-300 shadow-sm text-xs leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'">
+                                <button :disabled="this.currentStep===(this.steps.length-1)" @click="nextStep()" v-show="(this.action!=='Home' && this.action!=='FAQ') && !this.finishedProcess" type="button" :class="(this.currentStep===(this.steps.length-1) ? 'cursor-not-allowed ' : '') + 'disabled:opacity-50 inline-flex items-center px-2.5 py-1.5 border border-gray-300 shadow-sm text-xs leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'">
                                     Next
                                 </button>
                                 <button @click="finished()" v-show="this.finishedProcess" type="button" class="inline-flex items-center px-2.5 py-1.5 border border-gray-300 shadow-sm text-xs leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
@@ -70,6 +70,7 @@
                         <Deploy v-show="this.action==='Deploy'" />
                         <Timeshift v-show="this.action==='Timeshift'" />
                         <DiscoveryData v-show="this.action==='Einstein Discovery Data'" />
+                        <FAQ v-show="this.action==='FAQ'" />
                     </div>
                 </div>
             </div>
@@ -208,36 +209,69 @@ export default {
         });
         vm.socket.emit('subscribeToJobUpdates', this.session.socketRoom);
 
-        const activeEvents = [ 'jobSuccess', 'jobError', 'serverError' ];
+        const activeEvents = [ 'jobStarted', 'jobSuccess', 'jobError', 'serverError' ];
 
         activeEvents.forEach(event => {
             vm.socket.on(event, (message) => {
+                console.log(message, event);
                 let currentTime = this.getCurrentTime();
-                if(message.event.producer==='lowtide.deployQueue'){
-                    let type = (event==='jobError' || event==='serverError') ? 'error' : 'success';
-                    let text = (event==='jobError' || event==='serverError') ? `${message.event.job.context.template} had a error.` : `${message.event.job.context.template} has been successfully deployed.`;
-                    vm.$store.commit(`setToastStatus` , [{
-                        status: true,
-                        type: type,
-                        message: text,
-                        time: currentTime
-                    }, ...vm.toastStatus]);
-                    vm.$store.commit(`setNotifications` , [
-                        {title: 'Deploy', time: currentTime, message: text, type: type}
-                    , ...this.notifications]);
-                    vm.$store.commit(`setNotificationsViewed` , false);
-
+                let type, text;
+                switch (event) {
+                    case 'jobError' || 'serverError':
+                        type = 'error';
+                        text = `${message.event.job.context.template} had a error.`;
+                        if(message.event.producer==='lowtide.deployQueue'){
+                            vm.$store.commit(`setToastStatus` , [{
+                                status: true,
+                                type: type,
+                                message: text,
+                                time: currentTime
+                            }, ...vm.toastStatus]);
+                            vm.$store.commit(`setNotifications` , [
+                                {title: 'Deploy', time: currentTime, message: text, type: type}
+                            , ...this.notifications]);
+                            vm.$store.commit(`setNotificationsViewed` , false);
+                        }
+                        break;
+                    case 'jobSuccess':
+                        type = 'success';
+                        text = `${message.event.job.context.template} has been successfully deployed.`;
+                        if(message.event.producer==='lowtide.deployQueue'){
+                            vm.$store.commit(`setToastStatus` , [{
+                                status: true,
+                                type: type,
+                                message: text,
+                                time: currentTime
+                            }, ...vm.toastStatus]);
+                            vm.$store.commit(`setNotifications` , [
+                                {title: 'Deploy', time: currentTime, message: text, type: type}
+                            , ...this.notifications]);
+                            vm.$store.commit(`setNotificationsViewed` , false);
+                        }
+                        break;
+                    case 'jobStarted':
+                        type = 'info';
+                        text = `${message.event.job.context.template} has started to deploy.`;
+                        if(message.event.producer==='lowtide.deployQueue'){
+                            vm.$store.commit(`setNotifications` , [
+                                {title: 'Deploy', time: currentTime, message: text, type: type}
+                            , ...this.notifications]);
+                            vm.$store.commit(`setNotificationsViewed` , false);
+                        }
+                        break;
+                    default:
+                        break;
                 }
             });
         });
-
+        /*
         const eventsList = [ 'jobStarted', 'jobInfo', 'jobSuccess', 'jobError', 'serverError' ];
         for (const e of eventsList) {
             vm.socket.on(e, (message) => {
                 console.log(message);
             });
         }
-
+        */
     },
     watch: {
         action: function () {
