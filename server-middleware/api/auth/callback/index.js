@@ -20,8 +20,7 @@ module.exports = {
       await sf.authorize(req.query.code)
       await auth.writeAuthToSession(req, sf)
 
-      const nextUrl = process.env.ENVIRONMENT  === 'development'
-        ? '/' : process.env.HOSTNAME + '/deploy';
+      const nextUrl = process.env.HOSTNAME + '/dashboard';
 
       return res.redirect(nextUrl)
 
