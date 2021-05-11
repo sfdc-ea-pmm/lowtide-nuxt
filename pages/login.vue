@@ -96,6 +96,7 @@ export default {
                     message: 'Invalid credentials.',
                     time: currentTime
                 }, ...this.toastStatus]);
+                setTimeout(() => { this.$store.commit(`setToastStatus` , this.toastStatus.filter((v) => v.time===currentTime ? false : true)); }, 5000);
                 this.btnCredentialsLoading = false;
             }
         },

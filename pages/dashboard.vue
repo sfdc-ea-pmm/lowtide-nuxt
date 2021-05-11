@@ -20,7 +20,7 @@
                                         <div class="space-y-0.5">
                                             <div class="text-sm font-medium text-gray-900">{{ session.salesforce.user.name }}</div>
                                             <a :href="session.salesforce.auth.instanceUrl" class="group flex items-center space-x-1.5">
-                                                <span class="text-sm text-gray-500 group-hover:text-gray-900 font-medium truncate">{{ session.salesforce.user.username }}</span>
+                                                <span class="text-sm text-gray-500 group-hover:text-gray-900 font-medium break-all">{{ session.salesforce.user.username }}</span>
                                             </a>
                                         </div>
                                     </div>
@@ -50,6 +50,9 @@
                                 {{this.action}}
                             </h1>
                             <div class="relative">
+                                <button @click="goHome()" v-show="this.action==='FAQ'" type="button" :class="'disabled:opacity-50 inline-flex items-center px-2.5 py-1.5 border border-gray-300 shadow-sm text-xs leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'">
+                                    Home
+                                </button>
                                 <button @click="cancel()" v-show="(this.action!=='Home' && this.action!=='FAQ') && !this.finishedProcess" type="button" :class="'disabled:opacity-50 inline-flex items-center px-2.5 py-1.5 border border-gray-300 shadow-sm text-xs leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'">
                                     Cancel
                                 </button>
@@ -164,6 +167,9 @@ export default {
                 console.error(error);
             }
         },
+        goHome() {
+            this.$store.commit(`setAction` , 'Home');
+        },
         cancel() {
             this.$store.commit(`setAction` , 'Home');
             this.$store.commit(`setCurrentStep` , 0);
@@ -209,7 +215,7 @@ export default {
         });
         vm.socket.emit('subscribeToJobUpdates', this.session.socketRoom);
 
-        const activeEvents = [ 'jobStarted', 'jobSuccess', 'jobError', 'serverError' ];
+        const activeEvents = [ 'jobStarted', 'jobInfo', 'jobProgress', 'jobSuccess', 'jobError', 'serverError' ];
 
         activeEvents.forEach(event => {
             vm.socket.on(event, (message) => {
@@ -227,6 +233,7 @@ export default {
                                 message: text,
                                 time: currentTime
                             }, ...vm.toastStatus]);
+                            setTimeout(() => { this.$store.commit(`setToastStatus` , this.toastStatus.filter((v) => v.time===currentTime ? false : true)); }, 5000);
                             vm.$store.commit(`setNotifications` , [
                                 {title: 'Deploy', time: currentTime, message: text, type: type}
                             , ...this.notifications]);
@@ -243,6 +250,7 @@ export default {
                                 message: text,
                                 time: currentTime
                             }, ...vm.toastStatus]);
+                            setTimeout(() => { this.$store.commit(`setToastStatus` , this.toastStatus.filter((v) => v.time===currentTime ? false : true)); }, 5000);
                             vm.$store.commit(`setNotifications` , [
                                 {title: 'Deploy', time: currentTime, message: text, type: type}
                             , ...this.notifications]);
@@ -260,6 +268,7 @@ export default {
                         }
                         break;
                     default:
+                        
                         break;
                 }
             });
