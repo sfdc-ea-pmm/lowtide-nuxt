@@ -8,14 +8,10 @@ const nuxtConfig = {
     host: '0.0.0.0'
   },
 
-  serverMiddleware: [
-    {
-      path: '/api', handler: '~/server-middleware/index.js'
-    }
-  ],
+  serverMiddleware: [],
 
   env: {
-    API_URL: process.env.HOSTNAME + '/api',
+    API_URL: process.env.API_URL,
     HOSTNAME: process.env.HOSTNAME
   },
 
@@ -56,12 +52,10 @@ const nuxtConfig = {
   },
 
   io: {
-    // we could have multiple sockets that we identify with names
-    // one of these sockets may have set "default" to true
     sockets: [{
-      default: true, // make this the default socket
-      name: 'main', // give it a name that we can later use to choose this socket in the .vue file
-      url: process.env.SOCKET_URL || 'http://localhost:3001' // URL wherever your socket IO server runs
+      default: true,
+      name: 'main',
+      url: process.env.HOSTNAME
     }]
   },
 
@@ -76,11 +70,13 @@ const nuxtConfig = {
         component: resolve(__dirname, 'pages/login.vue')
       })
     }
-  }
+  },
+
+  telemetry: false
 
 }
 
 if (process.ENVIRONMENT === 'development')
   nuxtConfig.serverMiddleware.push('redirect-ssl')
 
-export default nuxtConfig
+module.exports = nuxtConfig
