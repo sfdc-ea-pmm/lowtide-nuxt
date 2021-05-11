@@ -25,7 +25,7 @@ const isAuthenticating = (req) => {
     r['auth-sfdc'].path,
     r['auth-oauth'].path,
     r['auth-callback'].path
-  ].includes(req.url)
+  ].includes(req.path)
 }
 
 const foundConnection = (req) => {
