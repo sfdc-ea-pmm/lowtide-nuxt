@@ -30,8 +30,8 @@
                 </ul>
             </div>
         </div>
-        <div class="xl:py-4 xl:px-6 text-sm xl:border-t border-gray-200 md:p-0" v-show="this.dashboardNotifications.length>0">
-            <Modal v-bind:notifications="this.globalNotifications" v-bind:scroll="true" />      
+        <div class="xl:py-4 xl:px-6 text-sm xl:border-t border-gray-200 md:p-0">
+            <Modal v-bind:notifications="this.globalNotifications" v-bind:scroll="true" />
         </div>
     </div>
 </template>

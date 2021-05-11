@@ -1,6 +1,6 @@
 <template>
     <div>
-        <a @click.prevent="modalOpen()" href="#" class="text-blue-600 font-semibold hover:text-blue-900 md:hidden lg:hidden xl:block">
+        <a @click.prevent="modalOpen()" href="#" class="text-blue-600 font-semibold hover:text-blue-900 md:hidden lg:hidden xl:block" v-show="this.notifications.length>0">
             View all activity
             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline-block" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
@@ -27,10 +27,11 @@
                             </div>
                             <div class="flex flex-wrap justify-between space-x-2">
                                 <Select v-bind:options="this.options" v-bind:label="'Type'" v-bind:mutation="'setNotificationFieldFilter'" class="flex-grow flex-shrink-0" />
-                                <input v-model="filterValue" type="text" class="flex-grow flex-shrink shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block border-gray-300 rounded-md text-sm" placeholder="Filter value">
+                                <input :disabled="this.notifications.length<=0" v-model="filterValue" type="text" class="disabled:opacity-70 flex-grow flex-shrink shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block border-gray-300 rounded-md text-sm" placeholder="Filter value">
                             </div>
                             <div :class="(scroll ? 'modal-scroll' : '')">
-                                <ul class="divide-y divide-gray-200">
+                                <div v-show="this.notifications.length<=0" class="text-center text-sm py-6 text-gray-800">No activity registered.</div>
+                                <ul v-show="this.notifications.length>0" class="divide-y divide-gray-200">
                                     <li v-for="(v, i) in this.filteredNotifications" v-bind:key="i" class="relative bg-white py-5 px-4 hover:bg-gray-50 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600">
                                         <div class="flex justify-between space-x-3">
                                             <div class="min-w-0 flex-1">
