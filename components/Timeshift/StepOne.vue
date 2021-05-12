@@ -114,7 +114,7 @@ export default {
           accordionByFolderId[v[0].FolderId] = false
         })
 
-        this.datasetsByFolder = datasetHashByFolder
+        this.datasetsByFolder = datasetHashByFolder        
         this.accordion = accordionByFolderId
         this.isLoading = false
 
