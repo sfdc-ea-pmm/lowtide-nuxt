@@ -2,9 +2,9 @@
 
     <div class="space-y-6">
         <div class="">
-            <dt class="text-sm font-medium text-gray-500 mb-4">
-                About
-            </dt>
+            <h2 class="text-gray-500 text-xs font-medium uppercase tracking-wide mb-3">
+              ABOUT
+            </h2>
             <dd class="text-sm text-gray-900 space-y-3 text-justify">
                 <p>
                 Hello! Welcome to <strong>Lowtide</strong>, a suite of tools designed to make it easier to demo our analytics products.
