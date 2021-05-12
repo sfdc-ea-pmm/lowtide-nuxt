@@ -1,3 +1,5 @@
+require("dotenv").config()
+
 const http = require('http'),
       express = require('express'),
       morgan = require('morgan'),
@@ -29,6 +31,7 @@ app
   .use('/api', api.router)
 
 async function start() {
+  
   config.dev = isDev
 
   const nuxt = new Nuxt(config)
@@ -43,7 +46,9 @@ async function start() {
   app.use(nuxt.render)
 
   server.listen(port, '0.0.0.0')
+
   console.log(`Server listening on`, process.env.HOSTNAME, `(Port: ${port})`)
+
 }
 
 start()

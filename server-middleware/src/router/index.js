@@ -75,7 +75,7 @@ module.exports = {
   initApi: function (target) {
 
     target = target || '/api'
-    console.log(target, process.env.GENERATE_ROUTES_FILE)
+
     if (process.env.GENERATE_ROUTES_FILE)
       fs.writeFileSync(appRoot + '/config/routes.json', "{}")
 
