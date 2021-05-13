@@ -40,6 +40,18 @@ export default {
                 feedback we realized that in reality it was best as a suite of
                 tools which solved common problems and acted as a org-agnostic
                 toolkit that could be augmented over time.`
+              },
+              {
+                question: 'Who maintains Lowtide?',
+                answer: ``
+              },
+              {
+                question: 'What can Lowtide do?',
+                answer: ``
+              },
+              {
+                question: 'Does it work with any Salesforce org?',
+                answer: ``
               }
             ]
         }

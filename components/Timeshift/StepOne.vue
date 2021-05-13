@@ -77,6 +77,7 @@ export default {
         timeshiftDatasets: [],
         branch: 'master',
         isLoading: true,
+        loadingError: false,
         anyOpen: false,
       }
     },
@@ -115,7 +116,7 @@ export default {
           accordionByFolderId[v[0].FolderId] = false
         })
 
-        this.datasetsByFolder = datasetHashByFolder        
+        this.datasetsByFolder = datasetHashByFolder
         this.accordion = accordionByFolderId
         this.isLoading = false
         Object.entries(datasetHashByFolder).forEach(([k, v]) => {
@@ -124,6 +125,8 @@ export default {
 
       } catch (e) {
         console.error(e.message)
+        this.loadingError = true
+        this.isLoading = false
       }
 
     },
