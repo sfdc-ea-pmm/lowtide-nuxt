@@ -39,8 +39,15 @@
                     </div>
                 </div>
             </div>
+            <!--
+            <div v-show="this.fields<=0" class="flex flex-col justify-center items-center xl:h-96">
+                <div class="loader xl animate-spin"></div>
+                <div class="text-xl text-gray-500 mt-2">Loading</div>
+            </div>
+            -->
+            <LoadingCards v-show="this.fields<=0" v-bind:cards="10" />
             <transition-group class="space-y-4" name="deploy-card" tag="ul">
-                <li class="bg-white shadow overflow-hidden sm:rounded-md" v-for="(v, i) in this.fields" :key="v.id">
+                <li class="bg-white shadow overflow-hidden sm:rounded-md" v-for="(v, i) in this.fields" v-bind:key="v.id">
                     <a @click.prevent href="#" class="block hover:bg-gray-50">
                         <div class="px-8 py-6">
                             <div class="flex">
@@ -76,8 +83,8 @@
                                           </div>
                                       </div>
                                   </div>
-                                  <div class="flex items-center" v-for="(va) in (fields.length<=0 ? [] : fields[i].dates)" v-bind:key="va.id">
-                                      <button @click="setSelected(v.Id, va.alias)" type="button" class="flex-shrink-0 group relative rounded-full inline-flex items-center justify-center h-5 w-10 cursor-pointer focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 mr-4" role="switch" aria-checked="false">
+                                  <div class="flex items-center" v-for="(va) in ((fields.length<=0) ? [] : fields[i].dates)" v-bind:key="va.id">
+                                      <button @click="setSelected(v.id, va.alias)" type="button" class="flex-shrink-0 group relative rounded-full inline-flex items-center justify-center h-5 w-10 cursor-pointer focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 mr-4" role="switch" aria-checked="false">
                                           <span class="sr-only">Use setting</span>
                                           <span aria-hidden="true" class="pointer-events-none absolute bg-white w-full h-full rounded-md"></span>
 
@@ -143,7 +150,14 @@ export default {
                 this.fields = datasetXmds.data.data
                 this.isLoading = false
 
+                //Some rows have a null value
+                this.fields = this.fields.filter((v)=>v)
 
+                this.fields.forEach(v => {
+                    v.dates.forEach(va => {
+                        this.selectedTimeshiftFields = {...this.selectedTimeshiftFields, [v.id+'_'+va.alias]: true};
+                    });
+                });
 
 
                 // this.fields = response.data.data;
