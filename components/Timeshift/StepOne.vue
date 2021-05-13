@@ -102,14 +102,21 @@ export default {
         const folderReq = await this.$axios.get(`${process.env.API_URL}/data/folder`, axiosOptions)
         const datasetReq = await this.$axios.get(`${process.env.API_URL}/data/dataset`, axiosOptions)
 
+        console.log('folders', folderReq.data.data)
+        console.log('datasets', datasetReq.data.data)
+
+        //datasetReq.data.data.forEach(d => console.log(d.FolderId))
+
         /* Group both by shared key */
         const datasetsGroupedByFolderId = groupBy(datasetReq.data.data, 'FolderId')
         const foldersGroupedById = groupBy(folderReq.data.data, 'Id')
 
         /* Replace key of "Id" with folder "Name" */
         for (const k of Object.keys(datasetsGroupedByFolderId)) {
-          const fName = foldersGroupedById[k][0].Name
-          datasetHashByFolder[fName] = datasetsGroupedByFolderId[k]
+          if (foldersGroupedById[k]) {
+            const fName = foldersGroupedById[k][0].Name
+            datasetHashByFolder[fName] = datasetsGroupedByFolderId[k]
+          }
         }
 
         Object.entries(datasetHashByFolder).forEach(([k, v]) => {
