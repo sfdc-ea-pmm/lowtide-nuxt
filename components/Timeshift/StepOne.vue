@@ -14,7 +14,7 @@
             </div>
         </div>
         <ul class="mt-4">
-            <li v-for="(v, i) in this.datasetsByFolder" v-bind:key="i" class="rounded-md mb-4 relative">
+            <li v-for="(v, i) in this.datasetsByFolder" v-bind:key="i" class="rounded-md mb-4 relative" v-show="!anyOpen || accordion[v[0].FolderId]">
 
                 <div class="rounded-full bg-blue-500 absolute w-6 h-6 -top-2 -left-2" v-if="i===-1">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 p-0.5 self-center text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -77,6 +77,7 @@ export default {
         timeshiftDatasets: [],
         branch: 'master',
         isLoading: true,
+        anyOpen: false,
       }
     },
 
@@ -117,6 +118,9 @@ export default {
         this.datasetsByFolder = datasetHashByFolder        
         this.accordion = accordionByFolderId
         this.isLoading = false
+        Object.entries(datasetHashByFolder).forEach(([k, v]) => {
+          this.setSelectAll(v[0].FolderId)
+        })
 
       } catch (e) {
         console.error(e.message)
@@ -135,7 +139,11 @@ export default {
 
     methods: {
       setAccordion(id) {
-          this.accordion[id] = !this.accordion[id]
+        this.accordion[id] = !this.accordion[id]
+        if(this.accordion[id])
+          this.anyOpen = true
+        else
+          this.anyOpen = false
       },
       setSelectAll(folderId) {
 
