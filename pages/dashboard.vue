@@ -288,8 +288,8 @@ export default {
                 case 'Einstein Discovery Data':
                     this.steps = [
                         {
-                          title: 'Coming soon!',
-                          description: 'We are as excited as you are, we promise',
+                          title: 'Coming Soon',
+                          description: 'We are as excited as you are, we promise!',
                           type: 'current'
                         }
                         /*

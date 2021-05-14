@@ -31,7 +31,7 @@ app
   .use('/api', api.router)
 
 async function start() {
-  
+
   config.dev = isDev
 
   const nuxt = new Nuxt(config)
@@ -47,7 +47,7 @@ async function start() {
 
   server.listen(port, '0.0.0.0')
 
-  console.log(`Server listening on`, process.env.HOSTNAME, `(Port: ${port})`)
+  console.log(`\nServer listening on`, process.env.HOSTNAME, `(Port: ${port})\n`)
 
 }
 

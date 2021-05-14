@@ -121,11 +121,6 @@ export default {
         const folderReq = await this.$axios.get(`${process.env.API_URL}/data/folder`, axiosOptions)
         const datasetReq = await this.$axios.get(`${process.env.API_URL}/data/dataset`, axiosOptions)
 
-        console.log('folders', folderReq.data.data)
-        console.log('datasets', datasetReq.data.data)
-
-        //datasetReq.data.data.forEach(d => console.log(d.FolderId))
-
         /* Group both by shared key */
         const datasetsGroupedByFolderId = groupBy(datasetReq.data.data, 'FolderId')
         const foldersGroupedById = groupBy(folderReq.data.data, 'Id')
@@ -169,14 +164,17 @@ export default {
     methods: {
       setAccordion(id) {
         this.accordion[id] = !this.accordion[id]
-        if(this.accordion[id])
+        if(this.accordion[id]) {
+          this.setSelectAll(id)
           this.anyOpen = true
-        else
+        }
+        else {
           this.anyOpen = false
+        }
       },
       setSelectAll(folderId) {
 
-        let selectedTmp = { ...this.selectedTimeshift }
+        let selectedTmp = {}
 
         Object.entries(this.datasetsByFolder).forEach(([k, v]) => {
           v.forEach(d => {
@@ -190,19 +188,7 @@ export default {
 
       },
       setSelectNone(folderId) {
-
-        let selectedTmp = { ...this.selectedTimeshift }
-
-        Object.entries(this.datasetsByFolder).forEach(([k, v]) => {
-          v.forEach(d => {
-              const { Id, CurrentId } = d
-              if (folderId === d.FolderId)
-                delete selectedTmp[d.Id]
-          })
-        })
-
-        this.$store.commit(`setSelectedTimeshift` , selectedTmp)
-
+        this.$store.commit(`setSelectedTimeshift` , {})
       },
       setSelected(dataset) {
 
