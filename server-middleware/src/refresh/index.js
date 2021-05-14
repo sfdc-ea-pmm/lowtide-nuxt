@@ -139,7 +139,7 @@ const gatherDateValues = async function (job) {
       })
     }).flat()
 
-    const batchQuery = new BatchQuery(sf, queryEndpoint, ldQueries)
+    const batchQuery = new BatchQuery(sf, job, queryEndpoint, ldQueries)
 
     try {
       const doneResults = await recurseQuery(job, batchQuery)

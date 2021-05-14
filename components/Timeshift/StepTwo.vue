@@ -45,6 +45,7 @@
                 <div class="text-xl text-gray-500 mt-2">Loading</div>
             </div>
             -->
+            <span @click="testRunBatchQuery()" >test request</span>
             <LoadingCards v-show="this.fields<=0" v-bind:cards="10" />
             <transition-group class="space-y-4" name="deploy-card" tag="ul">
                 <li class="bg-white shadow overflow-hidden sm:rounded-md" v-for="(v, i) in this.fields" v-bind:key="v.id">
@@ -145,7 +146,7 @@ export default {
             if(this.currentStep===1 && this.action==='Timeshift'){
 
                 const xmdBody = Object.values(this.selectedTimeshift)
-                const datasetXmds = await this.$axios.post(`${process.env.API_URL}/data/dataset/xmd`, xmdBody, { withCredentials: true });
+                const datasetXmds = await this.$axios.post(`/data/dataset/xmd`, xmdBody, { withCredentials: true });
 
                 this.fields = datasetXmds.data.data
                 this.isLoading = false
@@ -159,27 +160,62 @@ export default {
                     });
                 });
 
-
-                // this.fields = response.data.data;
-                // this.isLoading = false;
-                // this.fields.forEach(v => {
-                //     v.dates.forEach(va => {
-                //         this.selectedTimeshiftFields = {...this.selectedTimeshiftFields, [v.id+'_'+va.alias]: true};
-                //     });
-                // });
-
-
             }
         }
     },
     methods: {
-        setSelected(fieldId, alias){
-            this.selectedTimeshiftFields[fieldId+'_'+alias] = !this.selectedTimeshiftFields[fieldId+'_'+alias];
+        setSelected(fieldId, apiName){
+
+          /* CREAR UN ARRAY DE OBJETOS - DATA STRUCTURE LOOKS ~ LIKE ~ THIS
+
+          {
+              "dataflowLabel": "My Test Dataflow",
+              "datasetArray" : [
+                  {
+                      "id" : "0Fb5A000000bxjISAQ" ,
+                      "versionId" : "0Fc5A0000019M2BSAU",
+                      "dateFields" : [
+                          "CreatedDate",
+                          "CloseDate",
+                          "LastActivityDate"
+                      ]
+                  },
+                  {
+                      "id" : "0Fb5A000000bxjISAQ" ,
+                      "versionId" : "0Fc5A0000019M2BSAU",
+                      "dateFields" : [
+                          "CreatedDate",
+                          "CloseDate",
+                          "LastActivityDate"
+                      ]
+                  },
+                  ...
+              ]
+          }
+
+          */
+
+          this.selectedTimeshiftFields.push({
+            id, // id del dataset
+            versionId, // tambien se llama CurrentId
+            dateFields: [] // nombres de API de los campos de fecha
+          })
+
+          this.selectedTimeshiftFields[fieldId+'_'+alias] = !this.selectedTimeshiftFields[fieldId+'_'+alias];
+
+        },
+        testRunBatchQuery() {
+
+          const payload = {
+            dataflowLabel: "My Test Dataflow",
+            datasetArray: this.selectedTimeshiftFields
+          }
+
+          console.log(payload)
+
         }
     },
-    created() {
-
-    },
+    created() {},
 }
 </script>
 

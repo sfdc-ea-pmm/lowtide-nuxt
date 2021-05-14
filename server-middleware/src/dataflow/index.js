@@ -93,7 +93,7 @@ module.exports = (function () {
 
     try {
 
-      const latestDates = await gatherDateValues(job)      
+      const latestDates = await gatherDateValues(job)
       const dfNames = createNames(dataflowLabel)
 
       // const primerDataflow = methods.createDataflow(session, {
@@ -107,6 +107,8 @@ module.exports = (function () {
       //   DeveloperLabel: dfNames.mainLabel,
       //   DataflowDefinition: {}
       // })
+
+      const result = ''
 
       return { message: 'Finished!', data: result }
 
