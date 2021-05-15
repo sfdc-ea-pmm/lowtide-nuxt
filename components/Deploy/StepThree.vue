@@ -56,7 +56,7 @@
                 </div>
                 <div class="ml-3 flex-1 md:flex md:justify-between">
                     <p class="text-sm text-blue-700">
-                        Deploy is underway, please check the notification center for updates.
+                        Deploy is underway! Check the notification center for updates.
                     </p>
                     <!--
                     <p class="mt-3 text-sm md:mt-0 md:ml-6">
