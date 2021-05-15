@@ -24,7 +24,7 @@
     border: none;
 }
 .accordion-body-open{
-    max-height: 800px;
+    max-height: 1500px;
 }
 @keyframes shine {
     to {

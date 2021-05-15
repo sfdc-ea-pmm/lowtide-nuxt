@@ -16,7 +16,7 @@
                 We hope that this application is relatively self-explanatory, but in the interest of being as user-friendly as possible, please <a class="font-bold text-blue-600 cursor-pointer hover:text-blue-500" href="#">start by watching this video tutorial</a>, and <a class="font-bold text-blue-600 cursor-pointer hover:text-blue-500" href="#" @click.prevent="renderFAQ()">read the FAQ</a>.
                 </p>
                 <p>
-                For developers or those with enough knowledge of javascript to be dangerous, we've made available <a class="font-bold text-blue-600 cursor-pointer hover:text-blue-500" href="https://github.com/romariosc97/lowtide-boilerplate">lowtide-boilerplate</a>, an application shell designed to allow you to develop your own tools by providing a simple API layer with authentication into Salesforce and the basic frontend skeleton that you see in this very app.
+                For developers or those with enough knowledge of javascript to be dangerous, we've made available <a class="font-bold text-blue-600 cursor-pointer hover:text-blue-500" target="_blank" href="https://github.com/romariosc97/lowtide-boilerplate">lowtide-boilerplate</a>, an application shell designed to allow you to develop your own tools by providing a simple API layer with authentication into Salesforce and the basic frontend skeleton that you see in this very app.
                 </p>
                 <p>
                 Please direct any questions or issues to <strong>Luc Iyer</strong> by clicking "Email" below.

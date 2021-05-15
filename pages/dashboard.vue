@@ -19,15 +19,15 @@
                                         </div>
                                         <div class="space-y-0.5">
                                             <div class="text-sm font-medium text-gray-900">{{ session.salesforce.user.name }}</div>
-                                            <a :href="session.salesforce.auth.instanceUrl" class="group flex items-center space-x-1.5">
-                                                <span class="text-sm text-gray-500 group-hover:text-gray-900 font-medium break-all">{{ session.salesforce.user.username }}</span>
+                                            <a :href="session.salesforce.auth.instanceUrl" target="_blank" class="group flex items-center space-x-1.5">
+                                                <span class="text-sm text-gray-500 group-hover:text-gray-900 font-medium">{{ session.salesforce.user.username.substring(0, 23)+(session.salesforce.user.username.length>23 ? "..." : "") }}</span>
                                             </a>
                                         </div>
                                     </div>
                                     <div class="flex sm:flex-row xl:flex-col space-x-2 select-basis w-full justify-between">
                                         <Select v-bind:options="this.options" v-bind:mutation="'setAction'" v-bind:label="'Select an action'" v-bind:step="this.currentStep" />
                                         <button @click="openModal()" type="button" class="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 xl:hidden h-fit relative">
-                                            <div class="rounded-full bg-blue-500 absolute w-4 h-4 -top-2 -left-2" v-show="!this.notificationsViewed">
+                                            <div class="rounded-full bg-blue-500 absolute w-4 h-4 -top-1.5 -right-1.5" v-show="!this.notificationsViewed">
 
                                             </div>
                                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -266,6 +266,14 @@ export default {
                             , ...this.notifications]);
                             vm.$store.commit(`setNotificationsViewed` , false);
                         }
+                        break;
+                    case 'jobInfo':
+                        type = 'info';
+                        text = `${message.event.job.context.template}: ${message.event.message}`;
+                        vm.$store.commit(`setNotifications` , [
+                            {title: 'Deploy', time: currentTime, message: text, type: type}
+                        , ...this.notifications]);
+                        vm.$store.commit(`setNotificationsViewed` , false);
                         break;
                     default:
 

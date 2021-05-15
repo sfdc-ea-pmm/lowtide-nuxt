@@ -47,7 +47,7 @@
                 Confirm and deploy
             </button>
         </div>
-        <div class="rounded-md bg-blue-50 p-4 mt-4" v-show="this.finishedProcess">
+        <div class="rounded-md bg-blue-50 p-4 mt-4 w-120 mx-auto" v-show="this.finishedProcess">
             <div class="flex">
                 <div class="flex-shrink-0">
                     <svg class="h-5 w-5 text-blue-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
@@ -58,6 +58,7 @@
                     <p class="text-sm text-blue-700">
                         Deploy is underway, please check the notification center for updates.
                     </p>
+                    <!--
                     <p class="mt-3 text-sm md:mt-0 md:ml-6">
                         <a @click.prevent="finished()" href="#" class="whitespace-nowrap font-medium text-blue-700 hover:text-blue-500">
                             Finish
@@ -66,6 +67,7 @@
                             </svg>
                         </a>
                     </p>
+                    -->
                 </div>
             </div>
         </div>
