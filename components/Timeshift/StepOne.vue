@@ -1,6 +1,7 @@
 <template>
 
     <div>
+
         <div class="flex justify-between items-center w-full">
             <h2 class="text-gray-500 text-xs font-medium uppercase tracking-wide">Select Datasets to Timeshift</h2>
             <div class="py-1 text-sm truncate flex items-center hidden">
@@ -8,79 +9,32 @@
                 <button @click="changeBranch()" type="button" class="flex-shrink-0 group relative rounded-full inline-flex items-center justify-center h-5 w-10 cursor-pointer focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 mr-4" role="switch" aria-checked="false">
                     <span class="sr-only">Use setting</span>
                     <span aria-hidden="true" class="pointer-events-none absolute bg-white w-full h-full rounded-md"></span>
-                    <span aria-hidden="true" :class="(this.branch==='beta' ? 'bg-blue-600 ' : 'bg-gray-200 ') + 'pointer-events-none absolute h-4 w-9 mx-auto rounded-full transition-colors ease-in-out duration-200'"></span>
-                    <span aria-hidden="true" :class="(this.branch==='beta' ? 'translate-x-5 ' : 'translate-x-0 ') + 'pointer-events-none absolute left-0 inline-block h-5 w-5 border border-gray-200 rounded-full bg-white shadow transform ring-0 transition-transform ease-in-out duration-200'"></span>
+                    <span aria-hidden="true" :class="(this.branch === 'beta' ? 'bg-blue-600 ' : 'bg-gray-200 ') + 'pointer-events-none absolute h-4 w-9 mx-auto rounded-full transition-colors ease-in-out duration-200'"></span>
+                    <span aria-hidden="true" :class="(this.branch === 'beta' ? 'translate-x-5 ' : 'translate-x-0 ') + 'pointer-events-none absolute left-0 inline-block h-5 w-5 border border-gray-200 rounded-full bg-white shadow transform ring-0 transition-transform ease-in-out duration-200'"></span>
                 </button>
             </div>
         </div>
+
         <div v-if="this.loadingError" class="rounded-md bg-yellow-50 p-4 mt-4">
-          <div class="flex">
-            <div class="flex-shrink-0">
-              <svg class="h-5 w-5 text-yellow-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
-              </svg>
-            </div>
-            <div class="ml-3">
-              <h3 class="text-sm font-medium text-yellow-800">
-                Unexpected error
-              </h3>
-              <div class="mt-2 text-sm text-yellow-700">
-                <p>
-                  There was an error loading these assets.
-                </p>
-              </div>
-            </div>
-          </div>
+          <ErrorAlert title="Oops!" message="Could not load the requested assets." />
         </div>
+
+        <LoadingCards v-show="this.isLoading" :cards="10" class="pt-4" />
+
         <ul class="mt-4">
-            <li v-for="(v, i) in this.datasetsByFolder" v-bind:key="i" class="rounded-md mb-4 relative" v-show="!anyOpen || accordion[v[0].FolderId]">
 
-                <div class="rounded-full bg-blue-500 absolute w-6 h-6 -top-2 -left-2" v-if="i===-1">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 p-0.5 self-center text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                </div>
-
-                <div class="flex-1 flex items-center justify-between border border-gray-200 bg-white rounded-md truncate py-1.5">
-                    <div class="flex-1 px-4 py-2 text-sm truncate flex items-center">
-                        <span @click="setAccordion(v[0].FolderId)" class="cursor-pointer text-gray-900 font-medium hover:text-gray-600">{{ i }}</span>
-                    </div>
-                    <div class="flex-shrink-0 pr-2">
-                        <button @click="setAccordion(v[0].FolderId)" class="w-8 h-8 bg-white inline-flex items-center justify-center text-gray-400 rounded-full bg-transparent hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                            <span class="sr-only">Open options</span>
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path class="transition-all" v-show="accordion[v[0].FolderId] === false" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                                <path class="transition-all" v-show="accordion[v[0].FolderId] === true" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
-                            </svg>
-                        </button>
-                    </div>
-                </div>
-                <div :class="(accordion[v[0].FolderId] === true ? 'accordion-body-open ' : 'accordion-body-close ') + 'accordion border-gray-200 p-4 border rounded-md mt-1 space-y-4'">
-                    <h2 class="text-sm font-medium text-gray-500">Datasets</h2>
-                    <div class="px-4 pt-2">
-                      <h2 class="text-gray-500 text-xs font-medium uppercase tracking-wide">Select
-                        <span class="text-blue-600 font-bold cursor-pointer hover:text-blue-400" @click="setSelectAll(v[0].FolderId)" >All</span> |
-                        <span class="text-blue-600 font-bold cursor-pointer hover:text-blue-400" @click="setSelectNone(v[0].FolderId)" >None</span>
-                      </h2>
-                    </div>
-                    <div v-for="(d) in v" v-bind:key="d.Id">
-                        <div class="flex-1 flex items-center justify-between bg-white rounded-md truncate">
-                            <div class="flex-1 px-4 py-1.5 text-sm truncate flex items-center">
-                                <button @click="setSelected(d)" type="button" class="flex-shrink-0 group relative rounded-full inline-flex items-center justify-center h-5 w-10 cursor-pointer focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 mr-4" role="switch" aria-checked="false">
-                                    <span class="sr-only">Use setting</span>
-                                    <span aria-hidden="true" class="pointer-events-none absolute bg-white w-full h-full rounded-md"></span>
-                                    <span aria-hidden="true" :class="(selectedTimeshift[d.Id] ? 'bg-blue-600 ' : 'bg-gray-200 ') + 'pointer-events-none absolute h-4 w-9 mx-auto rounded-full transition-colors ease-in-out duration-200'"></span>
-                                    <span aria-hidden="true" :class="(selectedTimeshift[d.Id] ? 'translate-x-5 ' : 'translate-x-0 ') + 'pointer-events-none absolute left-0 inline-block h-5 w-5 border border-gray-200 rounded-full bg-white shadow transform ring-0 transition-transform ease-in-out duration-200'"></span>
-                                </button>
-                                <a href="#" @click="setSelected(d)" class="text-gray-900 font-medium hover:text-gray-600">{{d.DeveloperName}}</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </li>
-            <!-- Loading cards -->
-            <LoadingCards v-show="this.isLoading" v-bind:cards="10" />
+          <li v-for="(c, i) in this.cardList" :key="i" class="rounded-md mb-3 relative">
+            <StepOneCard
+              v-show="c.showMe"
+              :title="c.Name"
+              :folderId="c.FolderId"
+              :datasets="c.datasets"
+              @openedCard="hideOtherCards"
+              @closedCard="showOtherCards"
+            />
+          </li>
         </ul>
+
     </div>
 
 </template>
@@ -91,13 +45,10 @@ export default {
 
     data() {
       return {
-        datasetsByFolder: {},
-        accordion: {},
-        timeshiftDatasets: [],
+        cardList: {},
         branch: 'master',
         isLoading: true,
-        loadingError: false,
-        anyOpen: false,
+        loadingError: false
       }
     },
 
@@ -125,24 +76,18 @@ export default {
         const datasetsGroupedByFolderId = groupBy(datasetReq.data.data, 'FolderId')
         const foldersGroupedById = groupBy(folderReq.data.data, 'Id')
 
-        /* Replace key of "Id" with folder "Name" */
-        for (const k of Object.keys(datasetsGroupedByFolderId)) {
-          if (foldersGroupedById[k]) {
-            const fName = foldersGroupedById[k][0].Name
-            datasetHashByFolder[fName] = datasetsGroupedByFolderId[k]
-          }
-        }
+        const augmentedHash = {}
 
-        Object.entries(datasetHashByFolder).forEach(([k, v]) => {
-          accordionByFolderId[v[0].FolderId] = false
+        folderReq.data.data.forEach(f => {
+          if (datasetsGroupedByFolderId[f.Id])
+            augmentedHash[f.Id] = {
+              FolderId: f.Id, Name: f.Name, showMe: true,
+              datasets: datasetsGroupedByFolderId[f.Id]
+            }
         })
 
-        this.datasetsByFolder = datasetHashByFolder
-        this.accordion = accordionByFolderId
+        this.cardList = augmentedHash
         this.isLoading = false
-        Object.entries(datasetHashByFolder).forEach(([k, v]) => {
-          this.setSelectAll(v[0].FolderId)
-        })
 
       } catch (e) {
         console.error(e.message)
@@ -152,58 +97,21 @@ export default {
 
     },
 
-    computed: {
-        confirmTimeshiftSelection () {
-            return this.$store.state.confirmTimeshiftSelection;
-        },
-        selectedTimeshift () {
-            return this.$store.state.selectedTimeshift;
-        }
-    },
-
     methods: {
-      setAccordion(id) {
-        this.accordion[id] = !this.accordion[id]
-        if(this.accordion[id]) {
-          this.setSelectAll(id)
-          this.anyOpen = true
-        }
-        else {
-          this.anyOpen = false
+
+      hideOtherCards(id) {
+        for (const [k, v] of Object.entries(this.cardList)) {
+          if (this.cardList[k].FolderId !== id)
+            this.cardList[k].showMe = false
         }
       },
-      setSelectAll(folderId) {
 
-        let selectedTmp = {}
-
-        Object.entries(this.datasetsByFolder).forEach(([k, v]) => {
-          v.forEach(d => {
-              const { Id, CurrentId } = d
-              if (folderId === d.FolderId)
-                selectedTmp[d.Id] = { Id, CurrentId }
-          })
-        })
-
-        this.$store.commit(`setSelectedTimeshift` , selectedTmp)
-
-      },
-      setSelectNone(folderId) {
-        this.$store.commit(`setSelectedTimeshift` , {})
-      },
-      setSelected(dataset) {
-
-        const { Id, CurrentId } = dataset
-
-        let selectedTmp = { ...this.selectedTimeshift }
-
-        if (selectedTmp[dataset.Id])
-          delete selectedTmp[dataset.Id]
-        else
-          selectedTmp[dataset.Id] = { Id, CurrentId }
-
-        this.$store.commit(`setSelectedTimeshift` , selectedTmp)
-
+      showOtherCards(id) {
+        for(const k of Object.keys(this.cardList)) {
+          this.cardList[k].showMe = true
+        }
       }
+
     }
 
 }
