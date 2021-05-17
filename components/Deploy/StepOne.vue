@@ -86,6 +86,9 @@
                             </li>
                         </ul>
                     </div>
+                    <div>
+                      <DownloadTemplate :templateApiName="v.api_name" />
+                    </div>
                 </div>
             </li>
             <!-- Loading cards -->
