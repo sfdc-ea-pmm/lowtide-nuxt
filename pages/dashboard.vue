@@ -161,7 +161,7 @@ export default {
         async logout() {
             try {
                 this.logoutLoading = true;
-                await this.$axios.get(`${process.env.API_URL}/auth/revoke`, {withCredentials: true});
+                await this.$axios.get(`/auth/revoke`, {withCredentials: true});
                 this.$store.commit(`setNotifications` , []);
                 sessionStorage.removeItem('notifications');
                 this.finished();
@@ -222,9 +222,12 @@ export default {
 
         activeEvents.forEach(event => {
             vm.socket.on(event, (message) => {
-                console.log(message, event);
+
+                console.log('Socket:', message, event);
+
                 let currentTime = this.getCurrentTime();
                 let type, text;
+
                 switch (event) {
                     case 'jobError' || 'serverError':
                         type = 'error';
@@ -284,14 +287,7 @@ export default {
                 }
             });
         });
-        /*
-        const eventsList = [ 'jobStarted', 'jobInfo', 'jobSuccess', 'jobError', 'serverError' ];
-        for (const e of eventsList) {
-            vm.socket.on(e, (message) => {
-                console.log(message);
-            });
-        }
-        */
+
     },
     watch: {
         action: function () {
