@@ -11,5 +11,6 @@ export default () => ({
     finishedProcess: false,
     session: {},
     notifications: (!sessionStorage.notifications ? [] : JSON.parse(sessionStorage.notifications)),
-    notificationsViewed: (sessionStorage.notificationsViewed ? sessionStorage.notificationsViewed : true)
+    notificationsViewed: (sessionStorage.notificationsViewed ? sessionStorage.notificationsViewed : true),
+    btnNextDisabled: true,
 })

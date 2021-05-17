@@ -40,4 +40,7 @@ export default {
         sessionStorage.notificationsViewed = status;
         state.notificationsViewed = status;
     },
+    setBtnNextDisabled(state, status) {
+        state.btnNextDisabled = status;
+    },
 }

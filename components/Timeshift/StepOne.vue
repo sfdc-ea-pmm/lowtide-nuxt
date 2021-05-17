@@ -140,10 +140,11 @@ export default {
         this.datasetsByFolder = datasetHashByFolder
         this.accordion = accordionByFolderId
         this.isLoading = false
+        /*
         Object.entries(datasetHashByFolder).forEach(([k, v]) => {
           this.setSelectAll(v[0].FolderId)
         })
-
+        */
       } catch (e) {
         console.error(e.message)
         this.loadingError = true
@@ -158,6 +159,9 @@ export default {
         },
         selectedTimeshift () {
             return this.$store.state.selectedTimeshift;
+        },
+        btnNextDisabled () {
+            return this.$store.state.btnNextDisabled;
         }
     },
 
@@ -166,9 +170,12 @@ export default {
         this.accordion[id] = !this.accordion[id]
         if(this.accordion[id]) {
           this.setSelectAll(id)
+          this.$store.commit(`setBtnNextDisabled` , false)
           this.anyOpen = true
         }
         else {
+          this.setSelectNone(id)
+          this.$store.commit(`setBtnNextDisabled` , true)
           this.anyOpen = false
         }
       },
@@ -185,10 +192,12 @@ export default {
         })
 
         this.$store.commit(`setSelectedTimeshift` , selectedTmp)
+        this.$store.commit(`setBtnNextDisabled` , false)
 
       },
       setSelectNone(folderId) {
         this.$store.commit(`setSelectedTimeshift` , {})
+        this.$store.commit(`setBtnNextDisabled` , true)
       },
       setSelected(dataset) {
 
@@ -196,10 +205,16 @@ export default {
 
         let selectedTmp = { ...this.selectedTimeshift }
 
-        if (selectedTmp[dataset.Id])
+        if (selectedTmp[dataset.Id]){
           delete selectedTmp[dataset.Id]
-        else
+          if(Object.keys(selectedTmp)<=0){
+            this.$store.commit(`setBtnNextDisabled` , true)
+          }
+        }
+        else{
           selectedTmp[dataset.Id] = { Id, CurrentId }
+          this.$store.commit(`setBtnNextDisabled` , false)
+        }
 
         this.$store.commit(`setSelectedTimeshift` , selectedTmp)
 
