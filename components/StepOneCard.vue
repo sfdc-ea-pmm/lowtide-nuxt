@@ -90,6 +90,7 @@ export default {
         tmp[dataset.Id] = { Id, CurrentId }
 
       this.$store.commit(`setSelectedTimeshift` , tmp)
+      this.setNext()
 
     },
 
@@ -104,11 +105,18 @@ export default {
        })
 
        this.$store.commit(`setSelectedTimeshift` , tmp)
+       this.setNext()
 
     },
 
     setSelectNone() {
       this.$store.commit(`setSelectedTimeshift` , {})
+      this.setNext()
+    },
+
+    setNext() {
+      const noSelection = Object.keys(this.selectedTimeshift).length === 0
+      this.$store.commit(`setBtnNextDisabled`, noSelection)
     }
 
   }
