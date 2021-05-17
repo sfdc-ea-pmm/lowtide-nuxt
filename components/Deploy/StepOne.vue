@@ -145,6 +145,7 @@ export default {
                 selectedTmp = {...selectedTmp, [''+v.api_name]: false};
             });
             this.$store.commit(`setSelectedDeploy` , selectedTmp);
+            this.$store.commit(`setBtnNextDisabled`, false)
         },
         setAccordion(id){
             this.accordion[id] = !this.accordion[id];
