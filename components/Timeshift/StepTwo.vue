@@ -144,6 +144,7 @@ export default {
         },
         currentStep: async function () {
             if(this.currentStep===1 && this.action==='Timeshift'){
+                this.fields = []
 
                 const xmdBody = Object.values(this.selectedTimeshift)
                 const datasetXmds = await this.$axios.post(`/data/dataset/xmd`, xmdBody, { withCredentials: true });
