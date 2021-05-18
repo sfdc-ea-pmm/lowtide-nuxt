@@ -33,20 +33,33 @@
                                 <div v-show="this.notifications.length<=0" class="text-center text-sm py-6 text-gray-800">No activity registered.</div>
                                 <ul v-show="this.notifications.length>0" class="divide-y divide-gray-200">
                                     <li v-for="(v, i) in this.filteredNotifications" v-bind:key="i" class="relative bg-white py-5 px-4 hover:bg-gray-50 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600">
-                                        <div class="flex justify-between space-x-3">
-                                            <div class="min-w-0 flex-1">
-                                                <a href="#" class="block focus:outline-none">
-                                                    <span class="absolute inset-0" aria-hidden="true"></span>
-                                                    <p class="text-sm font-medium text-gray-900 truncate">{{v.title}}</p>
-                                                    <p class="text-sm text-gray-500 truncate capitalize">{{v.type}}</p>
-                                                </a>
+                                        <div class="flex flex-row space-x-3">
+                                            <svg v-if="v.type==='success'" xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 self-center text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                            </svg>
+                                            <svg v-if="v.type==='info'" xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 self-center text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                            </svg>
+                                            <svg  v-if="v.type==='error'" xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 self-center text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                            </svg>
+                                            <div class="flex-1">
+                                                <div class="flex justify-between space-x-3">
+                                                    <div class="min-w-0 flex-1">
+                                                        <a href="#" class="block focus:outline-none">
+                                                            <span class="absolute inset-0" aria-hidden="true"></span>
+                                                            <p class="text-sm font-medium text-gray-900 truncate">{{v.title}}</p>
+                                                            <p class="text-sm text-gray-500 truncate capitalize">{{v.type}}</p>
+                                                        </a>
+                                                    </div>
+                                                    <time datetime="2021-01-27T16:35" class="flex-shrink-0 whitespace-nowrap text-sm text-gray-500">{{v.time}}</time>
+                                                </div>
+                                                <div class="mt-1">
+                                                    <p class="line-clamp-2 text-sm text-gray-600">
+                                                        {{v.message}}
+                                                    </p>
+                                                </div>
                                             </div>
-                                            <time datetime="2021-01-27T16:35" class="flex-shrink-0 whitespace-nowrap text-sm text-gray-500">{{v.time}}</time>
-                                        </div>
-                                        <div class="mt-1">
-                                            <p class="line-clamp-2 text-sm text-gray-600">
-                                                {{v.message}}
-                                            </p>
                                         </div>
                                     </li>
                                 </ul>
