@@ -39,17 +39,14 @@
                     </div>
                 </div>
             </div>
-            <!--
-            <div v-show="this.fields<=0" class="flex flex-col justify-center items-center xl:h-96">
-                <div class="loader xl animate-spin"></div>
-                <div class="text-xl text-gray-500 mt-2">Loading</div>
-            </div>
-            -->
-            <span @click="testRunBatchQuery()" >test request</span>
-            <LoadingCards v-show="this.fields<=0" v-bind:cards="10" />
+
+            <span class="p-5" @click="testRunBatchQuery()" >test request</span>
+
+            <LoadingCards v-show="this.isLoading" v-bind:cards="10" />
+
             <transition-group class="space-y-4" name="deploy-card" tag="ul">
-                <li class="bg-white shadow overflow-hidden sm:rounded-md" v-for="(v, i) in this.fields" v-bind:key="v.id">
-                    <a @click.prevent href="#" class="block hover:bg-gray-50">
+                <li class="bg-white shadow overflow-hidden sm:rounded-md" v-for="(v, i) in fields" v-bind:key="v.id">
+                    <div class="block">
                         <div class="px-8 py-6">
                             <div class="flex">
                                 <div class="flex-1">
@@ -63,9 +60,9 @@
                                         {{ v.name }}
                                     </p>
                                 </div>
-                                <div class="pt-2 pr-2">
-                                    <span class="text-lg font-medium text-gray-900"  v-if="fields.length <=0 ">?</span>
-                                    <span class="text-lg font-medium text-gray-900" v-else>{{ v.rows }}</span>
+                                <div class="flex flex-col justify-center pt-2 pr-2">
+                                    <span class="text-lg font-medium text-gray-900 text-center"  v-if="fields.length <=0 ">?</span>
+                                    <span class="text-lg font-medium text-gray-900 text-center" v-else>{{ v.rows }}</span>
                                     <p class="text-center text-xs text-gray-500">
                                         rows
                                     </p>
@@ -74,7 +71,7 @@
 
                             <div v-if="v.dates.length">
                               <div class="border-b border-gray-200">
-                                  <h2 class="text-gray-500 text-sm font-medium uppercase tracking-wide pb-2 pt-4">Date fields</h2>
+                                  <h2 class="text-gray-500 text-xs font-medium uppercase tracking-wide pb-2 pt-4">Date Fields</h2>
                               </div>
                               <div class="mt-4 space-y-4">
                                   <div v-if="fields.length<=0" class="mt-6">
@@ -84,19 +81,8 @@
                                           </div>
                                       </div>
                                   </div>
-                                  <div class="flex items-center" v-for="(va) in ((fields.length<=0) ? [] : fields[i].dates)" v-bind:key="va.id">
-                                      <button @click="setSelected(v.id, va.alias)" type="button" class="flex-shrink-0 group relative rounded-full inline-flex items-center justify-center h-5 w-10 cursor-pointer focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 mr-4" role="switch" aria-checked="false">
-                                          <span class="sr-only">Use setting</span>
-                                          <span aria-hidden="true" class="pointer-events-none absolute bg-white w-full h-full rounded-md"></span>
-
-                                          <span aria-hidden="true" :class="(selectedTimeshiftFields[fields[i].id+'_'+va.alias] ? 'bg-blue-600 ' : 'bg-gray-200 ') + 'pointer-events-none absolute h-4 w-9 mx-auto rounded-full transition-colors ease-in-out duration-200'"></span>
-                                          <span aria-hidden="true" :class="(selectedTimeshiftFields[fields[i].id+'_'+va.alias] ? 'translate-x-5 ' : 'translate-x-0 ') + 'pointer-events-none absolute left-0 inline-block h-5 w-5 border border-gray-200 rounded-full bg-white shadow transform ring-0 transition-transform ease-in-out duration-200'"></span>
-
-                                      </button>
-                                      <div>
-                                          <div class="text-sm">{{ va.label }}</div>
-                                          <div class="text-xs text-gray-500">API Name: {{ va.fields.fullField }}</div>
-                                      </div>
+                                  <div class="flex w-full items-center" v-for="(f, i) in v.dates" :key="f.id">
+                                    <DatasetSelectDate :dataset="v" :dateField="f" :isFetching="true" @toggledSelected="addOrRemove" />
                                   </div>
                               </div>
                             </div>
@@ -105,7 +91,7 @@
                             </div>
 
                         </div>
-                    </a>
+                    </div>
                 </li>
             </transition-group>
 
@@ -116,13 +102,56 @@
 
 <script>
 export default {
+
+    data() {
+        return {
+            fields: [],
+            isLoading: true
+        }
+    },
+
+    async fetch() {
+
+      const xmdBody = Object.values(this.selectedTimeshift)
+
+      let datasetXmds;
+
+      this.isLoading = true
+      this.fields = []
+
+      if (xmdBody.length) {
+        datasetXmds = await this.$axios.post(`/data/dataset/xmd`, xmdBody, { withCredentials: true })
+        this.fields = datasetXmds.data.data
+      }
+
+      const selectionArray = []
+
+      for (const [k, v] of Object.entries(this.selectedTimeshift)) {
+
+        const augmentedObject = {}
+        const relatedFields = this.fields.filter(f => f.id === v.Id).length > 0
+          ? this.fields.filter(f => f.id === v.Id).pop()
+          : null;
+
+        augmentedObject.id = v.Id
+        augmentedObject.versionId = v.CurrentId
+
+        if (relatedFields) {
+          augmentedObject.dateFields = []
+          relatedFields.dates.forEach(d => {
+            augmentedObject.dateFields.push(d.fields.fullField)
+          })
+          selectionArray.push(augmentedObject)
+        }
+
+      }
+
+      this.$store.commit('setConfirmTimeshiftSelection', selectionArray)
+      this.isLoading = false
+
+    },
+
     computed: {
-        currentStep () {
-            return this.$store.state.currentStep;
-        },
-        action () {
-            return this.$store.state.action;
-        },
         confirmTimeshiftSelection () {
             return this.$store.state.confirmTimeshiftSelection;
         },
@@ -130,93 +159,54 @@ export default {
             return this.$store.state.selectedTimeshift;
         }
     },
-    data() {
-        return {
-            fields: [],
-            isLoading: true,
-            selectedTimeshiftFields: {}
-        }
-    },
-    watch: {
-        confirmTimeshiftSelection: function(){
-            this.fields = [];
-            this.selectedTimeshiftFields = {};
-        },
-        currentStep: async function () {
-            if(this.currentStep===1 && this.action==='Timeshift'){
-                this.fields = []
 
-                const xmdBody = Object.values(this.selectedTimeshift)
-                const datasetXmds = await this.$axios.post(`/data/dataset/xmd`, xmdBody, { withCredentials: true });
+    methods: {
+        addOrRemove(params){
 
-                this.fields = datasetXmds.data.data
-                this.isLoading = false
+          // Ugh...
+          let selectCopy = JSON.parse(JSON.stringify(this.confirmTimeshiftSelection))
 
-                //Some rows have a null value
-                this.fields = this.fields.filter((v)=>v)
+          selectCopy.forEach((dataset) => {
+            if (params.datasetId === dataset.id) {
 
-                this.fields.forEach(v => {
-                    v.dates.forEach(va => {
-                        this.selectedTimeshiftFields = {...this.selectedTimeshiftFields, [v.id+'_'+va.alias]: true};
-                    });
-                });
+              if (params.include && !dataset.dateFields.includes(params.apiName)) {
+                dataset.dateFields.push(params.apiName)
+              }
+
+              if (!params.include && dataset.dateFields.includes(params.apiName)) {
+                const i = dataset.dateFields.indexOf(params.apiName)
+                if (i > -1) dataset.dateFields.splice(i, 1)
+              }
 
             }
-        }
-    },
-    methods: {
-        setSelected(fieldId, apiName){
 
-          /* CREAR UN ARRAY DE OBJETOS - DATA STRUCTURE LOOKS ~ LIKE ~ THIS
-
-          {
-              "dataflowLabel": "My Test Dataflow",
-              "datasetArray" : [
-                  {
-                      "id" : "0Fb5A000000bxjISAQ" ,
-                      "versionId" : "0Fc5A0000019M2BSAU",
-                      "dateFields" : [
-                          "CreatedDate",
-                          "CloseDate",
-                          "LastActivityDate"
-                      ]
-                  },
-                  {
-                      "id" : "0Fb5A000000bxjISAQ" ,
-                      "versionId" : "0Fc5A0000019M2BSAU",
-                      "dateFields" : [
-                          "CreatedDate",
-                          "CloseDate",
-                          "LastActivityDate"
-                      ]
-                  },
-                  ...
-              ]
-          }
-
-          */
-
-          this.selectedTimeshiftFields.push({
-            id, // id del dataset
-            versionId, // tambien se llama CurrentId
-            dateFields: [] // nombres de API de los campos de fecha
           })
 
-          this.selectedTimeshiftFields[fieldId+'_'+alias] = !this.selectedTimeshiftFields[fieldId+'_'+alias];
+          const shiftArray = selectCopy.filter(d => d.dateFields.length > 0)
+
+          if (shiftArray.length > 0)
+            this.$store.commit('setConfirmTimeshiftSelection', shiftArray)
+          else
+            this.$store.commit('setConfirmTimeshiftSelection', [])
 
         },
+
         testRunBatchQuery() {
 
           const payload = {
             dataflowLabel: "My Test Dataflow",
-            datasetArray: this.selectedTimeshiftFields
+            datasetArray: this.confirmTimeshiftSelection
           }
 
           console.log(payload)
 
         }
+
     },
-    created() {},
+
+    watch: {
+      'selectedTimeshift': '$fetch'
+    }
 }
 </script>
 
