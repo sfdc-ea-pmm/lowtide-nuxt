@@ -5,7 +5,7 @@
             <div class="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
                 <form @submit.prevent="login()" class="space-y-6" action="#" method="POST">
                     <div class="sm:mx-auto sm:w-full sm:max-w-md">
-                        <img class="mx-auto h-12 w-auto" src="~/assets/img/lt-logo.png" alt="Workflow" />
+                        <img class="mx-auto h-12 w-auto" src="~/assets/img/lt-logo.svg" alt="Lowtide" />
                         <h2 class="mt-2 text-center text-3xl font-semibold text-gray-900">
 
                         </h2>

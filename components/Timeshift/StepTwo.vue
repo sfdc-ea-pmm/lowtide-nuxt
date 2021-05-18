@@ -163,7 +163,7 @@ export default {
     methods: {
         addOrRemove(params){
 
-          // Ugh...
+          // Ugh... Embarrassing.
           let selectCopy = JSON.parse(JSON.stringify(this.confirmTimeshiftSelection))
 
           selectCopy.forEach((dataset) => {
