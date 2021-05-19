@@ -160,22 +160,19 @@ export default {
             this.$store.commit(`setSelectedDeploy` , selectedTmp);
 
             this.deployTemplates = this.confirmDeploySelection;
-            if(selectedTmp[template.api_name]){
-                this.deployTemplates = [...this.deployTemplates, template];
-            }else{
-                this.deployTemplates = this.deployTemplates.filter((v) => v.label !== template.label ? true : false);
-
+            if(selectedTmp[template.api_name]) {
+              this.deployTemplates = [...this.deployTemplates, template];
+            } else {
+              this.deployTemplates = this.deployTemplates.filter((v) => v.label !== template.label ? true : false);
             }
             this.$store.commit(`setConfirmDeploySelection` , this.deployTemplates);
         },
         async changeBranch(){
             if(this.branch==='master'){
                 const response = await this.$axios.get(`${process.env.API_URL}/auth/session/beta`, {withCredentials: true});
-                console.log(response);
                 this.branch = 'beta';
             }else{
                 const response = await this.$axios.get(`${process.env.API_URL}/auth/session/master`, {withCredentials: true});
-                console.log(response);
                 this.branch = 'master';
             }
             this.getTemplates();

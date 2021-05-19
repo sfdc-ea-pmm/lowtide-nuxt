@@ -2,6 +2,7 @@ module.exports = class {
 
   constructor(connection, job, endpoint, queryList, batchSize = 10, sleepMs = 1000) {
     this.connection = connection
+    this.relatedJob = job
     this.endpoint = endpoint
     this.queryList = queryList
     this.batchSize = batchSize
@@ -31,12 +32,17 @@ module.exports = class {
       return temp
     }, [])
 
+    console.log(batchedList.keys().length)
+
+    this.queryResults = []
+
     for (const [index, batch] of batchedList.entries()) {
       const batchResult = await Promise.allSettled(batch.map(q => this.singleQuery(q)))
       this.queryResults.push(batchResult)
 
       /* SEND MESSAGE TO SOCKET HERE!!! */
-      jobs.emit('jobInfo', { job, producer: 'lowtide.batchQuery', message: this.queryResults })
+      if (this.relatedJob)
+        jobs.emit('jobInfo', { job: this.relatedJob, producer: 'lowtide.batchQuery', message: this.queryResults })
 
       await sleep()
     }

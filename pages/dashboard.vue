@@ -223,7 +223,7 @@ export default {
         activeEvents.forEach(event => {
             vm.socket.on(event, (message) => {
 
-                console.log('Socket:', message, event);
+                // console.log('Socket:', message, event);
 
                 let currentTime = this.getCurrentTime();
                 let type, text;

@@ -40,19 +40,23 @@
                 </div>
             </div>
 
-            <span class="p-5" @click="testRunBatchQuery()" >test request</span>
+            <div class="mb-5">
+              <button @click="testRunBatchQuery()" type="button" class="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                Fetch Dates
+              </button>
+            </div>
 
             <LoadingCards v-show="this.isLoading" v-bind:cards="10" />
 
             <transition-group class="space-y-4" name="deploy-card" tag="ul">
-                <li class="bg-white shadow overflow-hidden sm:rounded-md" v-for="(v, i) in fields" v-bind:key="v.id">
+                <li class="bg-white shadow overflow-hidden sm:rounded-md" v-for="(v, i) in confirmTimeshiftSelection" v-bind:key="v.id">
                     <div class="block">
                         <div class="px-8 py-6">
                             <div class="flex">
                                 <div class="flex-1">
                                     <p class="text-sm text-gray-500">
                                         <h2 class="text-gray-500 text-xs font-medium uppercase tracking-wide">
-                                          <span v-if="fields.length <= 0">Connector</span>
+                                          <span v-if="confirmTimeshiftSelection.length <= 0">Connector</span>
                                           <span v-else>{{ v.connector }}</span>
                                         </h2>
                                     </p>
@@ -61,7 +65,7 @@
                                     </p>
                                 </div>
                                 <div class="flex flex-col justify-center pt-2 pr-2">
-                                    <span class="text-lg font-medium text-gray-900 text-center"  v-if="fields.length <=0 ">?</span>
+                                    <span class="text-lg font-medium text-gray-900 text-center"  v-if="confirmTimeshiftSelection.length <=0 ">?</span>
                                     <span class="text-lg font-medium text-gray-900 text-center" v-else>{{ v.rows }}</span>
                                     <p class="text-center text-xs text-gray-500">
                                         rows
@@ -69,20 +73,22 @@
                                 </div>
                             </div>
 
-                            <div v-if="v.dates.length">
+                            <div v-if="v.dateFields.length">
                               <div class="border-b border-gray-200">
                                   <h2 class="text-gray-500 text-xs font-medium uppercase tracking-wide pb-2 pt-4">Date Fields</h2>
                               </div>
                               <div class="mt-4 space-y-4">
-                                  <div v-if="fields.length<=0" class="mt-6">
+                                  <!--
+                                  <div v-if="fields.length <= 0" class="mt-6">
                                       <div class="snippet" data-title=".dot-typing">
                                           <div class="stage">
                                               <div class="dot-typing mx-auto"></div>
                                           </div>
                                       </div>
                                   </div>
-                                  <div class="flex w-full items-center" v-for="(f, i) in v.dates" :key="f.id">
-                                    <DatasetSelectDate :dataset="v" :dateField="f" :isFetching="true" @toggledSelected="addOrRemove" />
+                                   -->
+                                  <div class="flex w-full items-center" v-for="(f, i) in v.dateFields" :key="f.id">
+                                    <DatasetSelectDate :fieldData="f" @toggledSelected="addOrRemove" />
                                   </div>
                               </div>
                             </div>
@@ -106,11 +112,17 @@ export default {
     data() {
         return {
             fields: [],
+            queryResults: [],
             isLoading: true
         }
     },
 
     async fetch() {
+
+      // Start with selection
+      // augment with xmd data
+      // structure properly
+
 
       const xmdBody = Object.values(this.selectedTimeshift)
 
@@ -124,6 +136,10 @@ export default {
         this.fields = datasetXmds.data.data
       }
 
+
+
+
+
       const selectionArray = []
 
       for (const [k, v] of Object.entries(this.selectedTimeshift)) {
@@ -135,16 +151,30 @@ export default {
 
         augmentedObject.id = v.Id
         augmentedObject.versionId = v.CurrentId
+        augmentedObject.connector = relatedFields.connector
+        augmentedObject.name = relatedFields.name
+        augmentedObject.rows = relatedFields.rows
+
 
         if (relatedFields) {
           augmentedObject.dateFields = []
           relatedFields.dates.forEach(d => {
-            augmentedObject.dateFields.push(d.fields.fullField)
+            augmentedObject.dateFields.push({
+              isSelected: true,
+              isFetching: false,
+              label: d.label,
+              fieldApiName: d.fields.fullField,
+              foundDate: ''
+            })
           })
           selectionArray.push(augmentedObject)
         }
 
       }
+
+      // console.log(this.fields)
+      // console.log(this.selectedTimeshift)
+      console.log(selectionArray)
 
       this.$store.commit('setConfirmTimeshiftSelection', selectionArray)
       this.isLoading = false
@@ -157,55 +187,120 @@ export default {
         },
         selectedTimeshift () {
             return this.$store.state.selectedTimeshift;
+        },
+        userSession() {
+          return this.$store.state.session;
         }
     },
 
     methods: {
-        addOrRemove(params){
-
-          // Ugh... Embarrassing.
-          let selectCopy = JSON.parse(JSON.stringify(this.confirmTimeshiftSelection))
-
-          selectCopy.forEach((dataset) => {
-            if (params.datasetId === dataset.id) {
-
-              if (params.include && !dataset.dateFields.includes(params.apiName)) {
-                dataset.dateFields.push(params.apiName)
-              }
-
-              if (!params.include && dataset.dateFields.includes(params.apiName)) {
-                const i = dataset.dateFields.indexOf(params.apiName)
-                if (i > -1) dataset.dateFields.splice(i, 1)
-              }
-
-            }
-
-          })
-
-          const shiftArray = selectCopy.filter(d => d.dateFields.length > 0)
-
-          if (shiftArray.length > 0)
-            this.$store.commit('setConfirmTimeshiftSelection', shiftArray)
-          else
-            this.$store.commit('setConfirmTimeshiftSelection', [])
-
+        addOrRemove (params) {
+          this.$store.commit('toggleSelected', params)
         },
 
-        testRunBatchQuery() {
+        async testRunBatchQuery() {
+
+          this.$store.commit('setIsFetching')
 
           const payload = {
             dataflowLabel: "My Test Dataflow",
             datasetArray: this.confirmTimeshiftSelection
           }
 
-          console.log(payload)
+          console.log('testing payload:', payload)
+          // console.log('await socket pings...')
+          //
+          // const results = await this.$axios.post(`/services/dataflow/generate`, payload)
+          //
+          // console.log('results:', results)
 
         }
 
     },
 
+    mounted() {
+
+      this.queryResults = []
+
+      const vm = this
+
+      vm.socket = this.$nuxtSocket({ name: "main" })
+      vm.socket.emit('subscribeToJobUpdates', this.userSession.socketRoom);
+
+      const activeEvents = [ 'jobStarted', 'jobInfo', 'jobProgress', 'jobSuccess', 'jobError', 'serverError' ];
+
+      let parseInfo = (m) => {
+        const { event } = m
+        if (Array.isArray(event.message))
+          return event.message
+        return
+      }
+
+      activeEvents.forEach(event => {
+          vm.socket.on(event, (message) => {
+
+              switch (event) {
+                  case 'jobError' || 'serverError':
+                    console.log('error ping:', message)
+                    break;
+                  case 'jobSuccess':
+                    console.log('success ping:', message)
+                    break;
+                  case 'jobStarted':
+                    console.log('started ping:', message)
+                    break;
+                  case 'jobInfo':
+                    console.log('info ping:')
+
+                    if (parseInfo(message))
+                      this.queryResults = parseInfo(message).flat()
+
+                    for (const results of this.queryResults) {
+
+                      if (results.status === 'fulfilled') {
+
+                        let ld = 'None'
+                        const { fieldApiName, queryResult } = results.value
+
+                        if (queryResult.results) {
+
+                          const { records } = queryResult.results
+                          const isArray = Array.isArray(records), hasItem = records.length > 0;
+
+                          if (isArray && hasItem) {
+                            const item = records.pop()
+                            if (item.__Latest_YMD)
+                              ld = item.__Latest_YMD
+                          }
+
+                        }
+
+
+
+
+                        console.log(fieldApiName, ld)
+
+
+                      }
+                    }
+
+                    break;
+                  default:
+                    break;
+              }
+          });
+      });
+
+    },
+
     watch: {
-      'selectedTimeshift': '$fetch'
+      'selectedTimeshift': '$fetch',
+      queryResults: function(q) {
+
+        // now update this.confirmTimeshiftSelection
+
+
+      }
     }
 }
 </script>
