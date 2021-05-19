@@ -26,6 +26,22 @@ export default {
     setConfirmTimeshiftSelection(state, array) {
         state.confirmTimeshiftSelection = array;
     },
+    setIsFetching(state) {
+      state.confirmTimeshiftSelection.forEach(d => {
+        d.dateFields.forEach(dd => {
+          if (dd.isSelected)
+            dd.isFetching = true
+        })
+      })
+    },
+    toggleSelected(state, params) {
+      state.confirmTimeshiftSelection.forEach(d => {
+        d.dateFields.forEach(dd => {
+          if (dd.fieldApiName === params.fieldApiName && d.id === params.datasetId)
+            dd.isSelected = !dd.isSelected
+        })
+      })
+    },
     setFinishedProcess(state, status) {
         state.finishedProcess = status;
     },

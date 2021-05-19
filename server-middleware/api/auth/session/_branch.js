@@ -14,17 +14,16 @@ module.exports = {
       req.session.deployBranch = cleanBranch
       req.session.save()
 
-      handleSuccess(res, { data: { message: `Success. Changed branch to ${cleanBranch}.`} })
-
+      handleSuccess(res, {
+        data: { 
+          message: `Success. Changed branch to ${cleanBranch}.`
+        }
+      })
 
     } catch (e) {
       console.error(e)
       handleError(res, e)
     }
-
-
-
-
 
   }
 }

@@ -4,18 +4,29 @@ const { sfApi } = require('../utilities'),
 
 const parseDates = (resultsObject) => {
   return resultsObject.map(d => {
+
     if (!d.value) return
+
+    let ld;
+
+    if (d.value.queryResult.results.records.length > 0) {
+      ld = d.value.queryResult.results.records.pop().__Latest_YMD
+    } else {
+      ld = null
+    }
+
     return {
       datasetId: d.value.datasetId,
       datasetVersionId: d.value.datasetVersionId,
-      latestDate: d.value.queryResult.results.records[0].__Latest_YMD,
+      latestDate: ld
     }
+
   })
 }
 
 const recurseQuery = async function (job, batchQueryObject, isDateQuery = true, waitTime = 30) {
 
-  let hasStale = true, loopCount = 0;
+  let hasStale = true, loopCount = 0, staleCount = 0, roundResults = null;
   let sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms))
   let checkStale = (d) => {
     return (d.status === 'rejected' && d.reason.errorCode === '308')
@@ -23,10 +34,9 @@ const recurseQuery = async function (job, batchQueryObject, isDateQuery = true, 
 
   while (hasStale) {
 
-    let staleCount = 0
     await batchQueryObject.execute()
-    const roundResults = batchQueryObject.results.map(checkStale)
 
+    roundResults = batchQueryObject.results.map(checkStale)
     hasStale = roundResults.includes(true)
 
     /*
@@ -49,7 +59,7 @@ const recurseQuery = async function (job, batchQueryObject, isDateQuery = true, 
     } else {
       console.log(`All datasets successfully queried.`)
       if (isDateQuery)
-        jobs.emit('jobInfo', {
+        jobs.emit('jobSuccess', {
           job,
           producer: 'lowtide.timeshift',
           message: 'Finished.',
@@ -101,7 +111,7 @@ const simpleRefresh = async function (job) {
       .filter(needsRefresh)
       .map(d => new RefreshQuery(d.Id, d.CurrentId))
 
-    const batchQuery = new BatchQuery(sf, queryEndpoint, refreshQueries)
+    const batchQuery = new BatchQuery(sf, null, queryEndpoint, refreshQueries)
 
     try {
       const doneResults = await recurseQuery(job, batchQuery)

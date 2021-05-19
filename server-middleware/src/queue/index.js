@@ -83,6 +83,8 @@ const setListeners = function(emitter) {
   return emitter
 }
 
+//timeshiftQueue.obliterate({force: true});
+
 module.exports = {
   restQueue: setListeners(restQueue),
   deployQueue: setListeners(deployQueue),
