@@ -145,7 +145,13 @@ export default {
                 console.log(error)
                 const response = error.response.data;
                 if(response.message==="No Salesforce authentication found."){
-                    window.location.replace("/login");
+                    this.$store.commit(`setToastStatus` , [{
+                        status: true,
+                        type: 'info',
+                        message: 'Your session has expired. You will be redirected.',
+                        time: ''
+                    }, ...this.toastStatus]);
+                    setTimeout(() => { window.location.replace("/login"); }, 3000);
                 }
             }
             let selectedTmp = {};
@@ -182,7 +188,13 @@ export default {
                     console.log(error)
                     const response = error.response.data;
                     if(response.message==="No Salesforce authentication found."){
-                        window.location.replace("/login");
+                        this.$store.commit(`setToastStatus` , [{
+                            status: true,
+                            type: 'info',
+                            message: 'Your session has expired. You will be redirected.',
+                            time: ''
+                        }, ...this.toastStatus]);
+                        setTimeout(() => { window.location.replace("/login"); }, 3000);
                     }
                 }
 
@@ -194,7 +206,13 @@ export default {
                     console.log(error)
                     const response = error.response.data;
                     if(response.message==="No Salesforce authentication found."){
-                        window.location.replace("/login");
+                        this.$store.commit(`setToastStatus` , [{
+                            status: true,
+                            type: 'info',
+                            message: 'Your session has expired. You will be redirected.',
+                            time: ''
+                        }, ...this.toastStatus]);
+                        setTimeout(() => { window.location.replace("/login"); }, 3000);
                     }
                 }
                 
