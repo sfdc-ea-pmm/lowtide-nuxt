@@ -25,13 +25,17 @@
 export default {
 
   props: {
+    dataset: Object,
     fieldData: Object
   },
 
   methods: {
     toggleSelect() {
       this.isSelected = !this.isSelected
-      this.$emit('toggledSelected', this.fieldData)
+      this.$emit('toggledSelected', {
+        ...this.fieldData,
+        datasetId: this.dataset.id
+      })
     }
   }
 

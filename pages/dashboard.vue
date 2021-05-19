@@ -168,6 +168,10 @@ export default {
                 this.$router.push('/login');
             } catch (error) {
                 console.error(error);
+                const response = error.response.data;
+                if(response.message==="No Salesforce authentication found."){
+                    window.location.replace("/login");
+                }
             }
         },
         goHome() {

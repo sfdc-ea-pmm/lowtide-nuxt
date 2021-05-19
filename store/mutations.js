@@ -37,7 +37,7 @@ export default {
     toggleSelected(state, params) {
       state.confirmTimeshiftSelection.forEach(d => {
         d.dateFields.forEach(dd => {
-          if (dd.fieldApiName === params.fieldApiName)
+          if (dd.fieldApiName === params.fieldApiName && d.id === params.datasetId)
             dd.isSelected = !dd.isSelected
         })
       })

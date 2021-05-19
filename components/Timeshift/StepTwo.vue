@@ -88,7 +88,7 @@
                                   </div>
                                    -->
                                   <div class="flex w-full items-center" v-for="(f, i) in v.dateFields" :key="f.id">
-                                    <DatasetSelectDate :fieldData="f" @toggledSelected="addOrRemove" />
+                                    <DatasetSelectDate :dataset="v" :fieldData="f" @toggledSelected="addOrRemove" />
                                   </div>
                               </div>
                             </div>
@@ -132,8 +132,16 @@ export default {
       this.fields = []
 
       if (xmdBody.length) {
-        datasetXmds = await this.$axios.post(`/data/dataset/xmd`, xmdBody, { withCredentials: true })
-        this.fields = datasetXmds.data.data
+        try {
+            datasetXmds = await this.$axios.post(`/data/dataset/xmd`, xmdBody, { withCredentials: true })
+            this.fields = datasetXmds.data.data
+        } catch (error) {
+            console.log(error)
+            const response = error.response.data;
+            if(response.message==="No Salesforce authentication found."){
+                window.location.replace("/login");
+            }
+        }
       }
 
 
@@ -195,6 +203,7 @@ export default {
 
     methods: {
         addOrRemove (params) {
+          console.log(params)
           this.$store.commit('toggleSelected', params)
         },
 
