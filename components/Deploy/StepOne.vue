@@ -142,6 +142,11 @@ export default {
             } catch (e) {
                 this.templates = [];
                 this.isLoading = false;
+                console.log(error)
+                const response = error.response.data;
+                if(response.message==="No Salesforce authentication found."){
+                    window.location.replace("/login");
+                }
             }
             let selectedTmp = {};
             this.templates.forEach((v, i) => {
@@ -170,13 +175,29 @@ export default {
         },
         async changeBranch(){
             if(this.branch==='master'){
-                const response = await this.$axios.get(`${process.env.API_URL}/auth/session/beta`, {withCredentials: true});
-                console.log(response);
-                this.branch = 'beta';
+                try {
+                    await this.$axios.get(`${process.env.API_URL}/auth/session/beta`, {withCredentials: true});
+                    this.branch = 'beta';
+                } catch (error) {
+                    console.log(error)
+                    const response = error.response.data;
+                    if(response.message==="No Salesforce authentication found."){
+                        window.location.replace("/login");
+                    }
+                }
+
             }else{
-                const response = await this.$axios.get(`${process.env.API_URL}/auth/session/master`, {withCredentials: true});
-                console.log(response);
-                this.branch = 'master';
+                try {
+                    await this.$axios.get(`${process.env.API_URL}/auth/session/master`, {withCredentials: true});
+                    this.branch = 'master';
+                } catch (error) {
+                    console.log(error)
+                    const response = error.response.data;
+                    if(response.message==="No Salesforce authentication found."){
+                        window.location.replace("/login");
+                    }
+                }
+                
             }
             this.getTemplates();
         }

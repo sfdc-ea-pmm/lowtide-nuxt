@@ -120,8 +120,16 @@ export default {
       this.fields = []
 
       if (xmdBody.length) {
-        datasetXmds = await this.$axios.post(`/data/dataset/xmd`, xmdBody, { withCredentials: true })
-        this.fields = datasetXmds.data.data
+        try {
+            datasetXmds = await this.$axios.post(`/data/dataset/xmd`, xmdBody, { withCredentials: true })
+            this.fields = datasetXmds.data.data   
+        } catch (error) {
+            console.log(error)
+            const response = error.response.data;
+            if(response.message==="No Salesforce authentication found."){
+                window.location.replace("/login");
+            }
+        }
       }
 
       const selectionArray = []

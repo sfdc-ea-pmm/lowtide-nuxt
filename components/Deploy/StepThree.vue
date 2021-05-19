@@ -105,9 +105,16 @@ export default {
             selectedTemplates.forEach(v => {
                 body.push(v.api_name);
             });
-            await this.$axios.post(`${process.env.API_URL}/services/template/deploy`, body, {withCredentials: true});
-
             this.$store.commit(`setFinishedProcess` , true);
+            try {
+                await this.$axios.post(`${process.env.API_URL}/services/template/deploy`, body, {withCredentials: true});
+            } catch (error) {
+                console.log(error)
+                const response = error.response.data;
+                if(response.message==="No Salesforce authentication found."){
+                    window.location.replace("/login");
+                }
+            }
         },
         previousStep() {
             this.$store.commit(`setCurrentStep` , this.currentStep-2);
