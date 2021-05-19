@@ -3,7 +3,7 @@
     <div>
         <div class="flex justify-between items-center w-full">
             <h2 class="text-gray-500 text-xs font-medium uppercase tracking-wide">Select templates</h2>
-            <div class="py-1 text-sm truncate flex items-center hidden">
+            <div class="py-1 text-sm truncate flex items-center">
                 <h2 class="text-gray-500 text-xs font-medium uppercase tracking-wide mr-2">Beta branch</h2>
                 <button @click="changeBranch()" type="button" class="flex-shrink-0 group relative rounded-full inline-flex items-center justify-center h-5 w-10 cursor-pointer focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 mr-4" role="switch" aria-checked="false">
                     <span class="sr-only">Use setting</span>
@@ -106,6 +106,10 @@ export default {
         },
         selectedDeploy () {
             return this.$store.state.selectedDeploy;
+        },
+        session () {
+            this.branch = this.$store.state.session.deployBranch;
+            return this.$store.state.session;
         }
     },
 
@@ -121,7 +125,7 @@ export default {
             deployTemplates: [
 
             ],
-            branch: 'master',
+            branch: '',
             isLoading: false
         }
     },
@@ -164,16 +168,21 @@ export default {
             }
             this.$store.commit(`setConfirmDeploySelection` , this.deployTemplates);
         },
-        changeBranch(){
+        async changeBranch(){
             if(this.branch==='master'){
+                const response = await this.$axios.get(`${process.env.API_URL}/auth/session/beta`, {withCredentials: true});
+                console.log(response);
                 this.branch = 'beta';
             }else{
+                const response = await this.$axios.get(`${process.env.API_URL}/auth/session/master`, {withCredentials: true});
+                console.log(response);
                 this.branch = 'master';
             }
             this.getTemplates();
         }
     },
     created() {
+        this.session;
         this.getTemplates();
     },
 }
