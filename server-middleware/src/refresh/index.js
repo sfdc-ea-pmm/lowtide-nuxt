@@ -144,7 +144,7 @@ const gatherDateValues = async function (job) {
         return new LatestDateQuery({
           datasetId: d.id,
           datasetVersionId: d.versionId,
-          fieldApiName: f
+          fieldApiName: f.fieldApiName
         })
       })
     }).flat()

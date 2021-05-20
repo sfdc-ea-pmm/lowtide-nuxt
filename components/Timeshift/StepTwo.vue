@@ -42,7 +42,7 @@
 
             <div class="mb-5">
               <button @click="testRunBatchQuery()" type="button" class="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                Fetch Dates
+                Fetch Latest Dates
               </button>
             </div>
 
@@ -203,7 +203,6 @@ export default {
 
     methods: {
         addOrRemove (params) {
-          console.log(params)
           this.$store.commit('toggleSelected', params)
         },
 
@@ -216,12 +215,13 @@ export default {
             datasetArray: this.confirmTimeshiftSelection
           }
 
+
+
           console.log('testing payload:', payload)
-          // console.log('await socket pings...')
-          //
-          // const results = await this.$axios.post(`/services/dataflow/generate`, payload)
-          //
-          // console.log('results:', results)
+
+          console.log('await socket pings...')
+          const results = await this.$axios.post(`/services/dataflow/generate`, payload)
+          console.log('results:', results)
 
         }
 
@@ -261,10 +261,12 @@ export default {
                   case 'jobInfo':
                     console.log('info ping:')
 
-                    if (parseInfo(message))
-                      this.queryResults = parseInfo(message).flat()
+                    let ph = [], temp = [];
 
-                    for (const results of this.queryResults) {
+                    if (parseInfo(message))
+                      temp = parseInfo(message).flat()
+
+                    for (const results of temp) {
 
                       if (results.status === 'fulfilled') {
 
@@ -284,13 +286,18 @@ export default {
 
                         }
 
-
-
-
-                        console.log(fieldApiName, ld)
-
+                        if (ld)
+                          ph.push({
+                            datasetId: results.value.datasetId,
+                            versionId: results.value.datasetVersionId,
+                            fieldApiName: fieldApiName,
+                            latestDate: ld
+                          })
 
                       }
+
+                      this.queryResults = ph
+
                     }
 
                     break;
@@ -306,8 +313,8 @@ export default {
       'selectedTimeshift': '$fetch',
       queryResults: function(q) {
 
-        // now update this.confirmTimeshiftSelection
-
+        console.log(this.queryResults)
+        this.$store.commit('applyDates', this.queryResults)
 
       }
     }

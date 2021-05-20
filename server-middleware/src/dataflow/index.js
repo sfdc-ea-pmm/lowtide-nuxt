@@ -110,7 +110,7 @@ module.exports = (function () {
 
       const result = ''
 
-      return { message: 'Finished!', data: result }
+      return { message: 'Finished!', data: latestDates }
 
     } catch (error) {
       console.error(error.message)
