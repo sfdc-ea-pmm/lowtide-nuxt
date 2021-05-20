@@ -1,3 +1,3 @@
 # lowtide-nuxt
 
-[Lowtide Beta](https://lowtidebeta.herokuapp.com)
+[Lowtide Dev](https://lowtidedev.herokuapp.com)
