@@ -8,31 +8,14 @@
             </div>
         </div>
     </div>
-        
+
 </template>
 
 <script>
 export default {
-    props: {
-        cards: {
-            type: Number
-        },
-    },
-    computed: {
-
-    },
-
-    data() {
-        return {
-            
-        }
-    },
-    methods: {
-        
-    },
-    created() {
-        
-    },
+  props: {
+    cards: Number
+  }
 }
 </script>
 
