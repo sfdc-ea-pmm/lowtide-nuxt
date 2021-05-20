@@ -1,7 +1,7 @@
 <template>
 
     <div>
-        <h2 class="text-gray-500 text-xs font-medium uppercase tracking-wide py-1">Generate dataflows</h2>
+        <h2 class="text-gray-500 text-xs font-medium uppercase tracking-wide py-1">Select Date Fields</h2>
         <div class="my-4">
             <div class="rounded-md bg-blue-50 p-4" v-show="this.selectedTimeshift.length <= 0">
                 <div class="flex">

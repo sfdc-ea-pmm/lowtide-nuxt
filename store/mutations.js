@@ -23,6 +23,7 @@ export default {
     setSelectedTimeshift(state, object) {
         state.selectedTimeshift = object;
     },
+
     setConfirmTimeshiftSelection(state, array) {
         state.confirmTimeshiftSelection = array;
     },
@@ -45,16 +46,16 @@ export default {
     applyDates(state, dateArray) {
       state.confirmTimeshiftSelection.forEach(d => {
         d.dateFields.forEach(dd => {
-
           dateArray.forEach(result => {
-            if (result.datasetId === d.id && result.fieldApiName === dd.fieldApiName)
+            if (result.datasetId === d.id && result.fieldApiName === dd.fieldApiName) {
               dd.foundDate = result.latestDate
               dd.isFetching = false
+            }
           })
-
         })
       })
     },
+    
     setFinishedProcess(state, status) {
         state.finishedProcess = status;
     },

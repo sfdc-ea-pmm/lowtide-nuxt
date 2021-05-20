@@ -194,10 +194,10 @@ export default {
             this.$store.commit(`setFinishedProcess` , false);
         },
         nextStep() {
-            this.$store.commit(`setCurrentStep` , this.currentStep+1);
+            this.$store.commit(`setCurrentStep` , this.currentStep + 1);
         },
         previousStep() {
-            this.$store.commit(`setCurrentStep` , this.currentStep-1);
+            this.$store.commit(`setCurrentStep` , this.currentStep - 1);
         },
         openModal(){
             this.$store.commit(`setModalStatus` , true);
@@ -355,13 +355,13 @@ export default {
                           type: 'current'
                         },
                         {
-                          title: 'Generate Dataflows',
-                          description: 'Two dataflows will be generated and inserted in your org, and a "primer" dataflow will be run.',
+                          title: 'Select Date Fields',
+                          description: 'Choose which fields to include from each dataset, and fetch the latest dates from that dataset.',
                           type: 'upcoming'
                         },
                         {
-                          title: 'Delete Primer Dataflow',
-                          description: 'Now that we have properly configured your new timeshift datasets, we can remove the primer.',
+                          title: 'Generate Dataflows',
+                          description: 'Two dataflows will be generated and inserted in your org, and a "primer" dataflow will be run.',
                           type: 'upcoming'
                         },
                         {
