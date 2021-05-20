@@ -135,24 +135,7 @@ export default {
                 {title: 'Deploy', value: 'Deploy'},
                 {title: 'Timeshift', value: 'Timeshift'}
             ],
-            steps: [
-                {
-                  title: 'Select Dataset Parameters',
-                  description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text of the printing and typesetting industry.', type: 'current'
-                },
-                {
-                  title: 'Define Columns',
-                  description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.', type: 'upcoming'
-                },
-                {
-                  title: 'Set Relations',
-                  description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text of the printing and typesetting industry.', type: 'upcoming'
-                },
-                {
-                  title: 'Generate Data',
-                  description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text of the printing and typesetting industry.', type: 'upcoming'
-                }
-            ],
+            steps: [],
             imgProfileHover: false,
             logoutLoading: false,
         }
@@ -349,6 +332,12 @@ export default {
                     break;
                 case 'Timeshift':
                     this.steps = [
+                      {
+                        title: 'Coming Soon',
+                        description: 'We are as excited as you are, we promise!',
+                        type: 'current'
+                      }
+                      /*
                         {
                           title: 'Select Datasets',
                           description: 'Choose which datasets to include in your timeshifting dataflow. Remember, only datasets with date columns will be timeshifted properly.',
@@ -369,6 +358,7 @@ export default {
                           description: 'Last but not least, to keep things perpetually up to date, we can schedule our timeshift dataflow to run regularly.',
                           type: 'upcoming'
                         },
+                        */
                     ];
                     break;
             }
