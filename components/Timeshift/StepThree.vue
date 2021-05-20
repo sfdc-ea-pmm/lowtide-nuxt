@@ -11,30 +11,10 @@
 
 <script>
 export default {
-
-    data() {
-      return {}
-    },
-
-    async fetch() {
-
-    },
-
-    computed: {
-      confirmTimeshiftSelection () {
-        return this.$store.state.confirmTimeshiftSelection;
-      },
-    },
-
-    methods: {
-
-    },
-
-    mounted() {
-
-    },
-
-    watch: {
+  computed: {
+    confirmTimeshiftSelection () {
+      return this.$store.state.confirmTimeshiftSelection
     }
+  }
 }
 </script>
