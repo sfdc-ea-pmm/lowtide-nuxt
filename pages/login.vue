@@ -63,7 +63,18 @@
 
 <script>
 export default {
-
+    async asyncData({ $axios, redirect }) {
+        try {
+            const response = await $axios.get(`${process.env.API_URL}/auth/session`, { withCredentials: true });
+            const session = response.data.data;
+            if('salesforce' in session){
+                redirect('/dashboard');
+            }
+            return { session }
+        } catch (e) {
+            console.error(e);
+        }
+    },
     computed: {
         toastStatus () {
             return this.$store.state.toastStatus;
