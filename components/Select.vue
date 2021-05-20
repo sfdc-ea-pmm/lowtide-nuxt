@@ -1,7 +1,6 @@
 <template>
     <div class="flex-grow">
         <label id="listbox-label" class="block text-sm font-medium text-gray-700">
-            
         </label>
         <div class="relative">
             <button :disabled="this.step>0" @click="changeStatus()" type="button" :class="(this.step>0 ? 'cursor-not-allowed ' : '' ) + 'disabled:opacity-50 bg-white relative w-full border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2.5 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'" aria-haspopup="listbox" aria-expanded="true" aria-labelledby="listbox-label">
@@ -28,66 +27,66 @@
 
 <script>
 export default {
-    props: {
-        options: {
-            type: Array
-        },
-        mutation: {
-            type: String
-        },
-        label: {
-            type: String
-        },
-        step: {
-            type: Number
-        }
+  props: {
+    options: {
+      type: Array
     },
-    computed: {
-        action () {
-            return this.$store.state.action;
-        },
-        currentStep () {
-            return this.$store.state.currentStep;
-        }
+    mutation: {
+      type: String
     },
+    label: {
+      type: String
+    },
+    step: {
+      type: Number
+    }
+  },
+  computed: {
+    action () {
+      return this.$store.state.action;
+    },
+    currentStep () {
+      return this.$store.state.currentStep;
+    }
+  },
 
-    data() {
-        return {
-            open: false,
-            selected: this.label
-        }
+  data() {
+    return {
+      open: false,
+      selected: this.label
+    }
+  },
+  methods: {
+    changeStatus() {
+      this.open = !this.open;
     },
-    methods: {
-        changeStatus() {
-            this.open = !this.open;
-        },
-        close(e) {
-            if (! this.$el.contains(e.target)) {
-                this.open = false;
-            }
-        },
-        changeSelected(label, value) {
-            this.selected = label;
-            this.open = false;
-            this.$store.commit(`${this.mutation}` , value);
-        },
+    close(e) {
+      if (! this.$el.contains(e.target)) {
+        this.open = false;
+      }
     },
-    created() {
-        window.addEventListener('click', this.close);
+    changeSelected(label, value) {
+      this.selected = label;
+      this.open = false;
+      this.$store.commit(`${this.mutation}` , value);
     },
-    beforeDestroy() {
-        window.removeEventListener('click', this.close);
-    },
+  },
+  created() {
+    window.addEventListener('click', this.close);
+  },
+  beforeDestroy() {
+    window.removeEventListener('click', this.close);
+  },
 }
 </script>
 
 <style>
-    .select-menu{
-        transition: opacity 0.3s;
-        z-index: 11;
-    }
-    .select-menu-transition{
-        opacity: 0;
-        z-index: -1;
-    }
+.select-menu {
+    transition: opacity 0.3s;
+    z-index: 11;
+}
+.select-menu-transition {
+    opacity: 0;
+    z-index: -1;
+}
 </style>

@@ -79,68 +79,65 @@
 
 <script>
 export default {
-    props: {
-        notifications: {
-            type: Array
-        },
-        scroll: {
-            type: Boolean
-        }
+  props: {
+    notifications: {
+      type: Array
     },
-    computed: {
-        notificationFieldFilter(){
-            return this.$store.state.notificationFieldFilter;
-        },
-        filteredNotifications(){
-            const filtered = this.notifications.filter((v, i) => v[this.notificationFieldFilter].toLowerCase().includes(this.filterValue.toLowerCase()));
-            return filtered;
-        },
-        modalStatus(){
-            return this.$store.state.modalStatus;
-        },
+    scroll: {
+      type: Boolean
+    }
+  },
+  computed: {
+    notificationFieldFilter(){
+      return this.$store.state.notificationFieldFilter;
     },
+    filteredNotifications(){
+      const filtered = this.notifications.filter((v, i) => v[this.notificationFieldFilter].toLowerCase().includes(this.filterValue.toLowerCase()));
+      return filtered;
+    },
+    modalStatus(){
+      return this.$store.state.modalStatus;
+    },
+  },
 
-    data() {
-        return {
-            filterValue: '',
-            modalShow: false,
-            options: [
-                {title: 'Type', value: 'type'},
-                {title: 'Title', value: 'title'},
-                {title: 'Time', value: 'time'},
-                {title: 'Message', value: 'message'}
-            ],
-            latestTickId: 0
-        }
+  data() {
+    return {
+      filterValue: '',
+      modalShow: false,
+      options: [
+        {title: 'Type', value: 'type'},
+        {title: 'Title', value: 'title'},
+        {title: 'Time', value: 'time'},
+        {title: 'Message', value: 'message'}
+      ],
+      latestTickId: 0
+    }
+  },
+  methods: {
+    modalOpen (){
+      this.modalShow = true;
+      this.$store.commit(`setModalStatus` , true);
     },
-    methods: {
-        modalOpen (){
-            this.modalShow = true;
-            this.$store.commit(`setModalStatus` , true);
-        },
-        modalClose (){
-            this.modalShow = false;
-            this.$store.commit(`setModalStatus` , false);
-        }
-    },
-    mounted() {
-
-    },
+    modalClose (){
+      this.modalShow = false;
+      this.$store.commit(`setModalStatus` , false);
+    }
+  }
 }
 </script>
 
 <style>
-    .modal{
-        transition: all 0.4s ease-in-out;
-    }
-    .modal-close{
-        opacity: 0;
-    }
-    .modal-open{
-        opacity: 1;
-    }
-    .modal-scroll{
-        height: 400px;
-        overflow-y: auto;
-    }
+.modal{
+  transition: all 0.4s ease-in-out;
+}
+.modal-close{
+  opacity: 0;
+}
+.modal-open{
+  opacity: 1;
+}
+.modal-scroll{
+  height: 400px;
+  overflow-y: auto;
+}
 </style>

@@ -1,5 +1,5 @@
 <template>
-  
+
   <div>
     <div class="flex justify-between items-center w-full">
         <h2 class="text-gray-500 text-xs font-medium uppercase tracking-wide">
@@ -14,25 +14,5 @@
 </template>
 
 <script>
-export default {
-    computed: {
-
-    },
-
-    data() {
-        return {
-
-        }
-    },
-    methods: {
-
-    },
-    created() {
-
-    },
-}
+export default {}
 </script>
-
-<style>
-
-</style>

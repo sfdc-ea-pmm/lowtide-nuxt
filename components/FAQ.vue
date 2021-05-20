@@ -3,22 +3,18 @@
     <div>
       <div class="flex justify-between items-center w-full">
           <h2 class="text-gray-500 text-xs font-medium uppercase tracking-wide">
-            FREQUENTLY ASKED QUESTIONS
+            Frequently Asked Questions
           </h2>
       </div>
       <div class="my-4">
-
         <ul class="">
-
           <li v-for="(q, i) of faq" :key="i">
             <div class="p-4">
               <p class="text-lg font-semibold pb-3">{{ q.question }}</p>
               <p class="">{{ q.answer }}</p>
             </div>
           </li>
-
         </ul>
-
       </div>
     </div>
 
@@ -26,10 +22,6 @@
 
 <script>
 export default {
-    computed: {
-
-    },
-
     data() {
         return {
             faq: [
@@ -74,13 +66,7 @@ export default {
               }
             ]
         }
-    },
-    methods: {
-
-    },
-    created() {
-
-    },
+    }
 }
 </script>
 
