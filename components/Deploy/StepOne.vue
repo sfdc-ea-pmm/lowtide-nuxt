@@ -1,6 +1,7 @@
 <template>
 
     <div>
+        <FilterData v-bind:data="this.templates" v-bind:fields="this.filterFields" />
         <div class="flex justify-between items-center w-full">
             <h2 class="text-gray-500 text-xs font-medium uppercase tracking-wide">Select templates</h2>
             <div class="py-1 text-sm truncate flex items-center">
@@ -14,7 +15,7 @@
             </div>
         </div>
         <ul class="mt-4">
-            <li v-for="(v, i) in this.templates" v-bind:key="v.api_name" class="rounded-md mb-4 relative">
+            <li v-for="(v, i) in this.filteredDeployTemplates" v-bind:key="v.api_name" class="rounded-md mb-4 relative">
 
                 <div class="rounded-full bg-blue-500 absolute w-6 h-6 -top-2 -left-2" v-if="i===-1">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 p-0.5 self-center text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -101,6 +102,9 @@
 <script>
 export default {
     computed: {
+        filteredDeployTemplates () {
+            return this.$store.state.filteredDeployTemplates;
+        },
         confirmDeploySelection () {
             return this.$store.state.confirmDeploySelection;
         },
@@ -126,7 +130,10 @@ export default {
 
             ],
             branch: '',
-            isLoading: false
+            isLoading: false,
+            filterFields: [
+                "label", "description", "dashboards", "datasets", "tags"
+            ]
         }
     },
     methods: {
@@ -138,9 +145,11 @@ export default {
             try {
                 const response = await this.$axios.get(`${process.env.API_URL}/data/repository`, {withCredentials: true});
                 this.templates = response.data.data;
+                this.$store.commit(`setFilteredDeployTemplates` , this.templates);
                 this.isLoading = false;
             } catch (e) {
                 this.templates = [];
+                this.$store.commit(`setFilteredDeployTemplates` , []);
                 this.isLoading = false;
                 console.log(error)
                 const response = error.response.data;
@@ -217,6 +226,11 @@ export default {
                 
             }
             this.getTemplates();
+        }
+    },
+    watch: {
+        filteredDeployTemplates: function () {
+            console.log(this.filteredDeployTemplates)
         }
     },
     created() {

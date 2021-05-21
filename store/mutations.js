@@ -73,4 +73,8 @@ export default {
     setBtnNextDisabled(state, status) {
         state.btnNextDisabled = status;
     },
+    setFilteredDeployTemplates(state, array) {
+      state.filteredDeployTemplates = array;
+    },
+    
 }

@@ -13,4 +13,5 @@ export default () => ({
     notifications: (!sessionStorage.notifications ? [] : JSON.parse(sessionStorage.notifications)),
     notificationsViewed: (sessionStorage.notificationsViewed ? sessionStorage.notificationsViewed : true),
     btnNextDisabled: true,
+    filteredDeployTemplates: [],
 })
