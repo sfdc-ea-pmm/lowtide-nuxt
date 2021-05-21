@@ -35,7 +35,6 @@ export default {
     },
     watch: {
         filterValue: function () {
-            console.log(this.filterValue);
             if(this.filterValue.length>0){
                 const filtered = this.data.filter((v, i) => {
                     let status = false;
@@ -43,12 +42,10 @@ export default {
                         if(va in v){
                             if(Array.isArray(v[va])){
                                 v[va].forEach(vb => {
-                                    //console.log(vb);
                                     if(vb.toLowerCase().includes(this.filterValue.toLowerCase()))
                                         status = true;
                                 });
                             }else{
-                                //console.log(v[va]);
                                 if(v[va].toLowerCase().includes(this.filterValue.toLowerCase()))
                                     status = true;
                             }

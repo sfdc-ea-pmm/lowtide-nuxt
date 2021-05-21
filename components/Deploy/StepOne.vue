@@ -228,11 +228,6 @@ export default {
             this.getTemplates();
         }
     },
-    watch: {
-        filteredDeployTemplates: function () {
-            console.log(this.filteredDeployTemplates)
-        }
-    },
     created() {
         this.session;
         this.getTemplates();
