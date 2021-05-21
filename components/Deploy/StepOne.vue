@@ -1,7 +1,7 @@
 <template>
 
     <div>
-        <FilterData v-bind:data="this.templates" v-bind:fields="this.filterFields" />
+        <FilterData v-bind:data="this.templates" v-bind:fields="this.filterFields" v-bind:mutator="'setFilteredDeployTemplates'" />
         <div class="flex justify-between items-center w-full">
             <h2 class="text-gray-500 text-xs font-medium uppercase tracking-wide">Select templates</h2>
             <div class="py-1 text-sm truncate flex items-center">
