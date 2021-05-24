@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div>
+    <div v-show="false">
       <div class="flex justify-between items-center w-full">
           <h2 class="text-gray-500 text-xs font-medium uppercase tracking-wide">
             Coming Soon!
@@ -11,7 +11,7 @@
       </div>
     </div>
 
-    <div v-show="false">
+    <div v-show="true">
         <TimeshiftStepOne v-show="this.currentStep===0 && this.action==='Timeshift'"/>
         <TimeshiftStepTwo v-show="this.currentStep===1 && this.action==='Timeshift'"/>
         <TimeshiftStepThree v-show="this.currentStep===2 && this.action==='Timeshift'"/>

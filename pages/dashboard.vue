@@ -332,33 +332,33 @@ export default {
                     break;
                 case 'Timeshift':
                     this.steps = [
+                      /*
                       {
                         title: 'Coming Soon',
                         description: 'We are as excited as you are, we promise!',
                         type: 'current'
                       }
-                      /*
-                        {
-                          title: 'Select Datasets',
-                          description: 'Choose which datasets to include in your timeshifting dataflow. Remember, only datasets with date columns will be timeshifted properly.',
-                          type: 'current'
-                        },
-                        {
-                          title: 'Select Date Fields',
-                          description: 'Choose which fields to include from each dataset, and fetch the latest dates from that dataset.',
-                          type: 'upcoming'
-                        },
-                        {
-                          title: 'Generate Dataflows',
-                          description: 'Two dataflows will be generated and inserted in your org, and a "primer" dataflow will be run.',
-                          type: 'upcoming'
-                        },
-                        {
-                          title: 'Schedule Dataflow',
-                          description: 'Last but not least, to keep things perpetually up to date, we can schedule our timeshift dataflow to run regularly.',
-                          type: 'upcoming'
-                        },
-                        */
+                      */
+                      {
+                        title: 'Select Datasets',
+                        description: 'Choose which datasets to include in your timeshifting dataflow. Remember, only datasets with date columns will be timeshifted properly.',
+                        type: 'current'
+                      },
+                      {
+                        title: 'Select Date Fields',
+                        description: 'Choose which fields to include from each dataset, and fetch the latest dates from that dataset.',
+                        type: 'upcoming'
+                      },
+                      {
+                        title: 'Generate Dataflows',
+                        description: 'Two dataflows will be generated and inserted in your org, and a "primer" dataflow will be run.',
+                        type: 'upcoming'
+                      },
+                      {
+                        title: 'Schedule Dataflow',
+                        description: 'Last but not least, to keep things perpetually up to date, we can schedule our timeshift dataflow to run regularly.',
+                        type: 'upcoming'
+                      }
                     ];
                     break;
             }

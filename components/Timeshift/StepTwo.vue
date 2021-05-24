@@ -150,10 +150,6 @@ export default {
         }
       }
 
-
-
-
-
       const selectionArray = []
 
       for (const [k, v] of Object.entries(this.selectedTimeshift)) {
