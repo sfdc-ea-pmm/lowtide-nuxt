@@ -14,4 +14,9 @@ export default () => ({
     notificationsViewed: (sessionStorage.notificationsViewed ? sessionStorage.notificationsViewed : true),
     btnNextDisabled: true,
     filteredDeployTemplates: [],
+
+    einsteinDataDiscovery: {
+      columns: []
+    }
+
 })
