@@ -299,12 +299,12 @@ export default {
                           description: 'TBD',
                           type: 'upcoming'
                         },
-                        /*
                         {
                           title: 'Set Relations',
                           description: 'TBD',
                           type: 'upcoming'
                         },
+                        /*
                         {
                           title: 'Generate Data',
                           description: 'TBD',

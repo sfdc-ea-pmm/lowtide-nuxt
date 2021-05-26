@@ -6,7 +6,7 @@
         <div :class="(va[0]==='id' ? 'hidden' : '') + (va[0]==='name' ? 'col-span-3' : '') + (va[0]==='type' ? 'col-span-2' : '') + (va[0]==='proportion' ? 'relative' : '')" v-for="(va, ia) in Object.entries(v)" v-bind:key="ia">
           <label :for="va[0]" class="block text-sm font-medium text-gray-700 capitalize mb-2">{{va[0]}}</label>
           <input :disabled="(btnAddDisabled && !popoverShow[i]) && (va[0]==='proportion')" v-on:change="va[0]==='proportion' ? handleProportion(i) : ''" :name="va[0]" v-model="v[va[0]]" :type="(va[0]==='proportion' ? 'number' : 'text')" :class="(btnAddDisabled && va[0]==='proportion' ? 'border-red-300 text-red-900 placeholder-red-300 ' : '') + 'flex-grow flex-shrink shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block border-gray-300 rounded-md text-sm w-full capitalize-placeholder'" :placeholder="va[0]==='proportion' ? '00' : va[0]">
-          <p v-if="va[0]==='proportion'" v-show="popoverShow[i]" class="mt-3 text-xs text-gray-800 border-red-600 absolute w-48 border py-2 px-3 rounded-lg z-10 bg-white left-1/2 transform -translate-x-1/2 popover-arrow">Proportions have to SUM less than or equal 100.</p>
+          <p v-if="va[0]==='proportion'" v-show="popoverShow[i]" class="mt-3 text-xxs text-gray-800 border-red-600 absolute w-48 border py-2 px-3 rounded-lg z-10 bg-white left-1/2 transform -translate-x-1/2 popover-arrow">Proportions have to SUM less than or equal 100.</p>
         </div>
         <!-- END Inputs -->
         <!-- Actions -->
@@ -53,10 +53,12 @@ export default {
       if(this.totalProportion>100){
         this.btnAddDisabled = true;
         this.popoverShow[index] = true;
+        this.$store.commit(`setBtnNextDisabled`, true)
       }
       else{
         this.btnAddDisabled = false;
         this.popoverShow[index] = false;
+        this.$store.commit(`setBtnNextDisabled`, false)
       }
     },
     calculateTotalProportion(){
@@ -85,5 +87,8 @@ export default {
   .dataset-row-enter, .dataset-row-leave-to {
       opacity: 0;
       transform: translateX(100px);
+  }
+  .text-xxs{
+    font-size: 0.7rem;
   }
 </style>

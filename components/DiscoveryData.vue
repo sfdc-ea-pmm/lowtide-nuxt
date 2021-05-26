@@ -12,6 +12,7 @@
     </div>
     -->
     <EDDStepOne v-show="this.currentStep===0 && this.action==='Einstein Discovery Data'"/>
+    <EDDStepTwo v-show="this.currentStep===1 && this.action==='Einstein Discovery Data'"/>
   </div>
 
 </template>
