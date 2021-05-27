@@ -32,13 +32,16 @@
             <select v-else
               class="w-56 mt-1 block pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
               v-model="v[va[0]]"
+              v-on:change="handleType(i)"
             >
               <option value="">Choose an option</option>
               <option value="binary">Binary</option>
               <option value="continuous">Continuous</option>
             </select>
             <!-- END Text or Select -->
+            <!-- Popover -->
             <p v-if="va[0]==='proportion'" v-show="popoverShow[i]" class="mt-3 text-xxs text-gray-800 border-red-600 absolute w-48 border py-2 px-3 rounded-lg z-10 bg-white left-1/2 transform -translate-x-1/2 popover-arrow">Proportions have to SUM less than or equal 100.</p>
+            <!-- END Popover -->
           </div>
           <!-- END Inputs -->
         </div>
@@ -47,7 +50,7 @@
           <!-- Add row button -->
           <!-- Disable "Add row" button when the sum of proportions exceeds the amount of 100. -->
           <button v-if="i===0"
-            :disabled="btnAddDisabled" @click="addRow()" 
+            :disabled="btnAddDisabled" @click="addRowData()" 
             type="button" 
             :class="(btnAddDisabled ? 'cursor-not-allowed ' : '') + 'disabled:opacity-70 inline-flex items-center px-2.5 py-1.5 border border-gray-300 shadow-sm text-xs leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 mt-7'"
           >
@@ -80,9 +83,9 @@ export default {
     columnData: Array
   },
   methods: {
-    addRow(){
-      this.columnData.push({id: Date.now(), name: "", type: "", mean: 0, standardDesviation: 0, value: 0, proportion: 0, coefficient: 0});
+    addRowData(){
       this.popoverShow.push(false);
+      this.$emit('addRow');
     },
     deleteRowData(index){
       this.popoverShow = this.popoverShow.filter((v, i) => index!==i);;
@@ -91,7 +94,6 @@ export default {
       this.verifyLimit(index);
     },
     handleProportion(index){
-      this.totalProportion = 0;
       this.calculateTotalProportion();
       this.verifyLimit(index);
     },
@@ -108,9 +110,33 @@ export default {
       }
     },
     calculateTotalProportion(){
+      this.totalProportion = 0;
       this.columnData.forEach((v)=>{
         this.totalProportion += Number(v.proportion);
       })
+    },
+    handleType(index){
+      switch (this.columnData[index].type) {
+        case 'binary':
+          this.columnData[index].value = 0;
+          this.columnData[index].proportion = 0;
+          this.columnData[index].coefficient = 0;
+          this.calculateTotalProportion();
+          this.verifyLimit(index);
+          break;
+        case 'continuous':
+          this.columnData[index].mean = 0;
+          this.columnData[index].standardDesviation = 0;
+          this.columnData[index].coefficient = 0;
+          break;
+        default:
+          this.columnData[index].mean = 0;
+          this.columnData[index].standardDesviation = 0;
+          this.columnData[index].value = 0;
+          this.columnData[index].proportion = 0;
+          this.columnData[index].coefficient = 0;
+          break;
+      }
     },
   },
   data(){
