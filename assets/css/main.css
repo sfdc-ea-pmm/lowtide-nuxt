@@ -72,3 +72,21 @@
       box-shadow: 9984px 0 0 0 #1f2937, 9999px 0 0 0 #1f2937, 10014px 0 0 0 #1f2937;
     }
 }
+.popover-arrow:before{
+  background: white;
+  content: "";
+  height: 8px;
+  border-left: 1px solid #DC2626;
+  border-top: 1px solid #DC2626;
+  transform: translate(-50%, -50%) rotate(
+    45deg
+  );
+  width: 8px;
+  top: -1px;
+  position: absolute;
+  left: 50%;
+  --tw-translate-x: -50%;
+}
+.capitalize-placeholder::placeholder{
+  text-transform: capitalize;
+}

@@ -196,12 +196,13 @@ export default {
             switch (this.action) {
                 case 'Einstein Discovery Data':
                     this.steps = [
+                        /*
                         {
                           title: 'Coming Soon',
                           description: 'We are as excited as you are, we promise!',
                           type: 'current'
-                        }
-                        /*
+                        },
+                        */
                         {
                           title: 'Define Columns',
                           description: 'TBD',
@@ -212,6 +213,7 @@ export default {
                           description: 'TBD',
                           type: 'upcoming'
                         },
+                        /*
                         {
                           title: 'Generate Data',
                           description: 'TBD',
