@@ -55,7 +55,7 @@ export default {
         })
       })
     },
-    
+
     setFinishedProcess(state, status) {
         state.finishedProcess = status;
     },
@@ -63,18 +63,195 @@ export default {
         state.session = status;
     },
     setNotifications(state, notifications) {
-        sessionStorage.notifications = JSON.stringify(notifications);
-        state.notifications = notifications;
+      sessionStorage.notifications = JSON.stringify(notifications);
+      state.notifications = notifications;
+    },
+    clearNotifications(state) {
+      sessionStorage.notifications = null;
+      state.notifications = [];
     },
     setNotificationsViewed(state, status) {
         sessionStorage.notificationsViewed = status;
         state.notificationsViewed = status;
     },
     setBtnNextDisabled(state, status) {
-        state.btnNextDisabled = status;
+      state.btnNextDisabled = status;
     },
     setFilteredDeployTemplates(state, array) {
       state.filteredDeployTemplates = array;
     },
-    
+
+    /* Session */
+
+    setDeployBranch(state, value) {
+      state.session.deployBranch = value
+    },
+
+    /* Process Component */
+
+    setProcess(state, value) {
+
+      const isFaq = value === 'FAQ',
+            isHome = value === 'Home';
+
+      state.process.stepIndex = 0
+      state.process.showHome = isFaq ? true : false;
+      state.process.showButtons = (!isHome && !isFaq) ? true : false;
+      state.process.selected = value
+
+      if (isFaq || isHome) return;
+
+      const relatedProcess = state.process.options.filter(d => d.value === value).pop()
+      state.process.lastStepIndex = relatedProcess.steps - 1
+
+    },
+
+    stepPrev(state) {
+      state.process.stepIndex -= 1
+      if (state.process.stepIndex === 0)
+        state.process.buttons.previous = false
+    },
+
+    catchNext(state) {
+      state.process.validNext = false
+    },
+
+    permitNext(state) {
+      state.process.validNext = true
+    },
+
+    stepNext(state) {
+      state.process.stepIndex += 1
+    },
+
+    disableNext(state) {
+      state.process.buttons.next = false
+    },
+
+    disablePrevious(state) {
+      state.process.buttons.previous = false
+    },
+
+    /* Modal & Notifications */
+
+    toggleModal(state) {
+      state.modal.visible = !state.modal.visible
+      state.modal.unread = false
+    },
+
+    setFieldFilter(state, value) {
+      state.modal.fieldFilter = value
+    },
+
+
+    /* Deploy Templates */
+
+    setSearchTerm(state, term) {
+      state.deployTemplates.searchTerm = term
+    },
+
+    setTemplates(state, { branch, data }) {
+      if (branch === 'beta')
+        state.deployTemplates.betaTemplates = data
+      else
+        state.deployTemplates.masterTemplates = data
+
+      state.deployTemplates.allTemplates = data
+      state.deployTemplates.visibleTemplates = data
+      state.deployTemplates.selectedTemplates = []
+      state.deployTemplates.searchTerm = ''
+    },
+
+    swapTemplates(state, branch) {
+
+      let data;
+
+      if (branch === 'beta')
+        data = state.deployTemplates.betaTemplates
+      else
+        data = state.deployTemplates.masterTemplates
+
+      state.deployTemplates.allTemplates = data
+      state.deployTemplates.visibleTemplates = data
+      state.deployTemplates.selectedTemplates = []
+      state.deployTemplates.searchTerm = ''
+
+    },
+
+    setVisibleTemplates(state, searchTerm) {
+
+      const lcTerm = searchTerm.toLowerCase()
+
+      const filteredTemplates = state.deployTemplates.allTemplates
+        .filter(template => {
+          let found = false
+          for (const field of state.deployTemplates.filterFields) {
+            if (field in template) {
+              if (Array.isArray(template[field])) {
+                const lcArray = template[field].map(d => d.toLowerCase())
+                for (const item of lcArray) {
+                  if (item.includes(lcTerm)) {
+                    found = true
+                    break
+                  }
+                }
+                if (found === true)
+                  break
+              } else {
+                if (template[field].toLowerCase().includes(lcTerm)) {
+                  found = true
+                  break
+                }
+              }
+            }
+          } return found
+        })
+
+      state.deployTemplates.visibleTemplates = filteredTemplates
+
+    },
+
+    setAllTemplatesVisible(state) {
+      state.deployTemplates.visibleTemplates = state.deployTemplates.allTemplates
+    },
+
+    selectTemplate(state, template) {
+      state.deployTemplates.selectedTemplates.push(template)
+    },
+
+    deselectTemplate(state, template) {
+      const ti = state.deployTemplates.selectedTemplates.indexOf(template)
+      if (ti !== -1)
+        state.deployTemplates.selectedTemplates.splice(ti, 1)
+    },
+
+    /* Einstein Discovery Data */
+
+    setDatasetMetadata(state, data) {
+      console.log(data)
+    },
+
+    addFormError(state, value) {
+      const { formErrors } = state.einsteinDiscoveryData.meta
+      if (!formErrors.includes(value)) formErrors.push(value)
+    },
+
+    removeFormError(state, value) {
+      const { formErrors } = state.einsteinDiscoveryData.meta
+      const removeIndex = formErrors.indexOf(value)
+      if (removeIndex > -1) formErrors.splice(removeIndex, 1)
+    },
+
+    showFormErrors(state) {
+      state.einsteinDiscoveryData.meta.showErrors = true
+    },
+
+    resetForm(state) {
+      state.einsteinDiscoveryData.meta = {
+        formErrors: [],
+        showErrors: false
+      }
+    },
+
+
 }

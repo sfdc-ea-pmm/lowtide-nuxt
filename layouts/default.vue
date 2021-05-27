@@ -59,4 +59,9 @@ html {
   color: #fff;
   background-color: #35495e;
 }
+
+span, div {
+  cursor: default;
+}
+
 </style>
