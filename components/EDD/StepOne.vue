@@ -17,7 +17,7 @@ export default {
     data() {
       return {
         columnData: [
-            {id: Date.now(), name: "", type: "", proportion: 0}
+            {id: Date.now(), name: "", type: "", mean: 0, standardDesviation: 0, value: 0, proportion: 0, coefficient: 0}
         ]
       }
     },
