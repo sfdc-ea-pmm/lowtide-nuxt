@@ -30,9 +30,16 @@ export default {
         },
         rows: () => (this.value >= 100 && this.value <= 10000),
         noise: () => (this.value >= 1 && this.value <= 100),
-        type: () => (this.value !== null || this.value !== ''),
+        type: () => (this.value !== null && this.value !== ''),
         cmean: () => (this.value !== null),
-        cstddev: () => (this.value !== null && this.value >= 1)
+        cstddev: () => (this.value !== null && this.value >= 1),
+        titleTwo: () => (this.value !== null && this.value.length > 0),
+        cmeanTwo: () => (this.value !== null && this.value.length > 0),
+        typeTwo: () => (this.value !== null && this.value !== ''),
+        cstddevTwo: () => (this.value !== null && this.value >= 1),
+        valueTwo: () => (this.value !== null && this.value.length > 0),
+        proportionTwo: () => (this.value !== null && this.value.length > 0),
+        noiseTwo: () => (this.value !== null && this.value.length > 0),
       }
     }
   },

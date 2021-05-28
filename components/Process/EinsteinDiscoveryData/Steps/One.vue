@@ -124,7 +124,10 @@ export default {
   computed: {
     isContinuous() {
       return this.outputType === 'Continuous'
-    }
+    },
+    einsteinDiscoveryData () {
+      return this.$store.state.einsteinDiscoveryData;
+    },
   },
   methods: {
     validateForm() {
@@ -132,9 +135,8 @@ export default {
       this.$store.commit(`showFormErrors`)
 
       // if none, commit stepNext
-
-
-
+      if(this.einsteinDiscoveryData.meta.formErrors.length<=0)
+        this.$store.commit('stepNext')
       // this.$store.commit('stepNext')
 
 
