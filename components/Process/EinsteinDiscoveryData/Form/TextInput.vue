@@ -1,6 +1,6 @@
 <template>
   <div class="mt-1 relative rounded-md shadow-sm">
-    <input v-model="value" @input="update" type="text" :name="name" :class="(valid.status ? 'font-semibold text-blue-700' : '') + ' focus:ring-blue-500 focus:border-blue-500 block w-full pr-10 sm:text-sm border-gray-300 rounded-md'" :placeholder="placeholder">
+    <input v-model="value" @input="update" type="text" :name="name" :class="(valid.status ? 'font-semibold text-blue-700' : '') + ' focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md'" :placeholder="placeholder">
   </div>
 </template>
 

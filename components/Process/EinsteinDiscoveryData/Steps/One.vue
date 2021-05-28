@@ -27,7 +27,7 @@
                   label="Title"
                   placeholder="My Einstein Discovery Dataset"
                   note="Letters, numbers, and spaces only."
-                  errorMessage="Please only enter letters, numbers and spaces!"
+                  errorMessage="Please only enter letters, numbers and spaces, up to 65 characters!"
                 />
               </div>
 
