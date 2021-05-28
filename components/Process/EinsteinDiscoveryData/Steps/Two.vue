@@ -6,7 +6,7 @@
             <button
                 @click="addRow()" 
                 type="button" 
-                :class="'disabled:opacity-70 inline-flex items-center px-2.5 py-1.5 border border-gray-300 shadow-sm text-sm leading-4 rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'"
+                :class="'disabled:opacity-70 inline-flex items-center px-2.5 py-2 border border-gray-300 shadow-sm text-sm leading-4 rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'"
             >
                 Add a new row
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -15,7 +15,7 @@
             </button>
         </div>
         <h2 class="text-gray-500 text-xs font-medium uppercase tracking-wide mb-2">Datasets</h2>
-        <div v-for="(v) in this.columnData" v-bind:key="v.id">
+        <div v-for="(v, i) in this.columnData" v-bind:key="v.id">
             <div class="flex flex-row flex-wrap space-x-4 mb-4">
                 <div class="w-72">
                     <ProcessEinsteinDiscoveryDataFormInputWrapper
@@ -35,9 +35,20 @@
                         name="typeTwo"
                         label="Type"
                         placeholder="Select Output Type..."
-                        note="Binary or Continuous (Mean + Std. Dev.)"
+                        note="Binary or Continuous"
                         errorMessage="Oops!"
                     />
+                </div>
+                <div v-if="i>0" class="self-center">
+                    <button 
+                        @click="deleteRow(i)" 
+                        type="button" 
+                        class="inline-flex items-center px-2.5 py-1.5 border border-gray-300 shadow-sm text-xs leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                    >
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4" />
+                        </svg>
+                    </button>
                 </div>
             </div>
             <div class="flex flex-row flex-wrap mb-8">
@@ -116,7 +127,17 @@ export default {
         },
         addRow(){
             this.columnData.push({id: Date.now(), name: "", type: "", mean: 0, cStdDev: 0, value: 0, proportion: 0, coefficient: 0});
+        },
+        validateForm() {
+            this.$store.commit(`showFormErrors`)
         }
     },
+    created() {
+        this.$store.commit('resetForm')
+    },
+    mounted() {
+        this.$store.commit('catchNext')
+        $nuxt.$on('clickedNext', this.validateForm)
+    }
 }
 </script>
