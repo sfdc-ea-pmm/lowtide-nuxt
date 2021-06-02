@@ -77,7 +77,7 @@ export default {
   data() {
     return {
       searchTerm: '',
-      filteredNotifications: this.notifications
+      filteredNotifications: '',
     }
   },
 
@@ -105,8 +105,12 @@ export default {
   watch: {
     searchTerm() {
       const lcSearchTerm = this.searchTerm.toLowerCase()
-      this.filteredNotifications = this.filteredNotifications.filter((d => d[this.fieldFilter].toLowerCase().includes(lcSearchTerm)))
+      this.filteredNotifications = this.notifications.filter((d => d[this.fieldFilter].toLowerCase().includes(lcSearchTerm)))
     }
+  },
+
+  created() {
+    this.filteredNotifications = this.notifications;
   }
 
 }

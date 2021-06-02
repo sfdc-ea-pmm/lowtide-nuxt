@@ -127,6 +127,14 @@ export default {
         ]
       }
     },
+    computed:{
+        toastStatus () {
+            return this.$store.state.toastStatus;
+        },
+        notifications () {
+            return this.$store.state.notifications;
+        },
+    },
     methods: {
         deleteRow(index){
             this.columnData = this.columnData.filter((v, i) => index!==i);
@@ -136,7 +144,7 @@ export default {
         },
         validateForm() {
             this.$store.commit(`showFormErrors`)
-        }
+        },
     },
     created() {
         this.$store.commit('resetForm')
