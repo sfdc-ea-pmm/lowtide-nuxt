@@ -1,20 +1,20 @@
-<!-- FOR ROMARIO --> 
+<!-- FOR ROMARIO -->
 <template>
     <div>
         <div class="pb-8">
             <h2 class="text-gray-500 text-xs font-medium uppercase tracking-wide mb-2">Actions</h2>
             <button
-                @click="addRow()" 
-                type="button" 
+                @click="addRow()"
+                type="button"
                 :class="'disabled:opacity-70 inline-flex items-center px-2.5 py-2 border border-gray-300 shadow-sm text-sm leading-4 rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'"
             >
-                Add a new row
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                </svg>
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+              </svg>
+              Add a Column
             </button>
         </div>
-        <h2 class="text-gray-500 text-xs font-medium uppercase tracking-wide mb-2">Datasets</h2>
+        <h2 class="text-gray-500 text-xs font-medium uppercase tracking-wide mb-2">Columns</h2>
         <div v-for="(v, i) in this.columnData" v-bind:key="v.id">
             <div class="flex flex-row flex-wrap space-x-4 mb-4">
                 <div class="w-72">
@@ -40,9 +40,9 @@
                     />
                 </div>
                 <div v-if="i>0" class="self-center">
-                    <button 
-                        @click="deleteRow(i)" 
-                        type="button" 
+                    <button
+                        @click="deleteRow(i)"
+                        type="button"
                         class="inline-flex items-center px-2.5 py-1.5 border border-gray-300 shadow-sm text-xs leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                     >
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -113,11 +113,17 @@
 </template>
 
 <script>
+
+// instalar nanoid
+
+// import { nanoid } from 'nanoid'
+// id: nanoid(10)
+
 export default {
     data() {
       return {
         columnData: [
-            {id: Date.now(), title: "", type: "", mean: 0, cStdDev: 0, value: 0, proportion: 0, noise: 0}
+            { id: Date.now(), title: "", type: "", mean: 0, cStdDev: 0, value: 0, proportion: 0, noise: 0}
         ]
       }
     },

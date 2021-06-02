@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="flex flex-row">
-        <ProcessDeployTemplatesSearchInput />
+        <ProcessDeployTemplatesSearchInput ref="search" />
       <div class="flex justify-end items-center w-full">
         <ProcessDeployTemplatesBranchSwitch @changedBranch="setTemplates" />
       </div>
@@ -38,10 +38,16 @@ export default {
     },
     visibleTemplates() {
       return this.$store.state.deployTemplates.visibleTemplates
+    },
+    selectedTemplates() {
+      return this.$store.state.deployTemplates.selectedTemplates
     }
   },
   methods: {
     async setTemplates() {
+
+      // if (this.selectedTemplates.length > 0)
+      //   When user clicks "Previous," selections don't appear. Fix this. 
 
       const requestOptions = { withCredentials: true }
 
@@ -67,6 +73,18 @@ export default {
       }
 
     }
+  },
+  watch: {
+    selectedTemplates() {
+      if (this.selectedTemplates.length)
+        this.$store.commit(`enableNext`)
+      else
+        this.$store.commit(`disableNext`)
+    }
+  },
+  mounted() {
+    this.$store.commit(`disablePrevious`)
+    this.$store.commit(`disableNext`)
   }
 }
 </script>

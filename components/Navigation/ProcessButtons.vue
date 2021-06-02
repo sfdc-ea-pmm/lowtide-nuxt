@@ -45,18 +45,12 @@ export default {
     },
     stepNext() {
       $nuxt.$emit('clickedNext')
-      if (this.process.validNext) {
+      if (this.process.buttons.next) {
         if (this.process.stepIndex === this.process.lastStepIndex)
             this.$store.commit(`setProcess`, 'Home')
         else
           this.$store.commit('stepNext')
       }
-    },
-    disableNext() {
-      this.$store.commit('disableNext')
-    },
-    disablePrevious() {
-      this.$store.commit('disablePrevious')
     }
   },
 

@@ -136,17 +136,17 @@ export default {
 
       // if none, commit stepNext
       if(this.einsteinDiscoveryData.meta.formErrors.length<=0)
-        this.$store.commit('stepNext')
+        this.$store.commit(`stepNext`)
       // this.$store.commit('stepNext')
 
 
     }
   },
   created() {
-    this.$store.commit('resetForm')
+    this.$store.commit(`resetForm`)
   },
   mounted() {
-    this.$store.commit('catchNext')
+    this.$store.commit(`disableNext`)
     $nuxt.$on('clickedNext', this.validateForm)
   }
 }

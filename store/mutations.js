@@ -112,24 +112,24 @@ export default {
         state.process.buttons.previous = false
     },
 
-    catchNext(state) {
-      state.process.validNext = false
-    },
-
-    permitNext(state) {
-      state.process.validNext = true
-    },
-
     stepNext(state) {
       state.process.stepIndex += 1
+    },
+
+    disablePrevious(state) {
+      state.process.buttons.previous = false
+    },
+
+    enablePrevious(state) {
+      state.process.buttons.previous = true
     },
 
     disableNext(state) {
       state.process.buttons.next = false
     },
 
-    disablePrevious(state) {
-      state.process.buttons.previous = false
+    enableNext(state) {
+      state.process.buttons.next = true
     },
 
     /* Modal & Notifications */

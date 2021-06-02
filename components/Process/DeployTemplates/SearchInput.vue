@@ -8,9 +8,11 @@
 </template>
 
 <script>
+
 export default {
   data() {
     return {
+      timeout: null,
       searchTerm: ''
     }
   },
@@ -25,15 +27,20 @@ export default {
       return this.searchTerm !== ''
     }
   },
+  methods: {
+    clearSearchTerm() {
+      this.searchTerm = ''
+    }
+  },
   watch: {
     searchTerm() {
-      if (this.hasSearchTerm)
-        this.$store.commit(`setVisibleTemplates`, this.searchTerm)
-      else
-        this.$store.commit(`setAllTemplatesVisible`)
-    },
-    storeSearchTerm() {
-      this.searchTerm = this.storeSearchTerm
+      let hst = this.hasSearchTerm, st = this.searchTerm;
+      // Debounce input, only apply after 250ms timeout
+      if (this.timeout) clearTimeout(this.timeout)
+      this.timeout = setTimeout(() => {
+        if (hst) this.$store.commit(`setVisibleTemplates`, st);
+        else this.$store.commit(`setAllTemplatesVisible`);
+      }, 250)
     }
   }
 }

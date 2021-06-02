@@ -26,7 +26,7 @@ export default {
         const requestOptions = { withCredentials: true }
         await this.$axios.get(`${process.env.API_URL}/auth/session/${value}`, requestOptions)
         this.$store.commit(`setDeployBranch`, value)
-        this.$emit('changedBranch')
+        this.$emit(`changedBranch`)
       } catch (e) {
         console.error(e)
         this.$store.commit(`setDeployBranch`, 'beta')
