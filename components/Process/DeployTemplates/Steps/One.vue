@@ -47,7 +47,7 @@ export default {
     async setTemplates() {
 
       // if (this.selectedTemplates.length > 0)
-      //   When user clicks "Previous," selections don't appear. Fix this. 
+      //   When user clicks "Previous," selections don't appear. Fix this.
 
       const requestOptions = { withCredentials: true }
 
@@ -83,6 +83,7 @@ export default {
     }
   },
   mounted() {
+    this.$store.commit(`uncatchNext`)
     this.$store.commit(`disablePrevious`)
     this.$store.commit(`disableNext`)
   }

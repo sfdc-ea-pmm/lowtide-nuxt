@@ -124,6 +124,14 @@ export default {
       state.process.buttons.previous = true
     },
 
+    catchNext(state) {
+      state.process.validNext = false
+    },
+
+    uncatchNext(state) {
+      state.process.validNext = true
+    },
+
     disableNext(state) {
       state.process.buttons.next = false
     },

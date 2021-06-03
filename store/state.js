@@ -50,7 +50,7 @@ export default () => ({
         { value: 'Timeshift Datasets', steps: 4 }
       ],
       selected: 'Home',
-      validNext: false,
+      validNext: true,
       stepIndex: 0,
       lastStepIndex: 0,
       showHome: false,
