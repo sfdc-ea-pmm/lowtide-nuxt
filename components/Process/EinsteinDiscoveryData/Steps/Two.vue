@@ -38,7 +38,7 @@
                                 name="typeTwo"
                                 label="Type"
                                 placeholder="Select Output Type..."
-                                note="Binary or Continuous"
+                                note="Categorical or Continuous"
                                 errorMessage="Oops!"
                             />
                         </div>
@@ -103,6 +103,7 @@
                     </div>
                     <h2 v-show="v.type==='Categorical'" class="text-gray-500 text-xs font-medium uppercase tracking-wide mt-4 mb-2">Values</h2>
                     <div v-show="v.type==='Categorical'" class="flex flex-col flex-wrap space-y-4">
+                        <div v-if="v.values.length<=0" class="text-xs text-gray-700">Create a new value.</div>
                         <div class="flex flex-row flex-wrap" v-for="(va, ia) in v.values" v-bind:key="va.id">
                             <div class="w-72 mr-4">
                                 <ProcessEinsteinDiscoveryDataFormInputWrapper
@@ -115,7 +116,7 @@
                                     errorMessage="Don't leave blank spaces."
                                 />
                             </div>
-                            <div class="w-36 mr-4">
+                            <div class="w-40 mr-4">
                                 <ProcessEinsteinDiscoveryDataFormInputWrapper
                                     v-model="va.proportion"
                                     componentName="ProcessEinsteinDiscoveryDataFormNumberInput"
@@ -147,16 +148,12 @@
 
 <script>
 
-// instalar nanoid
-
-// import { nanoid } from 'nanoid'
-// id: nanoid(10)
-
+import { nanoid } from 'nanoid'
 export default {
     data() {
       return {
         columnData: [
-            { id: Date.now(), title: "", type: "", mean: 0, cStdDev: 0, noise: 0, values: [] }
+            { id: nanoid(10), title: "", type: "", mean: 0, cStdDev: 0, noise: 0, values: [{id: nanoid(10), label: "", proportion: 0}] }
         ]
       }
     },
@@ -173,16 +170,15 @@ export default {
             this.columnData = this.columnData.filter((v, i) => index!==i);
         },
         addRow(){
-            this.columnData.push({ id: Date.now(), title: "", type: "", mean: 0, cStdDev: 0, noise: 0, values: [] });
+            this.columnData.push({ id: nanoid(10), title: "", type: "", mean: 0, cStdDev: 0, noise: 0, values: [] });
         },
         validateForm() {
             this.$store.commit(`showFormErrors`)
         },
         addValue(index) {
-            this.columnData[index].values.push({id: Date.now(), label: "", proportion: 0});
+            this.columnData[index].values.push({id: nanoid(10), label: "", proportion: 0});
         },
         deleteValue(indexParent, index) {
-            console.log(indexParent, index)
             this.columnData[indexParent].values = this.columnData[indexParent].values.filter((v, i) => {console.log(v, i, index!==i);return index!==i});
         },
     },
@@ -190,7 +186,7 @@ export default {
         this.$store.commit('resetForm')
     },
     mounted() {
-        //this.$store.commit('enableNext')
+        this.$store.commit('catchNext')
         $nuxt.$on('clickedNext', this.validateForm)
     }
 }
