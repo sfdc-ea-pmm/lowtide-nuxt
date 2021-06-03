@@ -128,6 +128,10 @@ export default {
       state.process.validNext = false
     },
 
+    uncatchNext(state) {
+      state.process.validNext = true
+    },
+
     disableNext(state) {
       state.process.buttons.next = false
     },
