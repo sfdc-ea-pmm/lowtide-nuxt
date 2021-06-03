@@ -2,7 +2,7 @@
 <template>
     <div>
         <div class="pb-8">
-            <h2 class="text-gray-500 text-xs font-medium uppercase tracking-wide mb-2">Actions</h2>
+            <h2 class="text-gray-500 text-xs font-medium uppercase tracking-wide mb-4">Actions</h2>
             <button
                 @click="addRow()"
                 type="button"
@@ -14,98 +14,131 @@
               Add a Column
             </button>
         </div>
-        <h2 class="text-gray-500 text-xs font-medium uppercase tracking-wide mb-2">Columns</h2>
-        <div v-for="(v, i) in this.columnData" v-bind:key="v.id">
-            <div class="flex flex-row flex-wrap space-x-4 mb-4">
-                <div class="w-72">
-                    <ProcessEinsteinDiscoveryDataFormInputWrapper
-                        v-model="v.title"
-                        componentName="ProcessEinsteinDiscoveryDataFormTextInput"
-                        name="titleTwo"
-                        label="Title"
-                        placeholder="My Einstein Discovery Dataset"
-                        note="Column name."
-                        errorMessage="Don't leave blank spaces."
-                    />
-                </div>
-                <div class="w-72">
-                    <ProcessEinsteinDiscoveryDataFormInputWrapper
-                        v-model="v.type"
-                        componentName="ProcessEinsteinDiscoveryDataFormSelectList"
-                        name="typeTwo"
-                        label="Type"
-                        placeholder="Select Output Type..."
-                        note="Binary or Continuous"
-                        errorMessage="Oops!"
-                    />
-                </div>
-                <div v-if="i>0" class="self-center">
-                    <button
-                        @click="deleteRow(i)"
-                        type="button"
-                        class="inline-flex items-center px-2.5 py-1.5 border border-gray-300 shadow-sm text-xs leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                    >
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4" />
-                        </svg>
-                    </button>
-                </div>
-            </div>
-            <div class="flex flex-row flex-wrap mb-8">
-                <div v-show="v.type==='Binary'" class="w-28 mr-4">
-                    <ProcessEinsteinDiscoveryDataFormInputWrapper
-                        v-model="v.mean"
-                        componentName="ProcessEinsteinDiscoveryDataFormNumberInput"
-                        name="cmeanTwo"
-                        label="Mean"
-                        placeholder="100"
-                        note="Any number."
-                        errorMessage="Enter a value."
-                    />
-                </div>
-                <div v-show="v.type==='Binary'" class="w-32 mr-4">
-                    <ProcessEinsteinDiscoveryDataFormInputWrapper
-                        v-model="v.cStdDev"
-                        componentName="ProcessEinsteinDiscoveryDataFormNumberInput"
-                        name="cstddevTwo"
-                        label="Standard Deviation"
-                        placeholder="15"
-                        note="Greater than zero."
-                        errorMessage="Oops!"
-                    />
-                </div>
-                <div v-show="v.type==='Continuous'" class="w-28 mr-4">
-                    <ProcessEinsteinDiscoveryDataFormInputWrapper
-                        v-model="v.mean"
-                        componentName="ProcessEinsteinDiscoveryDataFormNumberInput"
-                        name="valueTwo"
-                        label="Value"
-                        placeholder="45"
-                        note="Any number."
-                        errorMessage="Enter a value."
-                    />
-                </div>
-                <div v-show="v.type==='Continuous'" class="w-36 mr-4">
-                    <ProcessEinsteinDiscoveryDataFormInputWrapper
-                        v-model="v.proportion"
-                        componentName="ProcessEinsteinDiscoveryDataFormNumberInput"
-                        name="proportionTwo"
-                        label="Proportion"
-                        placeholder="n < 100"
-                        note="The SUM of proportions must be lower than 100."
-                        errorMessage="Oops!"
-                    />
-                </div>
-                <div class="w-32 mr-4">
-                    <ProcessEinsteinDiscoveryDataFormInputWrapper
-                        v-model="v.noise"
-                        componentName="ProcessEinsteinDiscoveryDataFormNumberInput"
-                        name="noiseTwo"
-                        label="Noise Coefficient"
-                        placeholder="25"
-                        note="1-100"
-                        errorMessage="Oops!"
-                    />
+        <div>
+            <h2 class="text-gray-500 text-xs font-medium uppercase tracking-wide mb-4">Columns</h2>
+            <div class="space-y-6">
+                <div class="border rounded-lg p-4" v-for="(v, i) in this.columnData" v-bind:key="v.id">
+                    <div class="flex flex-row flex-wrap space-x-4 mb-4">
+                        <div class="w-72">
+                            <ProcessEinsteinDiscoveryDataFormInputWrapper
+                                v-model="v.title"
+                                componentName="ProcessEinsteinDiscoveryDataFormTextInput"
+                                name="titleTwo"
+                                label="Title"
+                                placeholder="My Einstein Discovery Dataset"
+                                note="Column name."
+                                errorMessage="Don't leave blank spaces."
+                            />
+                        </div>
+                        <div class="w-64">
+                            <ProcessEinsteinDiscoveryDataFormInputWrapper
+                                :options="['Categorical', 'Continuous']"
+                                v-model="v.type"
+                                componentName="ProcessEinsteinDiscoveryDataFormSelectList"
+                                name="typeTwo"
+                                label="Type"
+                                placeholder="Select Output Type..."
+                                note="Binary or Continuous"
+                                errorMessage="Oops!"
+                            />
+                        </div>
+                        <div v-if="i>0" class="mt-6">
+                            <button
+                                @click="deleteRow(i)"
+                                type="button"
+                                class="inline-flex items-center px-2.5 py-1.5 border border-gray-300 shadow-sm text-xs leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                            >
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="flex flex-row flex-wrap">
+                        <div v-show="v.type==='Continuous'" class="w-28 mr-4">
+                            <ProcessEinsteinDiscoveryDataFormInputWrapper
+                                v-model="v.mean"
+                                componentName="ProcessEinsteinDiscoveryDataFormNumberInput"
+                                name="cmeanTwo"
+                                label="Mean"
+                                placeholder="100"
+                                note="Any number."
+                                errorMessage="Enter a value."
+                            />
+                        </div>
+                        <div v-show="v.type==='Continuous'" class="w-32 mr-4">
+                            <ProcessEinsteinDiscoveryDataFormInputWrapper
+                                v-model="v.cStdDev"
+                                componentName="ProcessEinsteinDiscoveryDataFormNumberInput"
+                                name="cstddevTwo"
+                                label="Standard Deviation"
+                                placeholder="15"
+                                note="Greater than zero."
+                                errorMessage="Oops!"
+                            />
+                        </div>
+                        <div v-show="v.type==='Categorical'" class="w-32 mr-4">
+                            <ProcessEinsteinDiscoveryDataFormInputWrapper
+                                v-model="v.noise"
+                                componentName="ProcessEinsteinDiscoveryDataFormNumberInput"
+                                name="noiseTwo"
+                                label="Noise Coefficient"
+                                placeholder="25"
+                                note="1-100"
+                                errorMessage="Oops!"
+                            />
+                        </div>
+                        <div class="mr-4 mt-6" v-show="v.type==='Categorical'">
+                            <button
+                                @click="addValue(i)"
+                                type="button"
+                                class="inline-flex items-center px-2.5 py-1.5 border border-gray-300 shadow-sm text-xs leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                            >
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                                    </svg>
+                                    New value
+                            </button>
+                        </div>
+                    </div>
+                    <h2 v-show="v.type==='Categorical'" class="text-gray-500 text-xs font-medium uppercase tracking-wide mt-4 mb-2">Values</h2>
+                    <div v-show="v.type==='Categorical'" class="flex flex-col flex-wrap space-y-4">
+                        <div class="flex flex-row flex-wrap" v-for="(va, ia) in v.values" v-bind:key="va.id">
+                            <div class="w-72 mr-4">
+                                <ProcessEinsteinDiscoveryDataFormInputWrapper
+                                    v-model="va.label"
+                                    componentName="ProcessEinsteinDiscoveryDataFormTextInput"
+                                    name="titleTwo"
+                                    label="Label"
+                                    placeholder="My Einstein Discovery Dataset"
+                                    note="Column name."
+                                    errorMessage="Don't leave blank spaces."
+                                />
+                            </div>
+                            <div class="w-36 mr-4">
+                                <ProcessEinsteinDiscoveryDataFormInputWrapper
+                                    v-model="va.proportion"
+                                    componentName="ProcessEinsteinDiscoveryDataFormNumberInput"
+                                    name="proportionTwo"
+                                    label="Proportion"
+                                    placeholder="n < 100"
+                                    note="The SUM of proportions must be lower than 100."
+                                    errorMessage="Oops!"
+                                />
+                            </div>
+                            <div v-if="ia>0" class="mt-6">
+                                <button
+                                    @click="deleteValue(i, ia)"
+                                    type="button"
+                                    class="inline-flex items-center px-2.5 py-1.5 border border-gray-300 shadow-sm text-xs leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                >
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -123,7 +156,7 @@ export default {
     data() {
       return {
         columnData: [
-            { id: Date.now(), title: "", type: "", mean: 0, cStdDev: 0, value: 0, proportion: 0, noise: 0}
+            { id: Date.now(), title: "", type: "", mean: 0, cStdDev: 0, noise: 0, values: [] }
         ]
       }
     },
@@ -140,17 +173,24 @@ export default {
             this.columnData = this.columnData.filter((v, i) => index!==i);
         },
         addRow(){
-            this.columnData.push({id: Date.now(), name: "", type: "", mean: 0, cStdDev: 0, value: 0, proportion: 0, coefficient: 0});
+            this.columnData.push({ id: Date.now(), title: "", type: "", mean: 0, cStdDev: 0, noise: 0, values: [] });
         },
         validateForm() {
             this.$store.commit(`showFormErrors`)
+        },
+        addValue(index) {
+            this.columnData[index].values.push({id: Date.now(), label: "", proportion: 0});
+        },
+        deleteValue(indexParent, index) {
+            console.log(indexParent, index)
+            this.columnData[indexParent].values = this.columnData[indexParent].values.filter((v, i) => {console.log(v, i, index!==i);return index!==i});
         },
     },
     created() {
         this.$store.commit('resetForm')
     },
     mounted() {
-        this.$store.commit('catchNext')
+        //this.$store.commit('enableNext')
         $nuxt.$on('clickedNext', this.validateForm)
     }
 }

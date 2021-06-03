@@ -3,6 +3,7 @@
     <label :for="name" class="block text-sm font-medium text-gray-700">{{ label }}</label>
     <div>
       <Component
+        :options="options"
         :is="componentName"
         v-model="value"
         @input="update"
@@ -24,7 +25,8 @@ export default {
     placeholder: String,
     note: String,
     errorMessage: String,
-    validation: Function
+    validation: Function,
+    options: Array
   },
   data() {
     return {
