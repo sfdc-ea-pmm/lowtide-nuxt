@@ -45,7 +45,7 @@ export default {
     },
     stepNext() {
       $nuxt.$emit('clickedNext')
-      if (this.process.buttons.next) {
+      if (this.process.buttons.next && this.process.validNext) {
         if (this.process.stepIndex === this.process.lastStepIndex)
             this.$store.commit(`setProcess`, 'Home')
         else
