@@ -145,7 +145,7 @@ export default {
     this.$store.commit(`resetForm`)
   },
   mounted() {
-    //this.$store.commit(`catchNext`)
+    this.$store.commit(`catchNext`)
     this.$store.commit(`enableNext`)
     $nuxt.$on('clickedNext', this.validateForm)
   }

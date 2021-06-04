@@ -83,7 +83,7 @@ export default {
     }
   },
   mounted() {
-    this.$store.commit(`uncatchNext`)
+    this.$store.commit(`releaseNext`)
     this.$store.commit(`disablePrevious`)
     this.$store.commit(`disableNext`)
   }

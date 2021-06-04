@@ -39,6 +39,7 @@ export default {
   methods: {
     moveTo(value) {
       this.$store.commit(`setProcess`, value)
+      this.$store.commit(`releaseNext`)
     },
     stepPrev() {
       this.$store.commit('stepPrev')

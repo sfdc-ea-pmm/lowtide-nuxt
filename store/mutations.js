@@ -128,7 +128,7 @@ export default {
       state.process.validNext = false
     },
 
-    uncatchNext(state) {
+    releaseNext(state) {
       state.process.validNext = true
     },
 
