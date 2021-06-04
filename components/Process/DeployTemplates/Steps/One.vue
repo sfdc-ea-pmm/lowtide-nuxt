@@ -10,7 +10,7 @@
       <div v-show="!isLoading" v-for="(template, i) in visibleTemplates" :key="template.api_name">
         <ProcessDeployTemplatesSelectCard :template="template" />
       </div>
-      <LoadingCards v-show="isLoading" :cards="10" />
+      <AlertsLoadingCards v-show="isLoading" :cards="10" />
     </div>
   </div>
 

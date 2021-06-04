@@ -32,10 +32,10 @@
                 </div>
             </div>
             <div class="bg-gray-50 lg:flex-shrink-0 lg:border-l lg:border-gray-200 md:p-0">
-                <NotificationCenter />
+                <NavigationNotificationCenter />
             </div>
         </div>
-        <Toast />
+        <AlertsToast />
     </div>
 
 </template>

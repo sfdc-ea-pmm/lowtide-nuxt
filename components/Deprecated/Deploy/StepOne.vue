@@ -96,8 +96,7 @@
               </div>
           </li>
 
-          <!-- Loading cards -->
-          <LoadingCards v-show="this.isLoading" v-bind:cards="10" />
+          <AlertsLoadingCards v-show="this.isLoading" :cards="10" />
 
       </ul>
     </div>
