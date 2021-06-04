@@ -3,7 +3,7 @@
         <div class="flex-grow w-full mx-auto xl:pl-8 lg:flex">
             <div class="flex-1 min-w-0 bg-white lg:flex">
                 <div class="xl:flex-shrink-0 xl:w-72 lg:w-80 lg:border-r lg:border-gray-200 bg-white">
-                    <div :class="(this.action!=='Home' && this.action!=='FAQ' ? 'md:pb-2 ' : 'md:pb-6 ') + 'md:pl-6 pr-6 pt-6 xl:pb-4 xl:pl-0'">
+                    <div :class="(process.showButtons ? 'md:pb-2 ' : 'md:pb-6 ') + 'md:pl-6 pr-6 pt-6 xl:pb-4 xl:pl-0'">
                         <div class="flex items-center justify-between">
                             <div class="flex-1 xl:space-y-8 md:space-y-6">
                                 <div class="xl:space-y-8 lg:space-y-4 md:space-y-0 sm:flex sm:justify-between sm:items-center xl:block lg:flex-col">
@@ -15,8 +15,8 @@
                                         <NotificationsModalButton />
                                     </div>
                                 </div>
-                                <div v-show="this.action!=='Home' && this.action!=='FAQ'">
-                                    <Steps v-bind:steps="this.steps" />
+                                <div v-show="process.showButtons">
+                                    <NavigationStepTimeline />
                                 </div>
                             </div>
                         </div>
@@ -27,7 +27,7 @@
                       <NavigationProcessButtons />
                     </div>
                     <div class="p-6 main-section">
-                      <NavigationStepContainer :prefix="processToComponentFolderMap[process]" />
+                      <NavigationStepContainer :prefix="processToComponentFolderMap[process.selected]" />
                     </div>
                 </div>
             </div>
@@ -60,34 +60,11 @@ export default {
     },
     computed: {
       process() {
-        return this.$store.state.process.selected
+        return this.$store.state.process
       },
       processToComponentFolderMap() {
         return this.$store.state.processToComponentFolderMap
-      },
-
-
-        action () {
-            return this.$store.state.action;
-        },
-        currentStep () {
-            return this.$store.state.currentStep;
-        },
-        finishedProcess () {
-            return this.$store.state.finishedProcess;
-        },
-        toastStatus () {
-            return this.$store.state.toastStatus;
-        },
-        notifications () {
-            return this.$store.state.notifications;
-        },
-        notificationsViewed () {
-            return this.$store.state.notificationsViewed;
-        },
-        btnNextDisabled () {
-            return this.$store.state.btnNextDisabled;
-        },
+      }
     },
 
     data() {

@@ -45,9 +45,68 @@ export default () => ({
 
     process: {
       options: [
-        { value: 'Einstein Discovery Data', steps: 4 },
-        { value: 'Deploy Templates', steps: 3 },
-        { value: 'Timeshift Datasets', steps: 4 }
+        {
+          value: 'Einstein Discovery Data',
+          steps: 4,
+          timeline: [
+            {
+              title: 'Set Dataset Parameters',
+              description: 'Fill out some basic information about the dataset to be generated.'
+            },
+            {
+              title: 'Define Columns',
+              description: 'Set the parameters of the data to be generated for each column of the dataset.'
+            },
+            {
+              title: 'Create Relations',
+              description: 'Create basic relationships between columns.'
+            },
+            {
+              title: 'Insert Data',
+              description: 'Put that data in your org!'
+            }
+          ]
+        },
+        {
+          value: 'Deploy Templates',
+          steps: 3,
+          timeline: [
+            {
+              title: 'Select Templates',
+              description: 'In this step, select the application templates you want to deploy into your Salesforce org. You can uncollapse each card for more information about dashboards, datasets, etc.'
+            },
+            {
+              title: 'Confirm Selection',
+              description: 'Make sure you have selected all the assets you want. Feel free to step backwards and add or remove more templates!'
+            },
+            {
+              title: 'Deploy to Org',
+              description: 'Off we go! Deploy the templates to your Salesforce org and view the notifications panel for updates.'
+            }
+          ]
+        },
+        {
+          value: 'Timeshift Datasets',
+          steps: 4,
+          timeline: [
+            {
+              title: 'Select Datasets',
+              description: 'Choose which datasets to include in your timeshifting dataflow. Remember, only datasets with date columns will be timeshifted properly.'
+            },
+            {
+              title: 'Select Date Fields',
+              description: 'Choose which fields to include from each dataset, and fetch the latest dates from that dataset.'
+            },
+            {
+              title: 'Generate Dataflows',
+              description: 'Two dataflows will be generated and inserted in your org, and a "primer" dataflow will be run.'
+            },
+            {
+              title: 'Schedule Main Dataflow',
+              description: 'Last but not least, to keep things perpetually up to date, we can schedule our timeshift dataflow to run regularly.'
+            }
+          ]
+         }
       ],
       selected: 'Home',
       validNext: true,

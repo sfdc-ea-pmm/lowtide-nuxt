@@ -1,4 +1,3 @@
-<!-- FOR ROMARIO -->
 <template>
     <div>
         <div class="pb-8">
