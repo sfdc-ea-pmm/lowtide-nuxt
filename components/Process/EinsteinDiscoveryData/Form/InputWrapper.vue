@@ -47,7 +47,7 @@ export default {
         cstddevTwo: () => (this.value !== null && this.value >= 1),
         valueTwo: () => (this.value !== null && this.value.length > 0),
         proportionTwo: () => (this.value !== null && this.value.length > 0),
-        noiseTwo: () => (this.value !== null && this.value.length > 0),
+        coefficientTwo: () => (this.value !== null && this.value.length > 0),
       }
     }
   },
