@@ -83,6 +83,8 @@ export default {
       state.filteredDeployTemplates = array;
     },
 
+
+
     /* Session */
 
     setDeployBranch(state, value) {
@@ -233,6 +235,14 @@ export default {
       const ti = state.deployTemplates.selectedTemplates.indexOf(template)
       if (ti !== -1)
         state.deployTemplates.selectedTemplates.splice(ti, 1)
+    },
+
+    setDeployError(state, message) {
+      state.deployTemplates.deployError = message
+    },
+
+    clearDeployError(state) {
+      state.deployTemplates.deployError = ''
     },
 
     /* Einstein Discovery Data */

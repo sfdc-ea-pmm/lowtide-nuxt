@@ -78,13 +78,7 @@ export default () => ({
             {
               title: 'Confirm Selection',
               description: 'Make sure you have selected all the assets you want, and queue them for deploy to your org!'
-            },
-            /*
-            {
-              title: 'Deploy to Org',
-              description: 'Off we go! Deploy the templates to your Salesforce org and view the notifications panel for updates.'
             }
-            */
           ]
         },
         {
@@ -157,7 +151,7 @@ export default () => ({
       visibleTemplates: [],
 
       selectedTemplates: [],
-      confirmedTemplates: [],
+      deployError: ''
     },
 
     timeshiftDatasets: {

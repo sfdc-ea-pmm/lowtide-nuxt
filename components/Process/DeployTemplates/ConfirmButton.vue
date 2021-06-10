@@ -1,5 +1,4 @@
 <template>
-
   <div class="flex items-center p-4">
     <button
       v-show="selectedTemplates.length > 0"
@@ -15,7 +14,6 @@
       <span class="font-semibold cursor-pointer">{{ isQueued ? 'Deploy Queued!' : buttonText }}</span>
     </button>
   </div>
-
 </template>
 
 <script>
@@ -40,14 +38,21 @@ export default {
       const payload = this.selectedTemplates.map(d => d.api_name)
 
       try {
-        await this.$axios.post(`${process.env.API_URL}/services/template/deploy`, payload, requestOptions)
-        this.isQueued = true
 
-        // if status not 200
-        // commit deployError to store
+        const postReq = await this.$axios.post(`${process.env.API_URL}/services/template/deploy`, payload, requestOptions)
+
+        if (postReq.status !== 200) {
+          this.$store.commit(`setDeployError`, postReq.statusText)
+          throw new Error(postReq.statusText)
+        }
+
+        this.isQueued = true
+        this.$emit(`deployQueued`)
+
 
       } catch (e) {
         // commit deployError to store
+        this.$store.commit(`setDeployError`, e.message)
       } finally {
         this.$store.commit(`enableNext`)
       }
