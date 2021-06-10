@@ -68,6 +68,9 @@ export default {
         globalNotifications () {
             return this.$store.state.notifications;
         },
+        toastStatus () {
+            return this.$store.state.toastStatus;
+        },
     },
 
     data() {
@@ -124,7 +127,7 @@ export default {
                             setTimeout(() => { this.$store.commit(`setToastStatus` , this.toastStatus.filter((v) => v.time===currentTime ? false : true)); }, 5000);
                             vm.$store.commit(`setNotifications` , [
                                 {title: 'Deploy', time: currentTime, message: text, type: type}
-                            , ...this.globalNotifications]);
+                            , ...vm.globalNotifications]);
                             vm.$store.commit(`setNotificationsViewed` , false);
                         }
                         break;
@@ -141,7 +144,7 @@ export default {
                             setTimeout(() => { this.$store.commit(`setToastStatus` , this.toastStatus.filter((v) => v.time===currentTime ? false : true)); }, 5000);
                             vm.$store.commit(`setNotifications` , [
                                 {title: 'Deploy', time: currentTime, message: text, type: type}
-                            , ...this.globalNotifications]);
+                            , ...vm.globalNotifications]);
                             vm.$store.commit(`setNotificationsViewed` , false);
                         }
                         break;
@@ -151,7 +154,7 @@ export default {
                         if(message.event.producer==='lowtide.deployQueue'){
                             vm.$store.commit(`setNotifications` , [
                                 {title: 'Deploy', time: currentTime, message: text, type: type}
-                            , ...this.globalNotifications]);
+                            , ...vm.globalNotifications]);
                             vm.$store.commit(`setNotificationsViewed` , false);
                         }
                         break;
@@ -160,7 +163,7 @@ export default {
                         text = `${message.event.job.context.template}: ${message.event.message}`;
                         vm.$store.commit(`setNotifications` , [
                             {title: 'Deploy', time: currentTime, message: text, type: type}
-                        , ...this.globalNotifications]);
+                        , ...vm.globalNotifications]);
                         vm.$store.commit(`setNotificationsViewed` , false);
                         break;
                     default:
