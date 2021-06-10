@@ -77,7 +77,7 @@ export default () => ({
             },
             {
               title: 'Confirm Selection',
-              description: 'Make sure you have selected all the assets you want. Feel free to step backwards and add or remove more templates!'
+              description: 'Make sure you have selected all the assets you want, and queue them for deploy to your org!'
             },
             /*
             {
