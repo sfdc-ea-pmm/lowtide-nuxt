@@ -69,7 +69,7 @@ export default () => ({
         },
         {
           value: 'Deploy Templates',
-          steps: 3,
+          steps: 2,
           timeline: [
             {
               title: 'Select Templates',
@@ -79,10 +79,12 @@ export default () => ({
               title: 'Confirm Selection',
               description: 'Make sure you have selected all the assets you want. Feel free to step backwards and add or remove more templates!'
             },
+            /*
             {
               title: 'Deploy to Org',
               description: 'Off we go! Deploy the templates to your Salesforce org and view the notifications panel for updates.'
             }
+            */
           ]
         },
         {

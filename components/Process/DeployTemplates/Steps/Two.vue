@@ -15,6 +15,9 @@
         <ProcessDeployTemplatesConfirmCard :template="template" />
       </div>
     </div>
+    <div class="p-4">
+      <ProcessDeployTemplatesConfirmButton />
+    </div>
   </div>
 
 </template>
@@ -27,7 +30,7 @@ export default {
     }
   },
   mounted() {
-    this.$store.commit(`enableNext`)
+    this.$store.commit(`disableNext`)
   }
 }
 </script>
