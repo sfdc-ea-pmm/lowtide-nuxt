@@ -13,7 +13,6 @@
       <AlertsLoadingCards v-show="isLoading" :cards="10" />
     </div>
   </div>
-
 </template>
 
 <script>

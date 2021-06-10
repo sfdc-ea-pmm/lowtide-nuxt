@@ -24,9 +24,9 @@
                                 componentName="ProcessEinsteinDiscoveryDataFormTextInput"
                                 name="titleTwo"
                                 label="Title"
-                                placeholder="My Einstein Discovery Dataset"
-                                note="Column name."
-                                errorMessage="Don't leave blank spaces."
+                                placeholder="MyColumnTitle"
+                                note="Column name, no spaces."
+                                errorMessage="No blank spaces!"
                             />
                         </div>
                         <div class="w-64">
@@ -149,44 +149,69 @@
 
 import { nanoid } from 'nanoid'
 export default {
-    data() {
-      return {
-        columnData: [
-            { id: nanoid(10), title: "", type: "", mean: 0, cStdDev: 0, noise: 0, values: [{id: nanoid(10), label: "", proportion: 0}] }
-        ]
-      }
-    },
-    computed:{
-        toastStatus () {
-            return this.$store.state.toastStatus;
-        },
-        notifications () {
-            return this.$store.state.notifications;
-        },
-    },
-    methods: {
-        deleteRow(index){
-            this.columnData = this.columnData.filter((v, i) => index!==i);
-        },
-        addRow(){
-            this.columnData.push({ id: nanoid(10), title: "", type: "", mean: 0, cStdDev: 0, noise: 0, values: [] });
-        },
-        validateForm() {
-            this.$store.commit(`showFormErrors`)
-        },
-        addValue(index) {
-            this.columnData[index].values.push({id: nanoid(10), label: "", proportion: 0});
-        },
-        deleteValue(indexParent, index) {
-            this.columnData[indexParent].values = this.columnData[indexParent].values.filter((v, i) => {console.log(v, i, index!==i);return index!==i});
-        },
-    },
-    created() {
-        this.$store.commit('resetForm')
-    },
-    mounted() {
-        this.$store.commit('catchNext')
-        $nuxt.$on('clickedNext', this.validateForm)
+
+  computed: {
+    columns() {
+      return this.$store.state.einsteinDiscoveryData.columns
     }
+  },
+
+  methods: {
+
+    addColumn() {
+      this.$store.commit(`addColumn`)
+    },
+
+    removeColumn(columnId) {
+      //this.$store.commit(`removeColumn`)
+    },
+
+    addCategoryValue(columnId) {
+      this.$store.commit(`addCategoryValue`, columnId)
+    },
+
+    removeCategoryValue(columnId, categoryId) {
+      //this.$store.commit(`removeCategoryValue`)
+    },
+
+    validateForm() {
+
+      // Leave for Luc
+
+    }
+
+    /*
+
+      // Implement these in mutations.js
+
+      deleteRow(index){
+          this.columnData = this.columnData.filter((v, i) => index!==i);
+      },
+      addRow(){
+        this.columnData.push({ id: nanoid(10), title: "", type: "", mean: 0, cStdDev: 0, noise: 0, values: [] });
+
+      },
+      validateForm() {
+          this.$store.commit(`showFormErrors`)
+      },
+      addValue(index) {
+          this.columnData[index].values.push({id: nanoid(10), label: "", proportion: 0});
+      },
+      deleteValue(indexParent, index) {
+          this.columnData[indexParent].values = this.columnData[indexParent].values.filter((v, i) => {console.log(v, i, index!==i);return index!==i});
+      },
+
+    */
+
+
+  },
+  created() {
+    this.$store.commit(`resetForm`)
+  },
+  mounted() {
+    this.addColumn()
+    this.$store.commit(`catchNext`)
+    $nuxt.$on(`clickedNext`, this.validateForm)
+  }
 }
 </script>
