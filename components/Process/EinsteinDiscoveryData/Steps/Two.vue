@@ -76,18 +76,7 @@
                                 errorMessage="Oops!"
                             />
                         </div>
-                        <div v-show="v.type==='Categorical'" class="w-32 mr-4">
-                            <ProcessEinsteinDiscoveryDataFormInputWrapper
-                                v-model="v.noise"
-                                componentName="ProcessEinsteinDiscoveryDataFormNumberInput"
-                                name="noiseTwo"
-                                label="Noise Coefficient"
-                                placeholder="25"
-                                note="1-100"
-                                errorMessage="Oops!"
-                            />
-                        </div>
-                        <div class="mr-4 mt-6" v-show="v.type==='Categorical'">
+                        <div class="mr-4" v-show="v.type==='Categorical'">
                             <button
                                 @click="addValue(i)"
                                 type="button"
@@ -126,6 +115,17 @@
                                     errorMessage="Oops!"
                                 />
                             </div>
+                            <div v-show="v.type==='Categorical'" class="w-32 mr-4">
+                                <ProcessEinsteinDiscoveryDataFormInputWrapper
+                                    v-model="va.coefficient"
+                                    componentName="ProcessEinsteinDiscoveryDataFormNumberInput"
+                                    name="coefficientTwo"
+                                    label="Coefficient"
+                                    placeholder="25"
+                                    note="1-100"
+                                    errorMessage="Oops!"
+                                />
+                            </div>
                             <div v-if="ia>0" class="mt-6">
                                 <button
                                     @click="deleteValue(i, ia)"
@@ -149,6 +149,7 @@
 
 import { nanoid } from 'nanoid'
 export default {
+<<<<<<< HEAD
 
   computed: {
     columns() {
@@ -160,14 +161,41 @@ export default {
 
     addColumn() {
       this.$store.commit(`addColumn`)
+=======
+    data() {
+      return {
+        columnData: [
+            { id: nanoid(10), title: "", type: "", mean: 0, cStdDev: 0, values: [{id: nanoid(10), label: "", proportion: 0, coefficient: 0}] }
+        ]
+      }
+>>>>>>> 1314e463c22cb5a5b39e8a79ae4df8ee47e43899
     },
 
     removeColumn(columnId) {
       //this.$store.commit(`removeColumn`)
     },
+<<<<<<< HEAD
 
     addCategoryValue(columnId) {
       this.$store.commit(`addCategoryValue`, columnId)
+=======
+    methods: {
+        deleteRow(index){
+            this.columnData = this.columnData.filter((v, i) => index!==i);
+        },
+        addRow(){
+            this.columnData.push({ id: nanoid(10), title: "", type: "", mean: 0, cStdDev: 0, values: [] });
+        },
+        validateForm() {
+            this.$store.commit(`showFormErrors`)
+        },
+        addValue(index) {
+            this.columnData[index].values.push({id: nanoid(10), label: "", proportion: 0});
+        },
+        deleteValue(indexParent, index) {
+            this.columnData[indexParent].values = this.columnData[indexParent].values.filter((v, i) => {console.log(v, i, index!==i);return index!==i});
+        },
+>>>>>>> 1314e463c22cb5a5b39e8a79ae4df8ee47e43899
     },
 
     removeCategoryValue(columnId, categoryId) {
