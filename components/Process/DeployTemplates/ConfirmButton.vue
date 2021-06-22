@@ -28,7 +28,7 @@ export default {
       return this.$store.state.deployTemplates.selectedTemplates
     },
     buttonText() {
-      return `Queue Deploy of ${this.selectedTemplates.length} Template${ this.selectedTemplates.length === 1 ? '' : 's' }`
+      return `Queue Deploy of ${this.selectedTemplates.length} Template${ this.selectedTemplates.length > 1 ? 's' : '' }`
     }
   },
   methods: {
