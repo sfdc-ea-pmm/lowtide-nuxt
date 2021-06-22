@@ -273,27 +273,7 @@ export default {
       }
     },
 
-    addColumn(state) {
-      state.einsteinDiscoveryData.columns.push({
-        id: nanoid(10),
-        title: '',
-        type: '',
-        mean: 0,
-        cStdDev: 0,
-        noise: 0,
-        values: [
-          {
-            id: nanoid(10),
-            label: '',
-            proportion: 0
-          }
-        ]
-      })
-    },
 
-    addCategoryValue(state, columnId) {
-
-    }
 
 
 }

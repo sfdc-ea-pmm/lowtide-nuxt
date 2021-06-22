@@ -3,9 +3,9 @@
         <div class="pb-8">
             <h2 class="text-gray-500 text-xs font-medium uppercase tracking-wide mb-4">Actions</h2>
             <button
-                @click="addRow()"
+                @click="addColumn"
                 type="button"
-                :class="'disabled:opacity-70 inline-flex items-center px-2.5 py-2 border border-gray-300 shadow-sm text-sm leading-4 rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'"
+                class="disabled:opacity-70 inline-flex items-center px-2.5 py-2 border border-gray-300 shadow-sm text-sm leading-4 rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
             >
               <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
@@ -16,108 +16,100 @@
         <div>
             <h2 class="text-gray-500 text-xs font-medium uppercase tracking-wide mb-4">Columns</h2>
             <div class="space-y-6">
-                <div class="border rounded-lg p-4" v-for="(v, i) in this.columnData" v-bind:key="v.id">
+                <div class="border rounded-lg p-4" v-for="(column, colIndex) in columns" :key="column.id">
                     <div class="flex flex-row flex-wrap space-x-4 mb-4">
                         <div class="w-72">
-                            <ProcessEinsteinDiscoveryDataFormInputWrapper
-                                v-model="v.title"
-                                componentName="ProcessEinsteinDiscoveryDataFormTextInput"
-                                name="titleTwo"
-                                label="Title"
-                                placeholder="MyColumnTitle"
-                                note="Column name, no spaces."
-                                errorMessage="No blank spaces!"
-                            />
+                          <ProcessEinsteinDiscoveryDataFormInputWrapper
+                              v-model="column.title"
+                              componentName="ProcessEinsteinDiscoveryDataFormTextInput"
+                              name="titleTwo"
+                              label="Title"
+                              placeholder="MyColumnName"
+                              note="Column name, no spaces."
+                              errorMessage="No blank spaces!"
+                          />
                         </div>
                         <div class="w-64">
                             <ProcessEinsteinDiscoveryDataFormInputWrapper
-                                :options="['Categorical', 'Continuous']"
-                                v-model="v.type"
+                                :options="colTypes"
+                                v-model="column.type"
                                 componentName="ProcessEinsteinDiscoveryDataFormSelectList"
                                 name="typeTwo"
                                 label="Type"
-                                placeholder="Select Output Type..."
+                                placeholder="Select Column Type..."
                                 note="Categorical or Continuous"
                                 errorMessage="Oops!"
                             />
                         </div>
-                        <div v-if="i>0" class="mt-6">
+                        <div v-if="colIndex > 0" class="mt-6">
                             <button
-                                @click="deleteRow(i)"
+                                @click="removeColumn(column.id)"
                                 type="button"
-                                class="inline-flex items-center px-2.5 py-1.5 border border-gray-300 shadow-sm text-xs leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                class="disabled:opacity-70 inline-flex items-center px-2.5 py-2 border border-gray-300 shadow-sm text-sm leading-4 rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
                             >
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4" />
-                                </svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                            </svg>
                             </button>
                         </div>
                     </div>
-                    <div class="flex flex-row flex-wrap">
-                        <div v-show="v.type==='Continuous'" class="w-28 mr-4">
-                            <ProcessEinsteinDiscoveryDataFormInputWrapper
-                                v-model="v.mean"
-                                componentName="ProcessEinsteinDiscoveryDataFormNumberInput"
-                                name="cmeanTwo"
-                                label="Mean"
-                                placeholder="100"
-                                note="Any number."
-                                errorMessage="Enter a value."
-                            />
-                        </div>
-                        <div v-show="v.type==='Continuous'" class="w-32 mr-4">
-                            <ProcessEinsteinDiscoveryDataFormInputWrapper
-                                v-model="v.cStdDev"
-                                componentName="ProcessEinsteinDiscoveryDataFormNumberInput"
-                                name="cstddevTwo"
-                                label="Standard Deviation"
-                                placeholder="15"
-                                note="Greater than zero."
-                                errorMessage="Oops!"
-                            />
-                        </div>
-                        <div class="mr-4" v-show="v.type==='Categorical'">
-                            <button
-                                @click="addValue(i)"
-                                type="button"
-                                class="inline-flex items-center px-2.5 py-1.5 border border-gray-300 shadow-sm text-xs leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                            >
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                                    </svg>
-                                    New value
-                            </button>
-                        </div>
+
+                    <div v-show="column.type === 'Continuous'" class="flex flex-row flex-wrap">
+                      <div class="w-28 mr-4">
+                        <ProcessEinsteinDiscoveryDataFormInputWrapper
+                            v-model="column.mean"
+                            componentName="ProcessEinsteinDiscoveryDataFormNumberInput"
+                            name="cmeanTwo"
+                            label="Mean"
+                            placeholder="100"
+                            note="Any number."
+                            errorMessage="Enter a value."
+                        />
+                      </div>
+                      <div class="w-32 mr-4">
+                        <ProcessEinsteinDiscoveryDataFormInputWrapper
+                            v-model="column.cStdDev"
+                            componentName="ProcessEinsteinDiscoveryDataFormNumberInput"
+                            name="cstddevTwo"
+                            label="Standard Deviation"
+                            placeholder="15"
+                            note="Greater than zero."
+                            errorMessage="Oops!"
+                        />
+                      </div>
                     </div>
-                    <h2 v-show="v.type==='Categorical'" class="text-gray-500 text-xs font-medium uppercase tracking-wide mt-4 mb-2">Values</h2>
-                    <div v-show="v.type==='Categorical'" class="flex flex-col flex-wrap space-y-4">
-                        <div v-if="v.values.length<=0" class="text-xs text-gray-700">Create a new value.</div>
-                        <div class="flex flex-row flex-wrap" v-for="(va, ia) in v.values" v-bind:key="va.id">
+
+                    <h2 v-show="column.type === 'Categorical'" class="text-gray-500 text-xs font-medium uppercase tracking-wide mt-4 mb-2">Categories</h2>
+                    <div v-show="column.type === 'Categorical'" class="flex flex-col flex-wrap space-y-4">
+                        <AlertsInformation message="Proportions are summed and then values are distributed according to the contribution to that sum, ie. if all proportions are the same, you can expect a flat distribution of values (with some noise, defined in the previous step)." />
+                        <ProcessEinsteinDiscoveryDataDistribution :categories="column.categories" />
+                        <div v-if="column.categories.length < 1" class="text-xs text-gray-700">Create a new Category!</div>
+                        <div class="flex flex-row flex-wrap" v-for="(category, catIndex) in column.categories" :key="category.id">
                             <div class="w-72 mr-4">
                                 <ProcessEinsteinDiscoveryDataFormInputWrapper
-                                    v-model="va.label"
+                                    v-model="category.label"
                                     componentName="ProcessEinsteinDiscoveryDataFormTextInput"
                                     name="titleTwo"
                                     label="Label"
-                                    placeholder="My Einstein Discovery Dataset"
-                                    note="Column name."
+                                    placeholder="Some Value"
+                                    note="Category Value"
                                     errorMessage="Don't leave blank spaces."
                                 />
                             </div>
                             <div class="w-40 mr-4">
                                 <ProcessEinsteinDiscoveryDataFormInputWrapper
-                                    v-model="va.proportion"
+                                    v-model="category.proportion"
                                     componentName="ProcessEinsteinDiscoveryDataFormNumberInput"
                                     name="proportionTwo"
-                                    label="Proportion"
-                                    placeholder="n < 100"
-                                    note="The SUM of proportions must be lower than 100."
+                                    :label="'Proportion ' + getPct(column, category)"
+                                    placeholder="10"
+                                    note="Positive Number"
                                     errorMessage="Oops!"
                                 />
                             </div>
-                            <div v-show="v.type==='Categorical'" class="w-32 mr-4">
+                            <div class="w-32 mr-4">
                                 <ProcessEinsteinDiscoveryDataFormInputWrapper
-                                    v-model="va.coefficient"
+                                    v-model="category.coefficient"
                                     componentName="ProcessEinsteinDiscoveryDataFormNumberInput"
                                     name="coefficientTwo"
                                     label="Coefficient"
@@ -126,17 +118,29 @@
                                     errorMessage="Oops!"
                                 />
                             </div>
-                            <div v-if="ia>0" class="mt-6">
+                            <div v-if="catIndex !== 0" class="mt-6">
                                 <button
-                                    @click="deleteValue(i, ia)"
+                                    @click="removeCategory(column.id, category.id)"
                                     type="button"
-                                    class="inline-flex items-center px-2.5 py-1.5 border border-gray-300 shadow-sm text-xs leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                    class="disabled:opacity-70 inline-flex items-center px-2.5 py-2 border border-gray-300 shadow-sm text-sm leading-4 rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
                                 >
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4" />
-                                    </svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                                </svg>
                                 </button>
                             </div>
+                        </div>
+                        <div class="mr-4" v-show="column.type === 'Categorical'">
+                            <button
+                                @click="addCategory(column.id)"
+                                type="button"
+                                class="disabled:opacity-70 inline-flex items-center px-2.5 py-2 border border-gray-300 shadow-sm text-sm leading-4 rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                            >
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                            </svg>
+                                Add a Category
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -148,54 +152,75 @@
 <script>
 
 import { nanoid } from 'nanoid'
+
 export default {
 
   data() {
     return {
-      columnData: [
-          { id: nanoid(10), title: "", type: "", mean: 0, cStdDev: 0, values: [{id: nanoid(10), label: "", proportion: 0, coefficient: 0}] }
-      ]
-    }
-
-  },
-
-  computed: {
-    columns() {
-      return this.$store.state.einsteinDiscoveryData.columns
+      colTypes: ['Categorical', 'Continuous'],
+      columns: []
     }
   },
 
   methods: {
 
     addColumn() {
-      this.$store.commit(`addColumn`)
+      this.columns.push({
+        id: nanoid(10),
+        title: '',
+        type: '',
+        mean: 0,
+        cStdDev: 0,
+        categories: []
+      })
     },
+
     removeColumn(columnId) {
-      //this.$store.commit(`removeColumn`)
+      const columnIndex = this.columns.findIndex(d => d.id === columnId)
+      if (columnIndex !== -1)
+        this.columns.splice(columnIndex, 1)
     },
 
+    addCategory(columnId) {
 
-    addCategoryValue(columnId) {
-      this.$store.commit(`addCategoryValue`, columnId)
-    },
-    deleteRow(index){
-        this.columnData = this.columnData.filter((v, i) => index!==i);
-    },
-    addRow(){
-        this.columnData.push({ id: nanoid(10), title: "", type: "", mean: 0, cStdDev: 0, values: [] });
-    },
-    validateForm() {
-        this.$store.commit(`showFormErrors`)
-    },
-    addValue(index) {
-        this.columnData[index].values.push({id: nanoid(10), label: "", proportion: 0});
-    },
-    deleteValue(indexParent, index) {
-        this.columnData[indexParent].values = this.columnData[indexParent].values.filter((v, i) => {console.log(v, i, index!==i);return index!==i});
+      const columnIndex = this.columns.findIndex(d => d.id === columnId)
+
+      if (columnIndex !== -1) {
+
+        const col = this.columns[columnIndex]
+
+        col.categories.push({
+          id: nanoid(10),
+          label: '',
+          proportion: 0,
+          coefficient: 0
+        })
+
+      }
+
     },
 
-    removeCategoryValue(columnId, categoryId) {
-      //this.$store.commit(`removeCategoryValue`)
+    removeCategory(columnId, categoryId) {
+      const columnIndex = this.columns.findIndex(d => d.id === columnId)
+      if (columnIndex !== -1) {
+        const col = this.columns[columnIndex]
+        const categoryIndex = col.categories.findIndex(d => d.id === categoryId)
+        if (categoryIndex !== -1)
+          col.categories.splice(categoryIndex, 1)
+      }
+    },
+
+    getPct(column, category) {
+
+      if (!category.proportion)
+        return ''
+
+      const total = column.categories.reduce((a, b) => {
+        return a + Number(b.proportion)
+      }, 0)
+
+      return `(~${(100 * (category.proportion / total)).toFixed(2)}%)`
+
     },
 
     validateForm() {
@@ -203,29 +228,6 @@ export default {
       // Leave for Luc
 
     }
-
-    /*
-
-      // Implement these in mutations.js
-
-      deleteRow(index){
-          this.columnData = this.columnData.filter((v, i) => index!==i);
-      },
-      addRow(){
-        this.columnData.push({ id: nanoid(10), title: "", type: "", mean: 0, cStdDev: 0, noise: 0, values: [] });
-
-      },
-      validateForm() {
-          this.$store.commit(`showFormErrors`)
-      },
-      addValue(index) {
-          this.columnData[index].values.push({id: nanoid(10), label: "", proportion: 0});
-      },
-      deleteValue(indexParent, index) {
-          this.columnData[indexParent].values = this.columnData[indexParent].values.filter((v, i) => {console.log(v, i, index!==i);return index!==i});
-      },
-
-    */
 
 
   },
