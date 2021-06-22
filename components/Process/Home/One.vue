@@ -1,5 +1,6 @@
 <template>
     <div class="space-y-6">
+      <ProcessUploadCsv />
       <ContentAbout />
       <div>
         <h2 class="text-sm font-medium text-gray-500 mb-4">Developers</h2>
