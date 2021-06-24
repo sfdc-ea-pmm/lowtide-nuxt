@@ -1,10 +1,10 @@
 <template>
-    <form class="" @submit="upload()">
+    <form class="" @submit.prevent="upload">
         <h2 class="text-xs font-medium text-gray-500 mb-2">UPLOAD CSV</h2>
         <div class="space-y-4">
             <div>
-                <label :for="'dataset_name'" class="block text-sm font-medium text-gray-700 mb-2">Dataset name</label>
-                <input v-model="datasetName" type="text" :name="'dataset_name'" :class="'focus:ring-blue-500 focus:border-blue-500 inline-block w-72 sm:text-sm border-gray-300 rounded-md w-96'" :placeholder="'The dataset name'" required>
+                <label :for="'dataset-name'" class="block text-sm font-medium text-gray-700 mb-2">Dataset name</label>
+                <input v-model="datasetName" type="text" :name="'dataset-name'" :class="'focus:ring-blue-500 focus:border-blue-500 inline-block w-72 sm:text-sm border-gray-300 rounded-md w-96'" :placeholder="'The dataset name'" required>
                 <button type="submit" class="inline-flex items-center ml-1 px-3.5 py-2.5 border border-gray-300 shadow-sm text-xs leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                     Submit
                 </button>
@@ -21,7 +21,7 @@
                         <div class="flex text-sm text-gray-600">
                         <label for="file-upload" class="relative cursor-pointer bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500">
                             <span>Upload your files</span>
-                            <input id="file-upload" name="file-upload" type="file" class="sr-only" multiple accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" required>
+                            <input @change="getFiles" id="file-upload" name="file-upload" type="file" class="sr-only" multiple accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" required>
                         </label>
                         <p class="pl-1">or drag and drop</p>
                         </div>
@@ -41,13 +41,28 @@ export default {
     
   },
   methods: {
-    upload(){
-        console.log('Submit');
+    async upload(){
+        let formData = new FormData();
+        this.files.forEach((value, i) => {
+           formData.append("file"+i, value); 
+        });
+        formData.append("name", this.datasetName);
+        
+        await this.$axios.post(`${process.env.API_URL}/services/dataset/upload`, formData, {
+            withCredentials: true,
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        });
+    },
+    async getFiles(event){
+        this.files = event.target.files;
     }
   },
   data(){
       return {
-          datasetName: ''
+          datasetName: '',
+          files: []
       }
   }
 }

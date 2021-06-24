@@ -7,7 +7,8 @@ const http = require('http'),
       cookieParser = require('cookie-parser'),
       socketio = require('socket.io'),
       socketSession = require('express-socket.io-session'),
-    { Nuxt, Builder } = require('nuxt');
+    { Nuxt, Builder } = require('nuxt'),
+      fileUpload = require('express-fileupload');
 
 const config = require('./nuxt.config.js'),
     { setGlobals } = require('./server-middleware/src/utilities');
@@ -16,6 +17,7 @@ const isDev = process.env.ENVIRONMENT === 'development',
       port = process.env.PORT || 3000;
 
 const app = express()
+      app.use(fileUpload({ createParentPath: true }))
 const server = http.createServer(app)
 
 // Pass socket server rather than null if standalone api.
