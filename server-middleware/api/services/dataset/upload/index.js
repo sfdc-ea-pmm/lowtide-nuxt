@@ -1,4 +1,3 @@
-var jsforce = require('jsforce');
 const   { metadataJson } = require(appRoot + '/src/utilities/metadataUpload'),
         { refresh } = require(appRoot + '/src/auth');
 module.exports = {
@@ -42,8 +41,7 @@ module.exports = {
             values: values
         });
         sf = refresh(req.session);
-        //const response = await sf.query("SELECT Id, Name FROM Account");
-        //console.log(response);
+
         var metadataJson64 = Buffer.from(JSON.stringify(json)).toString("base64");
         const responseParent = await sf.sobject("InsightsExternalData").create({
             Format : 'Csv',
