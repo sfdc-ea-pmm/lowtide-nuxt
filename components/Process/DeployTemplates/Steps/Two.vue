@@ -33,10 +33,10 @@ export default {
   },
   computed: {
     selectedTemplates() {
-      return this.$store.state.deployTemplates.selectedTemplates
+      return this.$store.state.deploy.selectedTemplates
     },
     deployError() {
-      return this.$store.state.deployTemplates.deployError
+      return this.$store.state.deploy.deployError
     }
   },
   methods: {
@@ -45,8 +45,8 @@ export default {
     }
   },
   mounted() {
-    this.$store.commit(`clearDeployError`)
-    this.$store.commit(`disableNext`)
+    this.$store.commit(`deploy/clearDeployError`)
+    this.$store.commit(`nav/disableNext`)
   }
 }
 </script>

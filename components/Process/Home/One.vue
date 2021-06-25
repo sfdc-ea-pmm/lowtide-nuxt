@@ -24,15 +24,15 @@
 export default {
   computed: {
     developers() {
-      return this.$store.state.team.developers
+      return this.$store.state.content.developers
     },
     members() {
-      return this.$store.state.team.members
+      return this.$store.state.content.members
     }
   },
   methods: {
     renderFaq() {
-      this.$store.commit(`setProcess` , 'FAQ')
+      this.$store.commit(`nav/setProcess` , 'FAQ')
     }
   }
 }

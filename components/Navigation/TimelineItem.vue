@@ -35,7 +35,7 @@ export default {
   },
   computed: {
     stepType() {
-      const { stepIndex } = this.$store.state.process
+      const { stepIndex } = this.$store.state.nav
       if (this.itemIndex > stepIndex)
         return 'upcoming'
       else if (this.itemIndex === stepIndex)

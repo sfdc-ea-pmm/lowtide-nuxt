@@ -20,7 +20,7 @@
                     <div class="flex flex-row flex-wrap space-x-4 mb-4">
                         <div class="w-72">
                           <ProcessEinsteinDiscoveryDataFormInputWrapper
-                              v-model="column.title"
+                              v-model="column.label"
                               componentName="ProcessEinsteinDiscoveryDataFormTextInput"
                               name="titleTwo"
                               label="Title"
@@ -55,7 +55,7 @@
                     </div>
 
                     <div v-show="column.type === 'Continuous'" class="flex flex-row flex-wrap">
-                      <div class="w-28 mr-4">
+                      <div class="w-32 mr-4">
                         <ProcessEinsteinDiscoveryDataFormInputWrapper
                             v-model="column.mean"
                             componentName="ProcessEinsteinDiscoveryDataFormNumberInput"
@@ -71,9 +71,20 @@
                             v-model="column.cStdDev"
                             componentName="ProcessEinsteinDiscoveryDataFormNumberInput"
                             name="cstddevTwo"
-                            label="Standard Deviation"
+                            label="Std. Deviation"
                             placeholder="15"
-                            note="Greater than zero."
+                            note="Non-negative"
+                            errorMessage="Oops!"
+                        />
+                      </div>
+                      <div class="w-32 mr-4">
+                        <ProcessEinsteinDiscoveryDataFormInputWrapper
+                            v-model="column.coefficient"
+                            componentName="ProcessEinsteinDiscoveryDataFormNumberInput"
+                            name="coefficientTwo"
+                            label="Coefficient"
+                            placeholder="25"
+                            note="1-100"
                             errorMessage="Oops!"
                         />
                       </div>
@@ -82,7 +93,6 @@
                     <h2 v-show="column.type === 'Categorical'" class="text-gray-500 text-xs font-medium uppercase tracking-wide mt-4 mb-2">Categories</h2>
                     <div v-show="column.type === 'Categorical'" class="flex flex-col flex-wrap space-y-4">
                         <AlertsInformation message="Proportions are summed and then values are distributed according to the contribution to that sum, ie. if all proportions are the same, you can expect a flat distribution of values (with some noise, defined in the previous step)." />
-                        <ProcessEinsteinDiscoveryDataDistribution :categories="column.categories" />
                         <div v-if="column.categories.length < 1" class="text-xs text-gray-700">Create a new Category!</div>
                         <div class="flex flex-row flex-wrap" v-for="(category, catIndex) in column.categories" :key="category.id">
                             <div class="w-72 mr-4">
@@ -91,12 +101,12 @@
                                     componentName="ProcessEinsteinDiscoveryDataFormTextInput"
                                     name="titleTwo"
                                     label="Label"
-                                    placeholder="Some Value"
-                                    note="Category Value"
+                                    placeholder="MyCategory"
+                                    note="Text, Numbers, Spaces"
                                     errorMessage="Don't leave blank spaces."
                                 />
                             </div>
-                            <div class="w-40 mr-4">
+                            <div class="w-48 mr-4">
                                 <ProcessEinsteinDiscoveryDataFormInputWrapper
                                     v-model="category.proportion"
                                     componentName="ProcessEinsteinDiscoveryDataFormNumberInput"
@@ -167,7 +177,7 @@ export default {
     addColumn() {
       this.columns.push({
         id: nanoid(10),
-        title: '',
+        label: '',
         type: '',
         mean: 0,
         cStdDev: 0,
@@ -226,18 +236,19 @@ export default {
     validateForm() {
 
       // Leave for Luc
+      this.$store.commit(`edd/setColumns`, this.columns)
 
     }
 
 
   },
   created() {
-    this.$store.commit(`resetForm`)
+    this.$store.commit(`edd/resetErrors`)
   },
   mounted() {
-    this.addColumn()
-    this.$store.commit(`catchNext`)
+    this.$store.commit(`nav/catchNext`)
     $nuxt.$on(`clickedNext`, this.validateForm)
+    this.addColumn()
   }
 }
 </script>

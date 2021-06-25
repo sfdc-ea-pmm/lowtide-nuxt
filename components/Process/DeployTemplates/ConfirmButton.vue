@@ -25,7 +25,7 @@ export default {
   },
   computed: {
     selectedTemplates() {
-      return this.$store.state.deployTemplates.selectedTemplates
+      return this.$store.state.deploy.selectedTemplates
     },
     buttonText() {
       return `Queue Deploy of ${this.selectedTemplates.length} Template${ this.selectedTemplates.length > 1 ? 's' : '' }`
@@ -42,7 +42,7 @@ export default {
         const postReq = await this.$axios.post(`${process.env.API_URL}/services/template/deploy`, payload, requestOptions)
 
         if (postReq.status !== 200) {
-          this.$store.commit(`setDeployError`, postReq.statusText)
+          this.$store.commit(`deploy/setDeployError`, postReq.statusText)
           throw new Error(postReq.statusText)
         }
 
@@ -52,7 +52,7 @@ export default {
 
       } catch (e) {
         // commit deployError to store
-        this.$store.commit(`setDeployError`, e.message)
+        this.$store.commit(`deploy/setDeployError`, e.message)
       } finally {
         this.$store.commit(`enableNext`)
       }

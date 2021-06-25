@@ -25,11 +25,11 @@ export default {
   methods: {
     update() {
       this.$emit('input', this.value)
-      this.$store.commit(this.valid.action, this.name)
+      this.$store.commit(`edd/${this.valid.action}`, this.name)
     }
   },
   mounted() {
-    this.$store.commit(`addFormError`, this.name)
+    this.$store.commit(`edd/addFormError`, this.name)
   }
 }
 </script>

@@ -30,16 +30,16 @@ export default {
       return this.$store.state.session.deployBranch
     },
     betaTemplates() {
-      return this.$store.state.deployTemplates.betaTemplates
+      return this.$store.state.deploy.betaTemplates
     },
     masterTemplates() {
-      return this.$store.state.deployTemplates.masterTemplates
+      return this.$store.state.deploy.masterTemplates
     },
     visibleTemplates() {
-      return this.$store.state.deployTemplates.visibleTemplates
+      return this.$store.state.deploy.visibleTemplates
     },
     selectedTemplates() {
-      return this.$store.state.deployTemplates.selectedTemplates
+      return this.$store.state.deploy.selectedTemplates
     }
   },
   methods: {
@@ -60,7 +60,7 @@ export default {
           this.isLoading = true
           const response = await this.$axios.get(`${process.env.API_URL}/data/repository`, requestOptions)
           const commitBody = { branch: this.currentBranch, data: response.data.data }
-          this.$store.commit(`setTemplates`, commitBody)
+          this.$store.commit(`deploy/setTemplates`, commitBody)
         } catch (e) {
           console.error(e)
           // Notify
@@ -68,7 +68,7 @@ export default {
           this.isLoading = false
         }
       } else {
-        this.$store.commit(`swapTemplates`, this.currentBranch)
+        this.$store.commit(`deploy/swapTemplates`, this.currentBranch)
       }
 
     }
@@ -76,15 +76,15 @@ export default {
   watch: {
     selectedTemplates() {
       if (this.selectedTemplates.length)
-        this.$store.commit(`enableNext`)
+        this.$store.commit(`nav/enableNext`)
       else
-        this.$store.commit(`disableNext`)
+        this.$store.commit(`nav/disableNext`)
     }
   },
   mounted() {
-    this.$store.commit(`releaseNext`)
-    this.$store.commit(`disablePrevious`)
-    this.$store.commit(`disableNext`)
+    this.$store.commit(`nav/releaseNext`)
+    this.$store.commit(`nav/disablePrevious`)
+    this.$store.commit(`nav/disableNext`)
   }
 }
 </script>

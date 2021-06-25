@@ -32,7 +32,7 @@ export default {
     return {
       value: null,
       validationFunctions: {
-        title: () => {
+        label: () => {
           const validRegex = /^[ a-zA-Z0-9]{3,65}$/
           return String(this.value).match(validRegex) && this.value !== null
         },
@@ -53,7 +53,7 @@ export default {
   },
   computed: {
     showError() {
-      const { showErrors, formErrors } = this.$store.state.einsteinDiscoveryData.meta
+      const { showErrors, formErrors } = this.$store.state.edd.meta
       return (showErrors && formErrors.includes(this.name))
     }
   },

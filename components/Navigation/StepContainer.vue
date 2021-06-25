@@ -10,21 +10,18 @@ export default {
     prefix: String
   },
   computed: {
-    process() {
-      return this.$store.state.process
-    },
-    stepIndexToText() {
-      return this.$store.state.stepIndexToText
+    nav() {
+      return this.$store.state.nav
     }
   },
   methods: {
     getComponentText() {
       let path;
-      if (!this.process.showButtons)
+      if (!this.nav.showButtons)
         path = `Process${this.prefix}`
       else
         path = `Process${this.prefix}Steps`
-      return `${path}${this.stepIndexToText[this.process.stepIndex]}`
+      return `${path}${this.nav.stepIndexToText[this.nav.stepIndex]}`
     }
   }
 }

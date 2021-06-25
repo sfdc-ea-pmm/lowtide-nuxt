@@ -102,15 +102,15 @@ export default {
     toggleSelected() {
       this.isSelected = !this.isSelected
       if (this.isSelected)
-        this.$store.commit(`selectTemplate`, this.template)
+        this.$store.commit(`deploy/selectTemplate`, this.template)
       else
-        this.$store.commit(`deselectTemplate`, this.template)
+        this.$store.commit(`deploy/deselectTemplate`, this.template)
     },
     toggleOpen() {
       this.isOpen = !this.isOpen
     },
     setSearchTerm(tag) {
-      this.$store.commit(`setSearchTerm`, tag)
+      this.$store.commit(`deploy/setSearchTerm`, tag)
     }
   }
 }

@@ -29,7 +29,7 @@ export default {
         this.$emit(`changedBranch`)
       } catch (e) {
         console.error(e)
-        this.$store.commit(`setDeployBranch`, 'beta')
+        this.$store.commit(`setDeployBranch`, 'master')
       }
     }
   }
