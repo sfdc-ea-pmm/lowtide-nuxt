@@ -13,14 +13,14 @@
 export default {
     computed: {
       steps() {
-        const { selected, options } = this.$store.state.process
+        const { selected, options } = this.$store.state.nav
         const process = options.filter(o => o.value === selected).pop()
         if (process)
           return process.timeline
         return null
       },
       stepIndex() {
-        return this.$store.state.process.stepIndex
+        return this.$store.state.nav.stepIndex
       }
     },
 }

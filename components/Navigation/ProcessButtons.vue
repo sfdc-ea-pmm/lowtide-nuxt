@@ -1,23 +1,23 @@
 <template>
 
   <div class="flex items-center">
-    <h1 class="flex-1 text-xl font-medium py-0.5">{{ process.selected }}</h1>
+    <h1 class="flex-1 text-xl font-medium py-0.5">{{ nav.selected }}</h1>
     <div class="relative">
-      <div v-if="process.showHome">
+      <div v-if="nav.showHome">
         <button @click="moveTo('Home')" type="button" :class="'disabled:opacity-50 inline-flex items-center px-2.5 py-1.5 border border-gray-300 shadow-sm text-xs leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'">
             Home
         </button>
       </div>
 
-      <div v-if="process.showButtons">
+      <div v-if="nav.showButtons">
         <button @click="moveTo('Home')" type="button" class="inline-flex items-center px-2.5 py-1.5 border border-gray-300 shadow-sm text-xs leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
             Cancel
         </button>
-         <button @click="stepPrev" type="button" :disabled="!process.buttons.previous" :class="(!process.buttons.previous ? 'cursor-not-allowed ' : '') + 'disabled:opacity-50 inline-flex items-center px-2.5 py-1.5 border border-gray-300 shadow-sm text-xs leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'">
+         <button @click="stepPrev" type="button" :disabled="!nav.buttons.previous" :class="(!nav.buttons.previous ? 'cursor-not-allowed ' : '') + 'disabled:opacity-50 inline-flex items-center px-2.5 py-1.5 border border-gray-300 shadow-sm text-xs leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'">
             Previous
         </button>
-        <button @click="stepNext" type="button" :disabled="!process.buttons.next" :class="(!process.buttons.next ? 'cursor-not-allowed ' : '') + 'disabled:opacity-50 inline-flex items-center px-2.5 py-1.5 border border-gray-300 shadow-sm text-xs leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'">
-            <span v-if="process.stepIndex === process.lastStepIndex">Finish</span>
+        <button @click="stepNext" type="button" :disabled="!nav.buttons.next" :class="(!nav.buttons.next ? 'cursor-not-allowed ' : '') + 'disabled:opacity-50 inline-flex items-center px-2.5 py-1.5 border border-gray-300 shadow-sm text-xs leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'">
+            <span v-if="nav.stepIndex === nav.lastStepIndex">Finish</span>
             <span v-else>Next</span>
         </button>
       </div>
@@ -31,33 +31,33 @@
 export default {
 
   computed: {
-    process() {
-      return this.$store.state.process
+    nav() {
+      return this.$store.state.nav
     }
   },
 
   methods: {
     moveTo(value) {
-      this.$store.commit(`setProcess`, value)
-      this.$store.commit(`releaseNext`)
+      this.$store.commit(`nav/setProcess`, value)
+      this.$store.commit(`nav/releaseNext`)
     },
     stepPrev() {
-      this.$store.commit('stepPrev')
+      this.$store.commit('nav/stepPrev')
     },
     stepNext() {
       $nuxt.$emit('clickedNext')
-      if (this.process.buttons.next && this.process.validNext) {
-        if (this.process.stepIndex === this.process.lastStepIndex)
-            this.$store.commit(`setProcess`, 'Home')
+      if (this.nav.buttons.next && this.nav.validNext) {
+        if (this.nav.stepIndex === this.nav.lastStepIndex)
+            this.$store.commit(`nav/setProcess`, 'Home')
         else
-          this.$store.commit('stepNext')
+          this.$store.commit('nav/stepNext')
       }
     }
   },
 
   watch: {
-    process() {
-      this.moveTo(this.process)
+    nav() {
+      this.moveTo(this.nav)
     }
   }
 

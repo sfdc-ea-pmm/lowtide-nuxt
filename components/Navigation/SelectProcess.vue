@@ -19,10 +19,10 @@ export default {
 
   computed: {
     options() {
-      return this.$store.state.process.options
+      return this.$store.state.nav.options
     },
     processState() {
-      return this.$store.state.process.selected
+      return this.$store.state.nav.selected
     }
   },
 
@@ -30,7 +30,7 @@ export default {
     selected() {
       if (this.selected !== '') {
         this.disabled = true
-        this.$store.commit(`setProcess`, this.selected)
+        this.$store.commit(`nav/setProcess`, this.selected)
       } else {
         this.disabled = false
       }

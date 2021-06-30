@@ -53,7 +53,7 @@ export default {
   },
   methods: {
     removeTemplate() {
-      this.$store.commit(`deselectTemplate`, this.template)
+      this.$store.commit(`deploy/deselectTemplate`, this.template)
     }
   }
 }

@@ -39,28 +39,18 @@
 </template>
 
 <script>
+
 export default {
-    computed: {
-        globalNotifications () {
-            return this.$store.state.notifications;
-        },
-        dashboardNotifications(){
-            return this.globalNotifications.filter((v, i) => i < 6 );
-        }
+  computed: {
+    globalNotifications () {
+      return this.$store.state.notifications;
     },
-
-    data() {
-        return {
-
-        }
-    },
-    methods: {
-
-    },
-    mounted() {
-
-    },
+    dashboardNotifications(){
+      return this.globalNotifications.filter((v, i) => i < 6 );
+    }
+  }
 }
+
 </script>
 
 <style>

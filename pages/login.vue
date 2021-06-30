@@ -63,77 +63,73 @@
 
 <script>
 export default {
+
     async asyncData({ $axios, redirect }) {
-        try {
-            const response = await $axios.get(`${process.env.API_URL}/auth/session`, { withCredentials: true });
-            const session = response.data.data;
-            if('salesforce' in session){
-                redirect('/dashboard');
-            }
-            return { session }
-        } catch (e) {
-            console.error(e);
-        }
+      try {
+        const response = await $axios.get(`${process.env.API_URL}/auth/session`, { withCredentials: true })
+        const session = response.data.data
+        if ('salesforce' in session)
+            redirect('/dashboard')
+        return { session }
+      } catch (e) {
+        console.error(e)
+      }
     },
+
     computed: {
-        toastStatus () {
-            return this.$store.state.toastStatus;
-        },
+      toastStatus () {
+        return this.$store.state.toastStatus;
+      },
     },
 
     data() {
-        return {
-            username: '',
-            password: '',
-            btnCredentialsLoading: false,
-            btnOauthLoading: false,
-        }
+      return {
+        username: '',
+        password: '',
+        btnCredentialsLoading: false,
+        btnOauthLoading: false,
+      }
     },
-    methods: {
-        async login() {
-            this.btnCredentialsLoading = true;
-            try {
-                const res = await this.$axios.post(`/auth/login`, {
-                    username: this.username,
-                    password: this.password
-                }, {withCredentials: true});
-                this.btnCredentialsLoading = false;
-                this.$router.push('/dashboard');
-            } catch (error) {
-                let currentTime = this.getCurrentTime();
-                this.$store.commit(`setToastStatus` , [{
-                    status: true,
-                    type: 'error',
-                    message: 'Invalid credentials.',
-                    time: currentTime
-                }, ...this.toastStatus]);
-                setTimeout(() => { this.$store.commit(`setToastStatus` , this.toastStatus.filter((v) => v.time===currentTime ? false : true)); }, 5000);
-                this.btnCredentialsLoading = false;
-            }
-        },
-        async loginSalesforce() {
-            this.btnOauthLoading = true;
-            window.location.href = process.env.API_URL + "/auth/oauth";
-        },
-        getCurrentTime(){
-            let date = new Date();
-            let hours = date.getHours(),
-                minutes = date.getMinutes(),
-                seconds = date.getSeconds();
-            let currentTime = (hours < 10 ? '0' + hours : hours ) + ":" + (minutes < 10 ? '0' + minutes : minutes ) + ":" + (seconds < 10 ? '0' + seconds : seconds );
-            return currentTime;
-        }
-    },
-    validate({redirect}) {
-        if(window.innerWidth <= 480){
-            return redirect('/compatibility');
-        }else{
-            return true;
-        }
-    },
-    mounted: function () {
 
+    methods: {
+      async login() {
+        this.btnCredentialsLoading = true;
+        try {
+          const res = await this.$axios.post(`/auth/login`, { username: this.username, password: this.password }, { withCredentials: true })
+          this.btnCredentialsLoading = false
+          this.$router.push('/dashboard')
+        } catch (error) {
+          let currentTime = this.getCurrentTime()
+          this.$store.commit(`setToastStatus` , [{
+              status: true,
+              type: 'error',
+              message: 'Invalid credentials.',
+              time: currentTime
+          }, ...this.toastStatus])
+          setTimeout(() => { this.$store.commit(`setToastStatus` , this.toastStatus.filter((v) => v.time===currentTime ? false : true)); }, 5000)
+          this.btnCredentialsLoading = false
+        }
+      },
+      async loginSalesforce() {
+        this.btnOauthLoading = true
+        window.location.href = process.env.API_URL + "/auth/oauth"
+      },
+      getCurrentTime(){
+        let date = new Date()
+        let hours = date.getHours(),
+            minutes = date.getMinutes(),
+            seconds = date.getSeconds();
+        let currentTime = (hours < 10 ? '0' + hours : hours ) + ":" + (minutes < 10 ? '0' + minutes : minutes ) + ":" + (seconds < 10 ? '0' + seconds : seconds )
+        return currentTime
+      }
     },
+
+    validate({ redirect }) {
+      if (window.innerWidth <= 480)
+        return redirect('/compatibility')
+      else
+        return true
+    }
 }
 </script>
 

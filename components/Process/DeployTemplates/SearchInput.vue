@@ -18,10 +18,10 @@ export default {
   },
   computed: {
     templates() {
-      return this.$store.state.deployTemplates.visibleTemplates
+      return this.$store.state.deploy.visibleTemplates
     },
     storeSearchTerm() {
-      return this.$store.state.deployTemplates.searchTerm
+      return this.$store.state.deploy.searchTerm
     },
     hasSearchTerm() {
       return this.searchTerm !== ''
@@ -38,8 +38,8 @@ export default {
       // Debounce input, only apply after 250ms timeout
       if (this.timeout) clearTimeout(this.timeout)
       this.timeout = setTimeout(() => {
-        if (hst) this.$store.commit(`setVisibleTemplates`, st);
-        else this.$store.commit(`setAllTemplatesVisible`);
+        if (hst) this.$store.commit(`deploy/setVisibleTemplates`, st);
+        else this.$store.commit(`deploy/setAllTemplatesVisible`);
       }, 250)
     }
   }

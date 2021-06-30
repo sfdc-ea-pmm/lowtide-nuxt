@@ -21,10 +21,10 @@
 
               <div class="sm:col-span-6">
                 <ProcessEinsteinDiscoveryDataFormInputWrapper
-                  v-model="title"
+                  v-model="dataset.label"
                   componentName="ProcessEinsteinDiscoveryDataFormTextInput"
-                  name="title"
-                  label="Title"
+                  name="label"
+                  label="Dataset Label"
                   placeholder="My Einstein Discovery Dataset"
                   note="Letters, numbers, and spaces only."
                   errorMessage="Please only enter letters, numbers and spaces, up to 65 characters!"
@@ -35,7 +35,7 @@
                 <div class="flex flex-row space-x-6">
                   <div>
                     <ProcessEinsteinDiscoveryDataFormInputWrapper
-                      v-model="rows"
+                      v-model="dataset.rows"
                       componentName="ProcessEinsteinDiscoveryDataFormNumberInput"
                       name="rows"
                       label="Row Count"
@@ -46,7 +46,7 @@
                   </div>
                   <div>
                     <ProcessEinsteinDiscoveryDataFormInputWrapper
-                      v-model="noise"
+                      v-model="dataset.noise"
                       componentName="ProcessEinsteinDiscoveryDataFormNumberInput"
                       name="noise"
                       label="Noise Coefficient"
@@ -60,7 +60,7 @@
 
               <div class="sm:col-span-6">
                 <ProcessEinsteinDiscoveryDataFormInputWrapper
-                  v-model="outputType"
+                  v-model="dataset.outputType"
                   componentName="ProcessEinsteinDiscoveryDataFormSelectList"
                   name="type"
                   label="Output Type"
@@ -74,7 +74,7 @@
                 <div class="flex flex-row space-x-6">
                   <div>
                     <ProcessEinsteinDiscoveryDataFormInputWrapper
-                      v-model="cMean"
+                      v-model="dataset.cMean"
                       componentName="ProcessEinsteinDiscoveryDataFormNumberInput"
                       name="cmean"
                       label="Distribution Mean"
@@ -85,7 +85,7 @@
                   </div>
                   <div>
                     <ProcessEinsteinDiscoveryDataFormInputWrapper
-                      v-model="cStdDev"
+                      v-model="dataset.cStdDev"
                       componentName="ProcessEinsteinDiscoveryDataFormNumberInput"
                       name="cstddev"
                       label="Standard Deviation"
@@ -110,44 +110,55 @@
 </template>
 
 <script>
+
 export default {
+
   data() {
     return {
-      title: '',
-      rows: 0,
-      noise: 0,
-      outputType: '',
-      cMean: 0,
-      cStdDev: 0
+      dataset: {
+        label: '',
+        rows: 0,
+        noise: 0,
+        outputType: '',
+        cMean: 0,
+        cStdDev: 0
+      }
     }
   },
+
   computed: {
+
     isContinuous() {
-      return this.outputType === 'Continuous'
+      return this.dataset.outputType === 'Continuous'
     },
-    einsteinDiscoveryData () {
-      return this.$store.state.einsteinDiscoveryData;
-    },
+
   },
+
   methods: {
+
     validateForm() {
 
-      const { formErrors } = this.einsteinDiscoveryData.meta
+      const { formErrors } = this.$store.state.edd.meta
 
-      if(formErrors.length < 1)
-        this.$store.commit(`stepNext`)
-      else
-        this.$store.commit(`showFormErrors`)
+      if(formErrors.length < 1) {
+        this.$store.commit(`edd/setDataset`, this.dataset)
+        this.$store.commit(`nav/stepNext`)
+      } else {
+        this.$store.commit(`edd/showFormErrors`)
+      }
 
     }
   },
+
   created() {
-    this.$store.commit(`resetForm`)
+    this.$store.commit(`edd/resetErrors`)
   },
+
   mounted() {
-    this.$store.commit(`catchNext`)
-    this.$store.commit(`enableNext`)
+    this.$store.commit(`nav/catchNext`)
+    this.$store.commit(`nav/enableNext`)
     $nuxt.$on('clickedNext', this.validateForm)
   }
+
 }
 </script>
