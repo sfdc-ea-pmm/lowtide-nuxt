@@ -3,6 +3,10 @@ const   { metadataJson } = require(appRoot + '/src/utilities/metadataUpload'),
 module.exports = {
     POST: async function(req, res) {
         const files = req.files;
+        const names = JSON.parse(req.body.names);
+        res.status(200).json({ success: true, files: files, names: names });
+        /*
+        const files = req.files;
         const name = req.body.name;
         const filesEntries = Object.entries(files);
         const base64 = [];
@@ -64,6 +68,7 @@ module.exports = {
         });
 
         res.status(200).json({ success: true, responseParent: responseParent })
+        */
     },
     GET: async function(req, res) {
         res.status(200).json({ success: true })
