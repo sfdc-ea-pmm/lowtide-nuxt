@@ -3,7 +3,7 @@
         <h2 class="text-xs font-medium text-gray-500 mb-2">UPLOAD CSV</h2>
         <div class="space-y-4">
             <div>
-                <button type="submit" class="inline-flex items-center px-3.5 py-2.5 border border-gray-300 shadow-sm text-xs leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                <button :disabled="this.uploadStatus" type="submit" :class="(this.uploadStatus ? 'cursor-not-allowed ' : '') + 'disabled:opacity-50 inline-flex items-center px-3.5 py-2.5 border border-gray-300 shadow-sm text-xs leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'">
                     UPLOAD
                 </button>
             </div>
@@ -62,23 +62,30 @@ export default {
             datasetNames: [],
             label: 'No selected files.',
             files: [],
-            dragStatus: false
+            dragStatus: false,
+            uploadStatus: false
         }
     },
     methods: {
         async upload(){
+            this.uploadStatus = true;
             let formData = new FormData();
             this.files.forEach((value, i) => {
             formData.append("file"+i, value); 
             });
             formData.append("names", JSON.stringify(this.datasetNames));
-            
-            await this.$axios.post(`${process.env.API_URL}/services/dataset/upload`, formData, {
-                withCredentials: true,
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                }
-            });
+            try {
+                await this.$axios.post(`${process.env.API_URL}/services/dataset/upload`, formData, {
+                    withCredentials: true,
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                });
+                this.uploadStatus = false;
+            } catch (e) {
+                console.error(e);
+                this.uploadStatus = false;
+            }
         },
         createInputs(files){
             files.forEach((file, i) => {

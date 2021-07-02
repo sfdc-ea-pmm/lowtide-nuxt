@@ -63,6 +63,32 @@ const utilityMethods = {
   handleError(res, error) {
     console.error(error)
     return res.status(error.statusCode || 500).json({ message: error.message })
+  },
+  
+  uploadFromCSV(files){
+    const filesEntries = Object.entries(files);
+    const base64 = [];
+
+    const myString = [];
+    filesEntries.forEach(value => {
+        base64.push(value[1].data.toString("base64"));
+        myString.push(value[1].data.toString("utf8"));
+    });
+
+    const rows = [];
+    myString.forEach(value => {
+        rows.push(value.split('\r\n'));
+    });
+    
+    const fields = [];
+    const values = [];
+
+    rows.forEach(value => {
+        fields.push(value[0].split(','));
+        values.push(value[1].split(','));
+    });
+
+    return {fields, values, base64};
   }
 
 }
