@@ -6,6 +6,9 @@
                 <button :disabled="this.uploadStatus" type="submit" :class="(this.uploadStatus ? 'cursor-not-allowed ' : '') + 'disabled:opacity-50 inline-flex items-center px-3.5 py-2.5 border border-gray-300 shadow-sm text-xs leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'">
                     UPLOAD
                 </button>
+                <button @click="uploadJSON()" :disabled="this.uploadStatus" type="button" :class="(this.uploadStatus ? 'cursor-not-allowed ' : '') + 'disabled:opacity-50 inline-flex items-center px-3.5 py-2.5 border border-gray-300 shadow-sm text-xs leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'">
+                    JSON TEST
+                </button>
             </div>
             <div class="">
                 <label for="cover_photo" class="block text-sm font-medium text-gray-700 mb-2">
@@ -80,6 +83,17 @@ export default {
                     headers: {
                         'Content-Type': 'multipart/form-data'
                     }
+                });
+                this.uploadStatus = false;
+            } catch (e) {
+                console.error(e);
+                this.uploadStatus = false;
+            }
+        },
+        async uploadJSON(){
+            try {
+                await this.$axios.post(`${process.env.API_URL}/services/dataset/upload`, { json: {name: 'Account'} }, {
+                    withCredentials: true
                 });
                 this.uploadStatus = false;
             } catch (e) {

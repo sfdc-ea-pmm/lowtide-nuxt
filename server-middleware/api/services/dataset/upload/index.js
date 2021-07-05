@@ -1,19 +1,27 @@
+const { uploadFromJSON } = require("../../../../src/utilities");
+
 const   { metadataJson } = require(appRoot + '/src/utilities/metadataUpload'),
         { uploadFromCSV } = require(appRoot + '/src/utilities'),
         { refresh } = require(appRoot + '/src/auth');
 module.exports = {
     POST: async function(req, res) {
+        let json, files, names;
+        console.log(req.body)
+        console.log(req.files)
+        if('json' in req.body){
+            json = req.body.json;
+        }else{
+            files = req.files;
+            names = JSON.parse(req.body.names);
+        }
+        res.status(200).json({ success: true, files, names, json });
+        
         /*
-        const files = req.files;
-        const names = JSON.parse(req.body.names);
-        res.status(200).json({ success: true, files: files, names: names });
-        */
-
         const files = req.files;
         const names = JSON.parse(req.body.names);
 
         const { fields, values, base64 } = uploadFromCSV(files, names);
-        
+
         let jsonArray = metadataJson({
             names: names,
             fields: fields,
@@ -53,9 +61,43 @@ module.exports = {
         }
 
         res.status(200).json({ success: true, data: data})
+        */
         
     },
     GET: async function(req, res) {
-        res.status(200).json({ success: true })
+        const json = {
+            dataset: {
+              label: 'Mis Oportunidades',
+              name: 'mis_oportunidades',
+              description: '',
+              columnNames: [
+                'Industry',
+                'Amount',
+                'Outcome'
+              ]
+            },
+            rows: [
+              { Industry: 'Manufacturing', Amount: 5000, Outcome: 'Yes' },
+              { Industry: 'Healthcare', Amount: 1234, Outcome: 'Yes' },
+              { Industry: 'Other', Amount: 5346, Outcome: 'No' }
+            ]
+        };
+        const { fields, values, names, csv, base64 } = uploadFromJSON(json);
+        /*
+            Derised Outcome: 
+            fields: [
+                [ 'Name', 'Amount', 'Quantity' ],
+                [ 'Name', 'Amount' ],
+                [ 'Name', 'Amount' ],
+                [ 'Name', 'Amount' ]
+            ]
+            values: [
+                [ 'Test 101', '1100.70', '3' ],
+                [ 'Test 01', '100.94' ],
+                [ 'Test 31', '31.31' ],
+                [ 'Test 91', '1100.70' ]
+            ]
+        */
+        res.status(200).json({ success: true, fields, values, names, csv, base64 })
     }
 }

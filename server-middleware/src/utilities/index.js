@@ -89,6 +89,39 @@ const utilityMethods = {
     });
 
     return {fields, values, base64};
+  },
+
+  uploadFromJSON(json){
+    const columnNames = json.dataset.columnNames;
+    const fields = [columnNames];
+    const values = [];
+    const firstRow = [];
+    columnNames.forEach(field => {
+        firstRow.push(json.rows[0][field]);
+    });
+    values.push(firstRow);
+
+    const names = [json.dataset.name];
+
+    const fieldsString = columnNames.join(',');
+    const rows = [];
+    const base64 = [];
+    const csvTmp = [fieldsString];
+    let csv = [];
+    let tmp;
+    json.rows.forEach((value, i) => {
+      tmp = [];
+      columnNames.forEach(field => {
+        tmp.push(json.rows[i][field]);
+      });
+      rows.push(tmp);
+    });
+    rows.forEach(row => {
+      csvTmp.push(row.join(','));
+    });
+    csv = csvTmp.join('\r\n');
+    base64.push(Buffer.from(csv).toString("base64"));
+    return {fields, values, names, csv, base64};
   }
 
 }
