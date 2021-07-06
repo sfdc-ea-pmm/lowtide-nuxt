@@ -32,7 +32,7 @@
                     </div>
                 </div>
                 <div class="mt-4 p-6 border border-gray-300 rounded-md">
-                    <div class="grid grid-cols-3 gap-4">
+                    <div class="grid md:grid-cols-3 gap-4">
                         <div v-for="(v, i) in this.files" v-bind:key="v.name">
                             <div class="w-full mb-2">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-gray-500 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -40,7 +40,7 @@
                                 </svg>
                                 <p class="max-w-lg text-xs font-medium text-gray-500 text-center mt-1">{{v.name}}</p>
                             </div>
-                            <div class="w-full">
+                            <div class="w-full mb-1 md:mb-2">
                                 <label :for="'dataset-name'" class="block text-sm font-medium text-gray-700 mb-2">Dataset name</label>
                                 <input pattern="^[a-zA-Z0-9_]*$" title="This field should contain only underscores and alphanumeric characters." v-model="datasetNames[i]" type="text" :name="'dataset-name'" :class="'focus:ring-blue-500 focus:border-blue-500 inline-block w-full text-sm border-gray-300 rounded-md w-96'" :placeholder="'The dataset name'" required>
                             </div>
@@ -91,8 +91,25 @@ export default {
             }
         },
         async uploadJSON(){
+            const json = {
+                dataset: {
+                label: 'Mis Oportunidades 2',
+                name: 'mis_oportunidades_2',
+                description: '',
+                columnNames: [
+                    'Industry',
+                    'Amount',
+                    'Outcome'
+                ]
+                },
+                rows: [
+                { Industry: 'Manufacturing', Amount: 5000, Outcome: 'Yes' },
+                { Industry: 'Healthcare', Amount: 1234, Outcome: 'Yes' },
+                { Industry: 'Other', Amount: 5346, Outcome: 'No' }
+                ]
+            };
             try {
-                await this.$axios.post(`${process.env.API_URL}/services/dataset/upload`, { json: {name: 'Account'} }, {
+                await this.$axios.post(`${process.env.API_URL}/services/dataset/upload`, { json: json }, {
                     withCredentials: true
                 });
                 this.uploadStatus = false;

@@ -5,22 +5,15 @@ const   { metadataJson } = require(appRoot + '/src/utilities/metadataUpload'),
         { refresh } = require(appRoot + '/src/auth');
 module.exports = {
     POST: async function(req, res) {
-        let json, files, names;
-        console.log(req.body)
-        console.log(req.files)
+        let json, files, names, fields, values, base64;
         if('json' in req.body){
             json = req.body.json;
+            ({ fields, values, names, base64 } = uploadFromJSON(json));
         }else{
             files = req.files;
             names = JSON.parse(req.body.names);
+            ({ fields, values, base64 } = uploadFromCSV(files, names));
         }
-        res.status(200).json({ success: true, files, names, json });
-        
-        /*
-        const files = req.files;
-        const names = JSON.parse(req.body.names);
-
-        const { fields, values, base64 } = uploadFromCSV(files, names);
 
         let jsonArray = metadataJson({
             names: names,
@@ -61,7 +54,7 @@ module.exports = {
         }
 
         res.status(200).json({ success: true, data: data})
-        */
+        
         
     },
     GET: async function(req, res) {

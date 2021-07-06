@@ -121,7 +121,7 @@ const utilityMethods = {
     });
     csv = csvTmp.join('\r\n');
     base64.push(Buffer.from(csv).toString("base64"));
-    return {fields, values, names, csv, base64};
+    return {fields, values, names, base64};
   }
 
 }
