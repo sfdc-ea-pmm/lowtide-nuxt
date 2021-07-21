@@ -1,6 +1,6 @@
 <template>
     <div class="space-y-6">
-      <ProcessUploadCsv />
+      <ContentTable :columns="['ID', 'Name', 'Amount', 'Quantity', 'Total']" :rows='[{id: "1", name:"Coca Cola for enterprises", amount: "12", quantity: "2", total: "24"}, {id: "3", name:"Pepsi for companies and  sldfjkakslfjdsk;lfjsdlkfjsdklfjgsdk;lgjds;lf", amount: "11.5", quantity: "3", total: "34.5"}]' />
       <ContentAbout />
       <div>
         <h2 class="text-sm font-medium text-gray-500 mb-4">Developers</h2>
