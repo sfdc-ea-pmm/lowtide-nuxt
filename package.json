@@ -41,7 +41,8 @@
     "xmlbuilder2": "^2.4.0"
   },
   "devDependencies": {
-    "@nuxtjs/tailwindcss": "^4.1.1"
+    "@nuxtjs/tailwindcss": "^4.1.1",
+    "postcss": "^8.2.8"
   },
   "engines": {
     "node": "18.x",
