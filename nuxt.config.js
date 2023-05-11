@@ -43,6 +43,7 @@ const nuxtConfig = {
   ],
 
   modules: [
+    '@nuxtjs/axios',
     'nuxt-socket-io'
   ],
 
