@@ -15,7 +15,7 @@
     ]
   },
   "dependencies": {
-    "@nuxtjs/axios": "^5.13.1",
+    "@nuxtjs/axios": "^5.13.6",
     "@nuxtjs/dotenv": "^1.4.1",
     "@tailwindcss/forms": "^0.3.2",
     "aws-sdk": "^2.844.0",
@@ -35,7 +35,7 @@
     "nanoid": "^3.1.20",
     "npm": "^9.6.6",
     "nuxt": "^3.5.2",
-    "nuxt-socket-io": "^1.1.17",
+    "nuxt-socket-io": "^1.1.24",
     "redirect-ssl": "^2.0.1",
     "redis": "^3.0.2",
     "socket.io": "^4.6.1",
@@ -44,10 +44,11 @@
     "xmlbuilder2": "^2.4.0"
   },
   "devDependencies": {
-    "@nuxtjs/tailwindcss": "^4.1.1",
+    "@nuxtjs/tailwindcss": "^4.2.1",
     "postcss": "^8.2.8"
   },
   "engines": {
-    "node": "18.x"
+    "node": "18.x",
+    "npm": "9.6.x"
   }
 }
